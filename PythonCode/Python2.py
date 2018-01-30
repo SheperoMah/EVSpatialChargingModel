@@ -159,31 +159,31 @@ def createBuffer(inputfn, outputBufferfn, bufferDist = 100):
 
 def GetFloorAreasOfNearBuildings(ParkingLayer, BuildingsLayer, distance = 100):
     '''
-    returns the floor area of the near buildings within a specified distance
+    returns the floor area of the near buildings within a specified distance, if
+    the parking lot was of type None the returned area will be -1.
     ParkingLayer: a layer with the parking lots as features
     BuildingLayer: a layer with the buildings as features
     distance: the distance in meters. The parking lot is used by the building if the
         nearest distance between them is less than the distance.
     >>> (ParkingLayer, workPlacesLayer, distance = 200)
     '''
-    UserArea = [0 for i in range(ParkingLayer.GetFeatureCount()) ]
+    UserArea = [0 for i in range(ParkingLayer.GetFeatureCount())]
     index = 0
     count = 0
     for feature in ParkingLayer:
         area  = 0.0
         if feature.GetGeometryRef() != None:
             geom = feature.GetGeometryRef()
-            geomBuffered = geom.Buffer(distance)
-            coord = geom.GetGeometryRef(0)
-            coordBuffer = geomBuffered.GetGeometryRef(0)
-            buildingNumber = 0
-            for building in BuildingsLayer:
-                if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance:
-                    area += building.GetGeometryRef().GetArea()
+            areas = [building.GetGeometryRef().GetArea() for building in BuildingsLayer \
+            if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance]
+            # for building in BuildingsLayer:
+            #     if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance:
+            #         area += building.GetGeometryRef().GetArea()
             BuildingsLayer.ResetReading()
         else:
             area = -1
-        UserArea[index] = area
+        # UserArea[index] = area
+        UserArea[index] = sum(areas)
         print(UserArea[index])
         index += 1
         count += 1
@@ -191,7 +191,7 @@ def GetFloorAreasOfNearBuildings(ParkingLayer, BuildingsLayer, distance = 100):
 
 if __name__ == "__main__":
     '''
-    # example run : $ python3 python3.py <full-path><input-shapefile-name>.osm <full-path><input-shapefile-name>.osm
+    # example run : $ python3 Python2.py <full-path><input-shapefile-name>.osm <full-path><input-shapefile-name>.osm
     # for help visit http://pcjericks.github.io/py-gdalogr-cookbook/index.html
     '''
     if len( sys.argv ) != 3:
@@ -222,11 +222,6 @@ if __name__ == "__main__":
     print("Tags of 'amenity': ", getFieldTags(layer2, 'amenity', unique = True))
     print("Number of filtered features (public parking places): ", layer2.GetFeatureCount())
 
-    # layer1.SetAttributeFilter(
-    # ""
-    # )
-    #
-    # print(GetFloorAreasOfNearBuildings(layer2, layer1, 100))
     GetFloorAreasOfNearBuildings(layer2, layer1, 100)
 
     # list of layers reset layer count
