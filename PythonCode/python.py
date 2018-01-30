@@ -6,71 +6,6 @@ import sys
 import matplotlib.pyplot as plt
 import os
 
-
-def ListOfLayers(mapFile):
-    '''
-    returns the list of layer names in a map file
-    >>> ListOfLayers(file)
-    '''
-    # get layer list
-    layerList = []
-    for i in mapFile:
-        daLayer = i.GetName()
-        if not daLayer in layerList:
-            layerList.append(daLayer)
-    return(layerList)
-
-def getLayerFields(layer):
-    '''
-    returns the fields of a layer
-    >>> getLayerFields(layer)
-    '''
-    schema = []
-    layerDefn = layer.GetLayerDefn()
-
-    for n in range(layerDefn.GetFieldCount()):
-        featureDefn = layerDefn.GetFieldDefn(n)
-        schema.append(featureDefn.name)
-
-    return(schema)
-
-def getFieldTags(layer, tag, unique = True):
-    '''
-    returns the list of tags in a field of a layer
-    >>> getFieldTags(layer, "building")
-    >>> getFieldTags(layer, "building", False)
-    '''
-    tagsList = []
-    for feature in layer:
-        tagsList.append( feature.GetField(tag) )
-    return {
-        True : set(tagsList),
-        False: tagsList,
-    }.get(unique)
-
-def PlotFeatures(layer, filename, color):
-    '''
-    plot the features of a layer
-    >>> PlotFeatures(layer, filename)
-    '''
-    import matplotlib.pyplot as plt
-
-    fig = plt.figure(figsize = (500,500))
-    # plotting listing 13.1 in "Geoprocessing with Python" "Geospatial Development By Example with Python "
-    # thanks to http://geoinformaticstutorial.blogspot.se/2012/10/
-    for feature in layer:
-        ring = feature.GetGeometryRef()
-        coord = ring.GetGeometryRef(0)
-        coord1 = coord.GetGeometryRef(0)
-        coord1.Transform(transform)
-        points = coord1.GetPoints()
-        x, y = zip(*points)
-        plt.plot(x, y, color)
-    plt.xlabel("lat")
-    plt.ylabel("lon")
-    plt.axis('equal')
-    fig.savefig(filename)
-
 def ProjectLayer(inLayer, inputCoordinateSystem, outputCoordinateSystem, outputShapefile):
     '''
     Projects layer from the input coordinate to the output corrdinate system,
@@ -131,3 +66,124 @@ def ProjectLayer(inLayer, inputCoordinateSystem, outputCoordinateSystem, outputS
     print(outLayer.GetFeatureCount(), outLayer.GetGeomType())
     inLayer.ResetReading()
     outDataSet = None
+
+def ListOfLayers(mapFile):
+    '''
+    returns the list of layer names in a map file
+    >>> ListOfLayers(file)
+    '''
+    # get layer list
+    layerList = []
+    for i in mapFile:
+        daLayer = i.GetName()
+        if not daLayer in layerList:
+            layerList.append(daLayer)
+    return(layerList)
+
+def getLayerFields(layer):
+    '''
+    returns the fields of a layer
+    '''
+    fields = []
+    layerDefn = layer.GetLayerDefn()
+
+    for n in range(layerDefn.GetFieldCount()):
+        featureDefn = layerDefn.GetFieldDefn(n)
+        fields.append(featureDefn.name)
+    return(fields)
+
+def getFieldTags(layer, tag, unique = True):
+    '''
+    returns the list of tags in a field of a layer
+    >>> getFieldTags(layer, "building")
+    >>> getFieldTags(layer, "building", False)
+    '''
+    tagsList = []
+    for feature in layer:# and feature is not None:
+        tagsList.append( feature.GetField(tag) )
+    layer.ResetReading()
+    return {
+        True : set(tagsList),
+        False: tagsList,
+    }.get(unique)
+
+def PlotFeatures(layer, filename, color):
+    '''
+    plot the features of a layer
+    >>> PlotFeatures(layer, filename)
+    Note:TODO depth of the geometry.
+    '''
+    fig = plt.figure(figsize = (500,500))
+    # plotting listing 13.1 in "Geoprocessing with Python" "Geospatial Development By Example with Python "
+    # thanks to http://geoinformaticstutorial.blogspot.se/2012/10/
+
+    for feature in layer:
+        ring = feature.GetGeometryRef()
+        coord = ring.GetGeometryRef(0)
+        #coord1 = coord.GetGeometryRef(0)
+        points = coord.GetPoints()
+        x, y = zip(*points)
+        plt.plot(x, y, color)
+
+    plt.xlabel("Easting (m)")
+    plt.ylabel("Northing (m)")
+    plt.axis('equal')
+    layer.ResetReading()
+    fig.savefig(filename)
+
+def createBuffer(inputfn, outputBufferfn, bufferDist = 100):
+    '''
+    https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer
+    '''
+    inputds = ogr.Open(inputfn)
+    inputlyr = inputds.GetLayer()
+
+    shpdriver = ogr.GetDriverByName('ESRI Shapefile')
+    if os.path.exists(outputBufferfn):
+        shpdriver.DeleteDataSource(outputBufferfn)
+    outputBufferds = shpdriver.CreateDataSource(outputBufferfn)
+    bufferlyr = outputBufferds.CreateLayer(outputBufferfn, geom_type=ogr.wkbPolygon)
+    featureDefn = bufferlyr.GetLayerDefn()
+
+    for feature in inputlyr:
+        ingeom = feature.GetGeometryRef()
+        geomBuffer = ingeom.Buffer(bufferDist)
+
+        outFeature = ogr.Feature(featureDefn)
+        outFeature.SetGeometry(geomBuffer)
+        bufferlyr.CreateFeature(outFeature)
+        outFeature = None
+
+    inputlyr.ResetReading()
+
+def GetFloorAreasOfNearBuildings(ParkingLayer, BuildingsLayer, distance = 100):
+    '''
+    returns the floor area of the near buildings within a specified distance
+    ParkingLayer: a layer with the parking lots as features
+    BuildingLayer: a layer with the buildings as features
+    distance: the distance in meters. The parking lot is used by the building if the
+        nearest distance between them is less than the distance.
+    >>> (ParkingLayer, workPlacesLayer, distance = 200)
+    '''
+    UserArea = [0 for i in range(ParkingLayer.GetFeatureCount()) ]
+    index = 0
+    count = 0
+    for feature in ParkingLayer:
+        area  = 0.0
+        if feature.GetGeometryRef() != None:
+            geom = feature.GetGeometryRef()
+            geomBuffered = geom.Buffer(distance)
+            coord = geom.GetGeometryRef(0)
+            coordBuffer = geomBuffered.GetGeometryRef(0)
+            buildingNumber = 0
+            for building in BuildingsLayer:
+                if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance:
+                    area += building.GetGeometryRef().GetArea()
+            BuildingsLayer.ResetReading()
+        else:
+            area = -1
+        UserArea[index] = area
+        print(UserArea[index])
+        index += 1
+        count += 1
+    ParkingLayer.ResetReading()
