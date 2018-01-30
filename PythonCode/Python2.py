@@ -1,6 +1,6 @@
 #!/Users/mahmoudshepero/anaconda3/bin/python3
 
-from osgeo import ogr, osr
+from osgeo import ogr, osr, gdal
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
@@ -33,10 +33,7 @@ def ProjectLayer(inLayer, inputCoordinateSystem, outputCoordinateSystem, outputS
 
     InputLayerGeomType = inLayer.GetGeomType()
     outDataSet = driver.CreateDataSource(outputShapefile)
-    # print("InputLayerType: ", ogr.GeometryTypeToName(InputLayerGeomType))
-    outLayer = outDataSet.CreateLayer("OutputLayer", geom_type=ogr.wkbMultiPolygon)
-    # print("OutputLayerType: ", ogr.GeometryTypeToName(outLayer.GetGeomType()))
-    # print(inLayer.GetSpatialRef())
+    outLayer = outDataSet.CreateLayer("OutputLayer", geom_type=InputLayerGeomType)
 
 
     inLayerDefn = inLayer.GetLayerDefn()
@@ -132,40 +129,82 @@ def PlotFeatures(layer, filename, color):
     layer.ResetReading()
     fig.savefig(filename)
 
-def createBuffer(inputfn, outputBufferfn, bufferDist = 100):
+def createBufferANDProjectLayer(inLayer, inputCoordinateSystem, outputCoordinateSystem, outputBufferfn, bufferDist = 0):
     '''
+    Projects layer from the input coordinate to the output corrdinate system,
+    and saves the file in outputShapefile. This can be used to buffer a layer
+    if the bufferDist > 0.
+    >>> ProjectLayer(InputLayer, 3857, 3006, "output.shp", bufferDist = 0)
+
+    Note: this function needs correction since the output shapefile does not have
+    a reference system. This should be corrected.
+    https://gis.stackexchange.com/questions/61303/python-ogr-transform-coordinates-from-meter-to-decimal-degrees
     https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer
     '''
-    inputds = ogr.Open(inputfn)
-    inputlyr = inputds.GetLayer()
+
+    InputLayerGeomType = inLayer.GetGeomType()
 
     shpdriver = ogr.GetDriverByName('ESRI Shapefile')
-    if os.path.exists(outputBufferfn):
-        shpdriver.DeleteDataSource(outputBufferfn)
-    outputBufferds = shpdriver.CreateDataSource(outputBufferfn)
-    bufferlyr = outputBufferds.CreateLayer(outputBufferfn, geom_type=ogr.wkbPolygon)
-    featureDefn = bufferlyr.GetLayerDefn()
 
-    for feature in inputlyr:
+    source = osr.SpatialReference()
+    source.ImportFromEPSG(inputCoordinateSystem)
+
+    target = osr.SpatialReference()
+    target.ImportFromEPSG(outputCoordinateSystem)
+
+    coordTrans = osr.CoordinateTransformation(source, target)
+
+    fileName = (outputBufferfn+'.shp')
+
+    if os.path.exists(fileName):
+        shpdriver.DeleteDataSource(fileName)
+    outputBufferds = shpdriver.CreateDataSource(fileName)
+
+    bufferlyr = outputBufferds.CreateLayer(fileName, geom_type=InputLayerGeomType)
+
+    inLayerDefn = inLayer.GetLayerDefn()
+    for i in range(0, inLayerDefn.GetFieldCount()):
+        fieldDefn = inLayerDefn.GetFieldDefn(i)
+        bufferlyr.CreateField(fieldDefn)
+
+    bufferlyrDefn = bufferlyr.GetLayerDefn()
+
+    for feature in inLayer:
         ingeom = feature.GetGeometryRef()
         geomBuffer = ingeom.Buffer(bufferDist)
+        geomBuffer.Transform(coordTrans)
 
-        outFeature = ogr.Feature(featureDefn)
+        outFeature = ogr.Feature(bufferlyrDefn)
         outFeature.SetGeometry(geomBuffer)
+        for i in range(0, bufferlyrDefn.GetFieldCount()):
+            if type(feature.GetField(i)) is int or type(feature.GetField(i)) is float:
+                outFeature.SetField(bufferlyrDefn.GetFieldDefn(i).GetNameRef(), feature.GetField(i))
+            elif type(feature.GetField(i)) is str:
+                string = feature.GetField(i).encode('utf-8','surrogateescape').decode('ISO-8859-1')
+                outFeature.SetField(bufferlyrDefn.GetFieldDefn(i).GetNameRef(), string)
+            else:
+                outFeature.SetField(bufferlyrDefn.GetFieldDefn(i).GetNameRef(), feature.GetField(i))
+
         bufferlyr.CreateFeature(outFeature)
         outFeature = None
 
-    inputlyr.ResetReading()
+    target.MorphToESRI()
+    file = open((outputBufferfn+'.prj'), 'w')
+    file.write(target.ExportToWkt())
+    file.close()
 
-def GetFloorAreasOfNearBuildings(ParkingLayer, BuildingsLayer, distance = 100):
+    inLayer.ResetReading()
+    bufferlyr.ResetReading()
+    outputBufferds = None
+
+def GetFloorAreasOfIntersectingBuildings(ParkingLayer, BuildingsLayer):
     '''
-    returns the floor area of the near buildings within a specified distance, if
-    the parking lot was of type None the returned area will be -1.
+    returns the floor area of the intersecting buildings, if the parking lot was
+    of type None the returned area will be -1.
     ParkingLayer: a layer with the parking lots as features
     BuildingLayer: a layer with the buildings as features
-    distance: the distance in meters. The parking lot is used by the building if the
-        nearest distance between them is less than the distance.
-    >>> (ParkingLayer, workPlacesLayer, distance = 200)
+
+    >>> (ParkingLayer, workPlacesLayer)
     '''
     UserArea = [0 for i in range(ParkingLayer.GetFeatureCount())]
     index = 0
@@ -174,15 +213,12 @@ def GetFloorAreasOfNearBuildings(ParkingLayer, BuildingsLayer, distance = 100):
         area  = 0.0
         if feature.GetGeometryRef() != None:
             geom = feature.GetGeometryRef()
-            areas = [building.GetGeometryRef().GetArea() for building in BuildingsLayer \
-            if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance]
-            # for building in BuildingsLayer:
-            #     if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance:
-            #         area += building.GetGeometryRef().GetArea()
+            BuildingsLayer.SetSpatialFilter(geom)
+            areas = [building.GetGeometryRef().GetArea() for building in \
+             BuildingsLayer ]#if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance
             BuildingsLayer.ResetReading()
         else:
             area = -1
-        # UserArea[index] = area
         UserArea[index] = sum(areas)
         print(UserArea[index])
         index += 1
@@ -222,7 +258,6 @@ if __name__ == "__main__":
     print("Tags of 'amenity': ", getFieldTags(layer2, 'amenity', unique = True))
     print("Number of filtered features (public parking places): ", layer2.GetFeatureCount())
 
-    GetFloorAreasOfNearBuildings(layer2, layer1, 100)
+    createBufferANDProjectLayer(layer2, 3857, 3857, "UppsalaParkingBuffer100meter3857", bufferDist = 100)#UppsalaParkingBuffer100meter3006
 
-    # list of layers reset layer count
-    # layer fields reset field counts
+    #GetFloorAreasOfIntersectingBuildings(layer2, layer1)
