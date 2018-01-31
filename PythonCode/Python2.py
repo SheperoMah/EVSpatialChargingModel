@@ -215,7 +215,7 @@ def GetFloorAreasOfIntersectingBuildings(ParkingLayer, BuildingsLayer):
             geom = feature.GetGeometryRef()
             BuildingsLayer.SetSpatialFilter(geom)
             areas = [building.GetGeometryRef().GetArea() for building in \
-             BuildingsLayer ]#if building.GetGeometryRef().Distance(feature.GetGeometryRef()) <= distance
+             BuildingsLayer ]
             BuildingsLayer.ResetReading()
         else:
             area = -1
@@ -229,6 +229,7 @@ if __name__ == "__main__":
     '''
     # example run : $ python3 Python2.py <full-path><input-shapefile-name>.osm <full-path><input-shapefile-name>.osm
     # for help visit http://pcjericks.github.io/py-gdalogr-cookbook/index.html
+    $ ./Python2.py ../Data/NewFolder/buildings-epsg3857.shp ../Data/NewFolder/OSM-epsg3857.shp |tee results.txt
     '''
     if len( sys.argv ) != 3:
         print("[ ERROR ] you must supply two arguments, for example: input-OSM-name.osm")
