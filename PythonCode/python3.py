@@ -9,14 +9,17 @@ import os
 # load the buildings layer "LänmaterietLayer"
 InputFileLocation = r'../Data/NewFolder/buildings-epsg3006.shp' # location
 shapefile1 = InputFileLocation
-buildingDS = ogr.Open(shapefile1)
+buildingDS1 = ogr.Open(shapefile1)
+buildingDS2 = ogr.Open(shapefile1)
+buildingDS3 = ogr.Open(shapefile1)
+
 
 # print the number of layers
-print("Layer names:", SP.ListOfLayers(buildingDS))
+print("Layer names:", SP.ListOfLayers(buildingDS1))
 
 
 # load the first layer
-buildingsLayer = buildingDS.GetLayer()
+buildingsLayer = buildingDS1.GetLayer()
 
 # check that the spatial reference is a metric spatial reference
 print("spatial reference system: ",buildingsLayer.GetSpatialRef().ExportToWkt())
@@ -34,7 +37,7 @@ print("Field tags: ", SP.getFieldTags(buildingsLayer, "ANDAMAL_1"))
 
 ## RESIDENTIAL LAYER
 # load the layer to residential
-ResbuildingsLayer = buildingDS.GetLayer()
+ResbuildingsLayer = buildingDS1.GetLayer()
 # we are interested in the layer residential codes 133 and 135, 199
 ResbuildingsLayer.SetAttributeFilter( "OGR_GEOM_WKT LIKE 'POLYGON%' AND OGR_GEOM_AREA > 10"
 "AND ANDAMAL_1 IN (133, 135, 199)"
@@ -45,7 +48,7 @@ print("Number of residential features: ", ResbuildingsLayer.GetFeatureCount())
 
 ## WORKPLACE LAYER
 # load the layer to workplace
-workplacesLayer = buildingDS.GetLayer()
+workplacesLayer = buildingDS2.GetLayer()
 # workplaces are 240:299, 302, 304, 307, 311, 319, 322, 499
 workplacesLayer.SetAttributeFilter( "OGR_GEOM_WKT LIKE 'POLYGON%' AND OGR_GEOM_AREA > 10"
 "AND ANDAMAL_1 IN (240, 242, 243, 247, 248, 249, 252, 253, 299, "
@@ -57,10 +60,19 @@ print("Number of workplace features: ", workplacesLayer.GetFeatureCount())
 
 ## OTHERS LAYER
 # load the layer to other
-otherLayer = buildingDS.GetLayer()
+otherLayer = buildingDS3.GetLayer()
 # Otherplaces (leisure and shopping) are 301, 309, 313, 316, 317, 320, 399, 799
 otherLayer.SetAttributeFilter( "OGR_GEOM_WKT LIKE 'POLYGON%' AND OGR_GEOM_AREA > 10"
 "AND ANDAMAL_1 IN (301, 309, 313, 316, 317, 320, 399, 799)"
 )
 otherLayer.ResetReading() # reset counting of the filter
 print("Number of other features: ", otherLayer.GetFeatureCount())
+
+
+
+
+
+# Save the layers
+SP.createBufferANDProjectLayer(ResbuildingsLayer, 3006, 3006, "residentialLayer", bufferDist = 0)
+SP.createBufferANDProjectLayer(workplacesLayer, 3006, 3006, "workLayer", bufferDist = 0)
+SP.createBufferANDProjectLayer(otherLayer, 3006, 3006, "otherLayer", bufferDist = 0)
