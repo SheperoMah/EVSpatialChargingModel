@@ -76,3 +76,7 @@ print("Number of other features: ", otherLayer.GetFeatureCount())
 SP.createBufferANDProjectLayer(ResbuildingsLayer, 3006, 3006, "residentialLayer", bufferDist = 0)
 SP.createBufferANDProjectLayer(workplacesLayer, 3006, 3006, "workLayer", bufferDist = 0)
 SP.createBufferANDProjectLayer(otherLayer, 3006, 3006, "otherLayer", bufferDist = 0)
+
+
+
+# Plot the layerList

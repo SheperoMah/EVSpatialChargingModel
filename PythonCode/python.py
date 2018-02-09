@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 
-def ListOfLayers(mapFile):
+def list_of_layers(mapFile):
     '''
     returns the list of layer names in a map file
     >>> ListOfLayers(file)
@@ -17,7 +17,7 @@ def ListOfLayers(mapFile):
             layerList.append(daLayer)
     return(layerList)
 
-def getLayerFields(layer):
+def get_layer_fields(layer):
     '''
     returns the fields of a layer
     '''
@@ -29,7 +29,7 @@ def getLayerFields(layer):
         fields.append(featureDefn.name)
     return(fields)
 
-def getFieldTags(layer, tag, unique = True):
+def get_field_tags(layer, tag, unique = True):
     '''
     returns the list of tags in a field of a layer
     >>> getFieldTags(layer, "building")
@@ -44,7 +44,7 @@ def getFieldTags(layer, tag, unique = True):
         False: tagsList,
     }.get(unique)
 
-def PlotFeatures(layer, filename, color):
+def plot_features(layer, filename, color):
     '''
     plot the features of a layer
     >>> PlotFeatures(layer, filename)
@@ -68,7 +68,7 @@ def PlotFeatures(layer, filename, color):
     layer.ResetReading()
     fig.savefig(filename)
 
-def createBufferANDProjectLayer(inLayer, inputCoordinateSystem, outputCoordinateSystem, outputBufferfn, bufferDist = 0):
+def create_buffer_and_projectLayer(inLayer, inputCoordinateSystem, outputCoordinateSystem, outputBufferfn, bufferDist = 0):
     '''
     Projects layer from the input coordinate to the output corrdinate system,
     and saves the file in outputShapefile. This can be used to buffer a layer
@@ -136,14 +136,14 @@ def createBufferANDProjectLayer(inLayer, inputCoordinateSystem, outputCoordinate
     bufferlyr.ResetReading()
     outputBufferds = None
 
-def GetFloorAreasOfIntersectingBuildings(ParkingLayer, BuildingsLayer):
+def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
     '''
     returns the floor area of the intersecting buildings, if the parking lot was
     of type None the returned area will be -1.
     ParkingLayer: a layer with the parking lots as features
     BuildingLayer: a layer with the buildings as features
 
-    >>> (ParkingLayer, workPlacesLayer)
+    >>> GetFloorAreasOfIntersectingBuildings(ParkingLayer, workPlacesLayer)
     '''
     UserArea = [0 for i in range(ParkingLayer.GetFeatureCount())]
     index = 0

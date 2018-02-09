@@ -3,10 +3,10 @@
 import random as rn
 import numpy as np
 from timeit import default_timer as timer
-import itertools
-
-
-start = timer()
+import itertools as iter
+import extractFiles as ex
+import matplotlib.pyplot as plt
+from sys import getsizeof
 
 class EV:
     '''Class representing electric vehicles
@@ -25,8 +25,7 @@ class EV:
         self.currentLocation = currentLocation
         self.batteryCharge = batteryCharge
         self.currentState = currentState
-        assert (isinstance(self.batteryCharge, float)), "battery charge should be float"
-        assert (isinstance(self.batteryCapcity, float)), "batteryCapacity should be float"
+
 
     def chargeEV(self, power, duration):
         ''' Charges an EV.
@@ -118,33 +117,30 @@ class Markov:
 
 
 
-a = Markov(chain = np.array([[0.24,0.1,0.66], [0.90,0.03,0.07], [0.3,0.45,0.25]], np.float32))
-print(a.chain)
-print(a.nextState(1))
+chain = ex.readMatrixfiles("../TransitionMatrix/*weekend*.txt")
+a = Markov(chain)
+# print(chain)
+# print(a.nextState(1))
 
-limit = 100000
-aa = [0 for i in range(limit)]
-for i in range(1,limit):
-    aa[i] = a.nextState(aa[i-1])
+bb = list(iter.accumulate(range(525600), lambda x, y: a.nextState(x,y%1440) ))
+np.asarray(bb)
+print(getsizeof(bb)*10**-6)
+cc = np.copy(bb)
+print(getsizeof(cc)*10**-6)
+cc = np.reshape(cc, (365,1440))
+print(getsizeof(cc)*10**-6)
 
-print(aa)
 
-# print(a.chain.sum(1) == )
+#plt.plot(bb)
+# def count_occurences(array,value):
+#     occurence = cc == value
+#     return(np.sum(occurence, axis = 0)/np.size(occurence, 0))
 #
-# ll = [EV("id=1",1, 0.0, 0.0) for i in range(1000000)] # million cars
+# home = count_occurences(cc,0)
+# work = count_occurences(cc,1)
+# other = count_occurences(cc,2)
 #
-# for time in range(1000): # million timesteps
-#     list(map(lambda x, distance = rn.random()*10000: x.driveEV(distance,1.0), ll))
-
-# squared = list(map(lambda x: x.batteryCharge, ll))
-
-
-
-# items = [1, 2, 3, 4, 5]
-# squared = list(map(lambda x: x**2, items))
-
-
-
-
-end = timer()
-print("elapsed time (sec):", end - start)
+# plt.plot(range(1440), home, 'r')
+# plt.plot(range(1440), work, 'b')
+# plt.plot(range(1440), other, 'm')
+# plt.show()
