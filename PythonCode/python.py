@@ -2,7 +2,8 @@ from osgeo import ogr, osr
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-
+from cars import ParkingLot
+from math import ceil
 
 def list_of_layers(mapFile):
     '''
@@ -48,7 +49,7 @@ def plot_features(layer, filename, color):
     '''
     plot the features of a layer
     >>> PlotFeatures(layer, filename)
-    Note:TODO depth of the geometry.
+    Note: TODO depth of the geometry.
     '''
     fig = plt.figure(figsize = (500,500))
     # plotting listing 13.1 in "Geoprocessing with Python" "Geospatial Development By Example with Python "
@@ -60,7 +61,7 @@ def plot_features(layer, filename, color):
         #coord1 = coord.GetGeometryRef(0)
         points = coord.GetPoints()
         x, y = zip(*points)
-        plt.plot(x, y, color)
+        plt.fill(x, y, color)
 
     plt.xlabel("Easting (m)")
     plt.ylabel("Northing (m)")
@@ -143,7 +144,7 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
     ParkingLayer: a layer with the parking lots as features
     BuildingLayer: a layer with the buildings as features
 
-    >>> GetFloorAreasOfIntersectingBuildings(ParkingLayer, workPlacesLayer)
+    >>> get_floor_areas_of_intersecting_buildings(ParkingLayer, workPlacesLayer)
     '''
     UserArea = [0 for i in range(ParkingLayer.GetFeatureCount())]
     index = 0
@@ -157,9 +158,60 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
              BuildingsLayer ]
             BuildingsLayer.ResetReading()
         else:
-            area = -1
+            area = 0.0
         UserArea[index] = sum(areas)
-        print(UserArea[index])
         index += 1
         count += 1
     ParkingLayer.ResetReading()
+    BuildingsLayer.ResetReading()
+    return(UserArea)
+
+def get_percentage_of_area_types(parkingLayer,layers):
+
+    area = np.zeros( shape = (parkingLayer.GetFeatureCount(), len(layers)))
+    for i in range(len(layers)):
+        area[:,i] = get_floor_areas_of_intersecting_buildings(
+                                        parkingLayer, layers[i])
+    area[np.sum(area, axis = 1) == 0,:] = 1.0/len(layers)
+    area = area/(np.sum(area, axis = 1).reshape(parkingLayer.GetFeatureCount(),1))
+    return(area)
+
+def get_features_areas(Layer):
+    areas = [0 for i in range(Layer.GetFeatureCount())]
+    i = 0
+    for feature in Layer:
+        geom = feature.GetGeometryRef()
+        areas[i] = geom.GetArea()
+        i += 1
+    Layer.ResetReading()
+    return(areas)
+
+def create_charging_stations(identitiesArray,
+                             areas,
+                             percentageOfStates,
+                             areaPerCar,
+                             charging_status = True,
+                             charging_power = 3.7):
+
+    if type(charging_status) is bool:
+        charging_status = [charging_status for i in range(len(identitiesArray))]
+    if type(charging_power) is int or type(charging_power) is float:
+        charging_power = [charging_power for i in range(len(identitiesArray))]
+
+    ids = list(identitiesArray)
+    stations = []
+    for st in range(percentageOfStates.shape[1]):
+
+        stations_temp = [ParkingLot(ID = ids[i] + "-" + str(st),
+                               state = st,
+                               chargingPower = charging_power[i],
+                               maximumOccupancy = ceil(
+                                   1.0/areaPerCar * percentageOfStates[i,st]
+                                   * areas[i]),
+                               currentOccupancy = 0,
+                               chargingStatus = True,
+                               currentLoad = 0.0)
+                    for i in range(len(identitiesArray)) if percentageOfStates[i,st] != 0]
+
+        stations.extend(stations_temp)
+    return(stations)

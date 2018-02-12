@@ -6,7 +6,6 @@ from timeit import default_timer as timer
 import itertools as iter
 import extractFiles as ex
 import matplotlib.pyplot as plt
-from sys import getsizeof
 
 class EV:
     '''Class representing electric vehicles
@@ -143,7 +142,7 @@ class Markov:
         nextState = np.where(cumulativeSum >= rndNumber)[0][0]
         return(nextState)
 
-class parkingLot:
+class ParkingLot:
 
     def __init__(self,
                  ID,
@@ -171,8 +170,35 @@ class parkingLot:
     def charge_EV(self):
         self.currentLoad += self.chargingPower
 
+class Simulation:
 
-# chage state, find location,
+    def __init__(self, stations, cars, chain, resolution = 1/60):
+        self.stations = stations
+        self.cars = cars
+        self.chain = chain
+        self.resolution = resolution
+
+    def model_function(self, timestep):
+        def reset_load_new_timestep(x):
+            x.currentLoad = 0.0
+            return(x)
+
+        list(map(reset_load_new_timestep, self.stations))
+
+        def do_on_car(self, x, timestep):
+            x.find_state(self.chain, timestep, self.stations)
+            x.charge_EV(self.resolution, self.stations)
+
+        list(map(lambda x: do_on_car(self, x, timestep), self.cars))
+        return(list(map(lambda x: x.currentLoad, self.stations)))
+
+
+    def simulate_model(self, simulationLength):
+        results = list(
+                       iter.accumulate(range(-1, simulationLength),
+                                       lambda x, y: self.model_function(y % 1440)))
+        return(results[1: len(results)])
+
 
 
 weekdayChain = ex.readMatrixfiles("../TransitionMatrix/*weekday*.txt")
@@ -180,54 +206,47 @@ weekday = Markov(weekdayChain)
 weekendChain = ex.readMatrixfiles("../TransitionMatrix/*weekend*.txt")
 weekend = Markov(weekendChain)
 
-car = [EV(currentLocation = 1, currentState = 0, batteryCharge = 0.0,
+cars = [EV(currentLocation = 1, currentState = 0, batteryCharge = 0.0,
                 batteryCapacity = 0.0, trips = 0) for i in range(100)]
 
 
-stations = [parkingLot(ID = 1, state = 0, chargingPower = 3.7, maximumOccupancy = 100, currentOccupancy = 100, chargingStatus = True, currentLoad = 0.0),
-            parkingLot(ID = 2, state = 1, chargingPower = 3.7, maximumOccupancy = 100, currentOccupancy = 0, chargingStatus = True, currentLoad = 0.0),
-            parkingLot(ID = 3, state = 2, chargingPower = 3.7,maximumOccupancy =  100, currentOccupancy = 0, chargingStatus = True, currentLoad = 0.0)]
+stations = [ParkingLot(ID = 1, state = 0, chargingPower = 3.7, maximumOccupancy = 100, currentOccupancy = 100, chargingStatus = True, currentLoad = 0.0),
+            ParkingLot(ID = 2, state = 1, chargingPower = 3.7, maximumOccupancy = 100, currentOccupancy = 0, chargingStatus = True, currentLoad = 0.0),
+            ParkingLot(ID = 3, state = 2, chargingPower = 3.7,maximumOccupancy =  100, currentOccupancy = 0, chargingStatus = True, currentLoad = 0.0)]
 
 
+simulationCase = Simulation(stations,
+                            cars,
+                            weekday)
 
-def model_function(timestep, chain, car, stations):
-    stations[0].currentLoad = 0.0
-    stations[2].currentLoad = 0.0
-    stations[1].currentLoad = 0.0
+load = simulationCase.simulate_model(10080)
 
-    def function_on_car(x,chain, timestep, stations):
-        x.find_state(chain, timestep, stations)
-        x.charge_EV(1/60, stations)
-
-    list(map(lambda x: function_on_car(x, chain, timestep, stations), car))
-    return(list(map(lambda x: x.currentLoad, stations)))
-
-
-
-bb = list(iter.accumulate(range(-1,10080), lambda x, y: model_function( y % 1440, weekday, car, stations) ))
-
-cc = np.asarray(bb[1 : len(bb)])
-cc = cc[:,2]
+#
+# bb = list(iter.accumulate(range(-1,10080), lambda x, y: model_function( y % 1440, weekday, cars, stations) ))
+#
+# cc = np.asarray(bb[1 : len(bb)])
+# cc = cc[:,2]
 # iterate time
 # bb = list(iter.accumulate(range(525600), lambda x, y: weekday.next_state(x,y % 1440) ))
-# np.asarray(bb)
+
+load = np.asarray(load)
 # # print(getsizeof(bb)*10**-6)
-# cc = np.copy(bb[:,0])
+cc = np.copy(load[:,1])
 # # print(getsizeof(cc)*10**-6)
 cc = np.reshape(cc, (7,1440))
 # # print(getsizeof(cc)*10**-6)
 #
-# # Testing code
+# Testing code
 plt.plot(np.mean(cc, axis = 0))
-# # def count_occurences(array,value):
-# #     occurence = cc == value
-# #     return(np.sum(occurence, axis = 0)/np.size(occurence, 0))
-# #
-# # home = count_occurences(cc,0)
-# # work = count_occurences(cc,1)
-# # other = count_occurences(cc,2)
+# def count_occurences(array,value):
+#     occurence = cc == value
+#     return(np.sum(occurence, axis = 0)/np.size(occurence, 0))
 #
-# # plt.plot(range(1440), home, 'r')
-# # plt.plot(range(1440), work, 'b')
-# # plt.plot(range(1440), other, 'm')
+# home = count_occurences(cc,0)
+# work = count_occurences(cc,1)
+# other = count_occurences(cc,2)
+
+# plt.plot(range(1440), home, 'r')
+# plt.plot(range(1440), work, 'b')
+# plt.plot(range(1440), other, 'm')
 plt.show()

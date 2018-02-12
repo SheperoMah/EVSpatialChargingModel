@@ -4,6 +4,7 @@ import python as SP
 from osgeo import ogr, osr
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 
 # load the buildings layer "LänmaterietLayer"
@@ -15,7 +16,7 @@ buildingDS3 = ogr.Open(shapefile1)
 
 
 # print the number of layers
-print("Layer names:", SP.ListOfLayers(buildingDS1))
+print("Layer names:", SP.list_of_layers(buildingDS1))
 
 
 # load the first layer
@@ -29,10 +30,10 @@ buildingsLayer.SetAttributeFilter("OGR_GEOM_WKT LIKE 'POLYGON%' AND OGR_GEOM_ARE
 buildingsLayer.ResetReading() # reset counting of the filter
 
 # print the layer fields
-print("Layer Fields:", SP.getLayerFields(buildingsLayer))
+print("Layer Fields:", SP.get_layer_fields(buildingsLayer))
 
 # print the tags from the interesting fieldDefn
-print("Field tags: ", SP.getFieldTags(buildingsLayer, "ANDAMAL_1"))
+print("Field tags: ", SP.get_field_tags(buildingsLayer, "ANDAMAL_1"))
 
 
 ## RESIDENTIAL LAYER
@@ -73,10 +74,45 @@ print("Number of other features: ", otherLayer.GetFeatureCount())
 
 
 # Save the layers
-SP.createBufferANDProjectLayer(ResbuildingsLayer, 3006, 3006, "residentialLayer", bufferDist = 0)
-SP.createBufferANDProjectLayer(workplacesLayer, 3006, 3006, "workLayer", bufferDist = 0)
-SP.createBufferANDProjectLayer(otherLayer, 3006, 3006, "otherLayer", bufferDist = 0)
+# SP.create_buffer_and_projectLayer(ResbuildingsLayer, 3006, 3006, "residentialLayer", bufferDist = 0)
+# SP.create_buffer_and_projectLayer(workplacesLayer, 3006, 3006, "workLayer", bufferDist = 0)
+# SP.create_buffer_and_projectLayer(otherLayer, 3006, 3006, "otherLayer", bufferDist = 0)
 
 
 
-# Plot the layerList
+# Open Buffered layers
+InputFileLocation = r'../Data/NewFolder/OSM-epsg3600.shp' # location
+shapefile2 = InputFileLocation
+parkingDB = ogr.Open(shapefile2)
+parkingLayer = parkingDB.GetLayer()
+
+# print the parking layer tags
+print("Field tags: ", SP.get_field_tags(parkingLayer, "amenity"))
+print("Field tags: ", SP.get_field_tags(parkingLayer, "building"))
+# Remove None features
+parkingLayer.SetAttributeFilter( "NOT OGR_GEOM_WKT LIKE 'None%' AND OGR_GEOM_AREA > 10"
+  "AND (amenity IN ('parking', 'parking_space') OR building in ('garage', 'garages'))")
+parkingLayer.ResetReading() # reset counting of the filter
+print("Number of parking features: ", parkingLayer.GetFeatureCount())
+
+
+
+InputFileLocation = r'UppsalaParkingBuffer100meter3006.shp' # location
+shapefile3 = InputFileLocation
+parkingBuffer = ogr.Open(shapefile3)
+parkingBufferLayer = parkingBuffer.GetLayer()
+
+# Calculate intersection of the buffered parking lot layer with the buidlings layers
+areaPercentage = SP.get_percentage_of_area_types(parkingBufferLayer,
+                [ResbuildingsLayer, workplacesLayer, otherLayer])
+np.savetxt("areaPercentage.txt", areaPercentage)
+
+
+
+#
+# fig = plt.figure(figsize = (500,500))
+# SP.plot_features(parkingLayer, "parkingPlot.pdf", '#555577')
+# SP.plot_features(otherLayer, "parkingPlot.pdf", '#118877')
+# SP.plot_features(workplacesLayer, "parkingPlot.pdf", '#992266')
+# SP.plot_features(ResbuildingsLayer, "parkingPlot.pdf", '#228811')
+# fig.savefig("parkingPlot1.pdf")
