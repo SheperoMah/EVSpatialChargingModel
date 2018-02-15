@@ -5,7 +5,7 @@ from osgeo import ogr, osr
 import matplotlib.pyplot as plt
 import os
 import numpy as np
-
+import matplotlib.patches as mpatches
 
 # load the buildings layer "LänmaterietLayer"
 InputFileLocation = r'../Data/NewFolder/buildings-epsg3006.shp' # location
@@ -41,7 +41,7 @@ print("Field tags: ", SP.get_field_tags(buildingsLayer, "ANDAMAL_1"))
 ResbuildingsLayer = buildingDS1.GetLayer()
 # we are interested in the layer residential codes 133 and 135, 199
 ResbuildingsLayer.SetAttributeFilter( "OGR_GEOM_WKT LIKE 'POLYGON%' AND OGR_GEOM_AREA > 10"
-"AND ANDAMAL_1 IN (133, 135, 199)"
+"AND ANDAMAL_1 IN (133, 135, 199, 130, 131, 132, 133, 135)"
 )
 ResbuildingsLayer.ResetReading() # reset counting of the filter
 print("Number of residential features: ", ResbuildingsLayer.GetFeatureCount())
@@ -96,23 +96,36 @@ parkingLayer.ResetReading() # reset counting of the filter
 print("Number of parking features: ", parkingLayer.GetFeatureCount())
 
 
-
-InputFileLocation = r'UppsalaParkingBuffer100meter3006.shp' # location
-shapefile3 = InputFileLocation
-parkingBuffer = ogr.Open(shapefile3)
-parkingBufferLayer = parkingBuffer.GetLayer()
-
-# Calculate intersection of the buffered parking lot layer with the buidlings layers
-areaPercentage = SP.get_percentage_of_area_types(parkingBufferLayer,
-                [ResbuildingsLayer, workplacesLayer, otherLayer])
-np.savetxt("areaPercentage.txt", areaPercentage)
-
-
-
 #
-# fig = plt.figure(figsize = (500,500))
-# SP.plot_features(parkingLayer, "parkingPlot.pdf", '#555577')
-# SP.plot_features(otherLayer, "parkingPlot.pdf", '#118877')
-# SP.plot_features(workplacesLayer, "parkingPlot.pdf", '#992266')
-# SP.plot_features(ResbuildingsLayer, "parkingPlot.pdf", '#228811')
-# fig.savefig("parkingPlot1.pdf")
+# InputFileLocation = r'UppsalaParkingBuffer100meter3006.shp' # location
+# shapefile3 = InputFileLocation
+# parkingBuffer = ogr.Open(shapefile3)
+# parkingBufferLayer = parkingBuffer.GetLayer()
+#
+# # Calculate intersection of the buffered parking lot layer with the buidlings layers
+# areaPercentage = SP.get_percentage_of_area_types(parkingBufferLayer,
+#                 [ResbuildingsLayer, workplacesLayer, otherLayer])
+# np.savetxt("areaPercentage.txt", areaPercentage)
+#
+#
+
+
+fig = plt.figure(figsize = (50,50))
+SP.plot_features(parkingLayer, "parkingPlot.pdf", 'k')#'#555577')
+SP.plot_features(otherLayer, "parkingPlot.pdf", '#208778')#'#118877')
+SP.plot_features(workplacesLayer, "parkingPlot.pdf", '#992266')
+SP.plot_features(ResbuildingsLayer, "parkingPlot.pdf", '#1779b2')#'#228811')
+parking_patch = mpatches.Patch(color='k', label='Parking lots')
+work_patch = mpatches.Patch(color='#992266', label='Workplaces buildings')
+other_patch = mpatches.Patch(color='#208778', label='Other buildings')
+residential_patch = mpatches.Patch(color='#1779b2', label='Residential buildings')
+fntsize= 40
+plt.legend(handles= [parking_patch, work_patch, other_patch, residential_patch],
+            fontsize = fntsize)
+plt.xlim(641, 657)
+plt.ylim(6630, 6645)
+plt.xlabel("Easting (km)", fontsize = fntsize+20)
+plt.ylabel("Northing (km)", fontsize = fntsize+20)
+plt.xticks(fontsize = fntsize)
+plt.yticks(fontsize = fntsize)
+fig.savefig("parkingPlot2.pdf")

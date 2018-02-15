@@ -51,7 +51,7 @@ def plot_features(layer, filename, color):
     >>> PlotFeatures(layer, filename)
     Note: TODO depth of the geometry.
     '''
-    fig = plt.figure(figsize = (500,500))
+    #fig = plt.figure(figsize = (500,500))
     # plotting listing 13.1 in "Geoprocessing with Python" "Geospatial Development By Example with Python "
     # thanks to http://geoinformaticstutorial.blogspot.se/2012/10/
 
@@ -61,13 +61,15 @@ def plot_features(layer, filename, color):
         #coord1 = coord.GetGeometryRef(0)
         points = coord.GetPoints()
         x, y = zip(*points)
+        x = list(map(lambda xx: xx/1000, x))
+        y = list(map(lambda xx: xx/1000, y))
         plt.fill(x, y, color)
 
     plt.xlabel("Easting (m)")
     plt.ylabel("Northing (m)")
     plt.axis('equal')
     layer.ResetReading()
-    fig.savefig(filename)
+    #fig.savefig(filename)
 
 def create_buffer_and_projectLayer(inLayer, inputCoordinateSystem, outputCoordinateSystem, outputBufferfn, bufferDist = 0):
     '''
