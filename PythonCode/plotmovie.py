@@ -22,13 +22,13 @@ parkingDB = ogr.Open(shapefile2)
 parkingLayer = parkingDB.GetLayer()
 
 # print the parking layer tags
-#print("Amenity Field tags: ", SP.get_field_tags(parkingLayer, "amenity"))
-#print("Building Field tags: ", SP.get_field_tags(parkingLayer, "building"))
+# print("Amenity Field tags: ", SP.get_field_tags(parkingLayer, "amenity"))
+# print("Building Field tags: ", SP.get_field_tags(parkingLayer, "building"))
 # Remove None features
 parkingLayer.SetAttributeFilter( "NOT OGR_GEOM_WKT LIKE 'None%' AND OGR_GEOM_AREA > 10"
   "AND (amenity IN ('parking', 'parking_space') OR building in ('garage', 'garages'))")
 parkingLayer.ResetReading() # reset counting of the filter
-#print("Number of parking features: ", parkingLayer.GetFeatureCount())
+# print("Number of parking features: ", parkingLayer.GetFeatureCount())
 
 
 
@@ -42,7 +42,7 @@ def norm_cmap(values, cmap, vmin=None, vmax=None):
 
 
 
-cmap = norm_cmap(plotted, cmap='jet')#'YlOrRd')
+cmap = norm_cmap(plotted, cmap='jet')
 def f(x):
     rgba = cmap.to_rgba(x)
     return(matplotlib.colors.to_hex(rgba))
@@ -72,8 +72,6 @@ with writer.saving(fig, "ResultsDay_final.mp4", 100):
             plt.fill(x, y, f(plotted[i,j]))
             plt.xlim(641, 657)
             plt.ylim(6630, 6645)
-            #plt.xlim(645, 655)
-            #plt.ylim(6635, 6642.500)
             plt.xlabel("Easting (km)", fontsize=25)
             plt.ylabel("Northing (km)", fontsize=25)
             plt.title(str(int(i/60)).zfill(2)+":"+str(i%60).zfill(2), fontsize=30)
@@ -84,4 +82,3 @@ with writer.saving(fig, "ResultsDay_final.mp4", 100):
         cbar.ax.set_ylabel('Power (kW)', fontsize = 25)
         writer.grab_frame()
         parkingLayer.ResetReading()
-     
