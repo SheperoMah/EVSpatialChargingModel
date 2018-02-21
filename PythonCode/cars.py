@@ -3,8 +3,7 @@
 import random as rn
 import numpy as np
 import itertools as iter
-#import extractFiles as ex
-import matplotlib.pyplot as plt
+
 
 class EV:
     '''Class representing electric vehicles
@@ -16,20 +15,31 @@ class EV:
             batteryCapacity (float): the battery capacity of the electric vehicle (kWh).
 
     '''
-    def __init__(self, currentLocation, currentState, batteryCharge = 0.0,
-                    batteryCapacity = 0.0, trips= 0):
+    def __init__(self,
+                 currentLocation,
+                 currentState,
+                 mpg = 0.2, # kWh/km
+                 batteryCharge = 0.0,
+                 batteryCapacity = 0.0,
+                 trips = 0,
+                 initialDistance = 0):
 
         self.batteryCapacity = batteryCapacity
         self.currentLocation = currentLocation
         self.batteryCharge = batteryCharge
         self.currentState = currentState
         self.trips = trips
+        self.distance = initialDistance
+        self.mpg = mpg
 
     def find_free_stations(self, stations):
-        freeStations = list(iter.filterfalse(lambda x:
-                                    not(x.state == self.currentState
-                                    and x.currentOccupancy < x.maximumOccupancy)
-                                    , stations))
+        freeStations = [ x for x in stations
+                        if x.state == self.currentState and
+                        x.currentOccupancy < x.maximumOccupancy]
+        # list(iter.filterfalse(lambda x:
+        #                             not(x.state == self.currentState
+        #                             and x.currentOccupancy < x.maximumOccupancy)
+        #                             , stations))
         return(freeStations)
 
 
@@ -61,7 +71,7 @@ class EV:
         else:
             return(False)
 
-    def drive_EV(self, distance, mpg):
+    def drive_EV(self, distance):
         ''' Disharges an EV.
 
             Arguments:
@@ -73,16 +83,19 @@ class EV:
                 (float): update to the batteryCharge
 
         '''
-        self.batteryCharge -= distance * mpg
+        self.batteryCharge -= distance * self.mpg
+        self.distance += distance
         return(True)
 
-    def find_state(self, chain, time_step, stations):
+    def find_state(self, chain, time_step, stations, distances):
         futureState = chain.next_state(self.currentState, time_step)
         if (futureState != self.currentState):
+            distancesList = distances[str(self.currentState)+str(futureState)]
+            distance = rn.choice(distancesList)
             self.currentState = futureState
             self.change_location(stations)
             self.trips += 1
-            self.drive_EV(10, 0.2)
+            self.drive_EV(distance)
             return(True)
         else:
             return(False)
@@ -96,9 +109,10 @@ class EV:
         newStation.occupy_station()
 
     def find_station(self, stations):
-        station = list(iter.filterfalse(lambda x:
-                                    not (x.ID == self.currentLocation)
-                                    , stations))
+        station = [ x for x in stations if x.ID == self.currentLocation]
+        # list(iter.filterfalse(lambda x:
+        #                             not (x.ID == self.currentLocation)
+        #                             , stations))
         return(station[0])
 
 class Markov:
@@ -179,36 +193,57 @@ class ParkingLot:
         self.currentOccupancy -= 1
 
     def charge_EV(self):
+
+        # current load is in unit of power * unit of time, in other words, it is
+        # energy. For example, if we work with kW for power and time in minutes,
+        # then the current load will be in kWmin/min, thus to aggregate to one hour
+        # you need to average the values which results in kWh/h.
+
         self.currentLoad += self.chargingPower
 
 class Simulation:
 
-    def __init__(self, stations, cars, chain, resolution = 1/60):
+    def __init__(self,
+                 stations,
+                 cars,
+                 chain,
+                 distancesDictionary,
+                 resolution = 1/60):
         self.stations = stations
         self.cars = cars
         self.chain = chain
         self.resolution = resolution
+        self.distancesDictionary = distancesDictionary
 
     def model_function(self, timestep):
         def reset_load_new_timestep(x):
             x.currentLoad = 0.0
             return(x)
 
-        list(map(reset_load_new_timestep, self.stations))
+        #list(map(reset_load_new_timestep, self.stations))
+        [reset_load_new_timestep(x) for x in self.stations]
 
         def do_on_car(self, x, timestep):
-            x.find_state(self.chain, timestep, self.stations)
+            x.find_state(self.chain,
+                         timestep,
+                         self.stations,
+                         self.distancesDictionary)
+
             x.charge_EV(self.resolution, self.stations)
 
-        list(map(lambda x: do_on_car(self, x, timestep), self.cars))
-        return(list(map(lambda x: x.currentLoad, self.stations)))
+        #list(map(lambda x: do_on_car(self, x, timestep), self.cars))
+        [do_on_car(self, x, timestep) for x in self.cars]
 
+        #return(list(map(lambda x: x.currentLoad, self.stations)))
+        return([x.currentLoad for x in self.stations])
 
     def simulate_model(self, simulationLength):
-        results = list(
-                       iter.accumulate(range(-1, simulationLength),
-                                       lambda x, y: self.model_function(y % 1440)))
-        for time in range(-1, simulationLength):
-            self.model_function(time % 1440)
+        # results = list(
+        #                iter.accumulate(range(-1, simulationLength),
+        #                                lambda x, y: self.model_function(y % 1440)))
+        resultsMatrix = np.zeros((simulationLength, len(self.stations)))
 
-        return(results[1: len(results)])
+        for time in range(simulationLength):
+            resultsMatrix[time,::] = self.model_function(time % 1440)
+
+        return(resultsMatrix)
