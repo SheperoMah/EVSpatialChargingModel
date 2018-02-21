@@ -1,4 +1,4 @@
-#!/Users/mahmoudshepero/anaconda3/bin/python3
+
 
 
 def main(numberOfEVs, numberOfparkingloc):
