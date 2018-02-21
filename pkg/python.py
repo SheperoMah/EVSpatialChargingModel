@@ -2,7 +2,7 @@ from osgeo import ogr, osr
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from cars import ParkingLot
+from parkinglot import ParkingLot
 from math import ceil
 
 def list_of_layers(mapFile):
@@ -198,16 +198,18 @@ def create_charging_stations(identitiesArray,
         charging_status = [charging_status for i in range(len(identitiesArray))]
     if type(charging_power) is int or type(charging_power) is float:
         charging_power = [charging_power for i in range(len(identitiesArray))]
+    if type(areaPerCar) is int or type(areaPerCar) is float:
+        areaPerCar = [areaPerCar for i in range(len(identitiesArray))]
 
     ids = list(identitiesArray)
     stations = []
     for st in range(percentageOfStates.shape[1]):
 
-        stations_temp = [ParkingLot(ID = ids[i] + "-" + str(st),
+        stations_temp = [ParkingLot(ID = str(ids[i]) + "-" + str(st),
                                state = st,
                                chargingPower = charging_power[i],
                                maximumOccupancy = ceil(
-                                   1.0/areaPerCar * percentageOfStates[i,st]
+                                   1.0/areaPerCar[i] * percentageOfStates[i,st]
                                    * areas[i]),
                                currentOccupancy = 0,
                                chargingStatus = True,
