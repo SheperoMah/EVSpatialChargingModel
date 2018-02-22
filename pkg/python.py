@@ -2,7 +2,7 @@ from osgeo import ogr, osr
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from parkinglot import ParkingLot
+from .parkinglot import ParkingLot
 from math import ceil
 
 def list_of_layers(mapFile):
