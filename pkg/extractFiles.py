@@ -2,7 +2,7 @@
 import numpy as np
 import glob
 
-def readMatrixfiles(files):
+def readMatrixfiles(files, precision = 1000):
     """Extracts the tranistion matrix into a 3-d numpy array which can be used
     in the model.
 
@@ -17,13 +17,14 @@ def readMatrixfiles(files):
         Numpy array containing the transition matrix.
 
     """
-    def openFile(name):
+    def openFile(name, precision):
         with open(name, 'r') as ff:
-            return( np.loadtxt(ff) )
+            array = np.loadtxt(ff) * precision
+            preciseArray = np.ceil(array) / precision
+            return( preciseArray )
 
 
-    arrays = list(map(openFile
-                      , [file for file in sorted(glob.glob(files))]))
+    arrays = [openFile(x, precision) for x in sorted(glob.glob(files))]
     transitionMatrix = np.stack(arrays, axis=2)
     return(transitionMatrix)
 
@@ -34,8 +35,9 @@ if __name__ == "__main__":
 
     Example
     -------
-        $ python3 extractFiles.py ./*.txt
+        $ python3 extractFiles.py ./*.txt 1000
     """
     import sys
     files = sys.argv[1]
-    print(readMatrixfiles(files))
+    precision = int(sys.argv[2])
+    print(readMatrixfiles(files), precision)
