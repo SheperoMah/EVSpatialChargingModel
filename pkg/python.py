@@ -214,7 +214,9 @@ def create_charging_stations(identitiesArray,
                                currentOccupancy = 0,
                                chargingStatus = True,
                                currentLoad = 0.0)
-                    for i in range(len(identitiesArray)) if percentageOfStates[i,st] != 0]
+                    for i in range(len(identitiesArray)) if
+                    percentageOfStates[i,st] != 0
+                    ]
 
         stations.extend(stations_temp)
     return(stations)
@@ -224,18 +226,22 @@ def collect_stations_results(ID, results, stations):
     lengthOfSimulation = results_temp.shape[0]
     IDs = list(ID)
     stationsIDs = [x.ID for x in stations]
-    #list(map(lambda x: x.ID, stations))
     final_results = np.zeros((lengthOfSimulation,len(IDs)))
 
-    for i in enumerate(IDs):
-        columns = [idx for idx in range(len(stationsIDs)) if IDs[i[0]] in stationsIDs[idx]]
-        temp =  results_temp[:,columns].sum(1).reshape(lengthOfSimulation,1)
-        final_results[:,list([i[0]])] = temp
+    for i in range(len(IDs)):
+        columns = [idx for idx in range(len(stationsIDs)) if IDs[i] in stationsIDs[idx]]
+        temp =  results_temp[:,columns].sum(1)
+        final_results[:, i] = temp
     return(final_results)
 
-def extract_stateLoad(load, requiredState, stations):
-    columnIndex = [x for x in stations if x.state == requiredState]
-    #list(map(lambda x: x.state == requiredState, stations))
+def extract_stateLoad(load, requiredState, stations, aggregated = False):
+    columnIndex = [x for x in range(len(stations)) if
+                            stations[x].state == requiredState]
+
     copyLoad = np.copy(load)
     requiredLoad = np.copy(copyLoad[:,columnIndex])
-    return(requiredLoad)
+
+    if aggregated:
+        return(np.sum(requiredLoad, axis = 1))
+    else:
+        return(requiredLoad)
