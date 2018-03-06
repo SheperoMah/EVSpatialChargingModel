@@ -62,7 +62,7 @@ class EV:
             A list of vacant ParkingLots matching the current state of the vehicle.
 
         """
-        freeStations = [ x for x in stations
+        freeStations = [x for x in stations
                         if x.state == self.currentState and
                         x.currentOccupancy < x.maximumOccupancy]
         return(freeStations)
