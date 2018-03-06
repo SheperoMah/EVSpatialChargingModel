@@ -107,7 +107,8 @@ class EV:
         '''
         if (self.batteryCharge < 0.0 and
             self.find_station(stations).chargingStatus == True):
-            self.batteryCharge += self.find_station(stations).chargingPower * duration
+            self.batteryCharge += self.find_station(stations).chargingPower \
+                                    * duration
             self.find_station(stations).charge_EV()
             return(True)
         else:
