@@ -235,6 +235,9 @@ def collect_stations_results(ID, results, stations):
     return(final_results)
 
 def extract_stateLoad(load, requiredState, stations, aggregated = False):
+    #chargingStationsFiltered = [x for x in self.stations if
+    #                            y.chargingStatus == True]
+    # filter stations and then do the work
     columnIndex = [x for x in range(len(stations)) if
                             stations[x].state == requiredState]
 
