@@ -59,13 +59,16 @@ class Simulation:
             x.charge_EV(self.resolution, self.stations)
 
         [do_on_car(self, x, timestep) for x in self.cars]
-        return([x.currentLoad for x in self.stations])
+        chargingStationsFiltered = [x for x in self.stations if
+                                    x.chargingStatus == True]
+        return([x.currentLoad for x in chargingStationsFiltered])
 
     def simulate_model(self):
         # results = list(
         #                iter.accumulate(range(-1, self.simulationLength),
         #                                lambda x, y: self.model_function(y % 1440)))
-        resultsMatrix = np.zeros((self.simulationLength, len(self.stations)))
+        resultsMatrix = np.zeros((self.simulationLength,
+        len([x for x in self.stations if x.chargingStatus == True])))
 
         for time in range(self.simulationLength):
             resultsMatrix[time,::] = self.model_function(time % 1440)
