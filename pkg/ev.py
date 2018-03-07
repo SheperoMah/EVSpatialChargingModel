@@ -107,9 +107,16 @@ class EV:
         '''
         if (self.batteryCharge < self.batteryCapacity and
             self.find_station(stations).chargingStatus == True):
-            self.batteryCharge += self.find_station(stations).chargingPower \
-                                    * duration
-            self.find_station(stations).charge_EV()
+            maxPower = self.find_station(stations).chargingPower
+            chargeAfterChargingMaxPower = self.batteryCharge + \
+                                            maxPower * duration
+            if (chargeAfterChargingMaxPower <= self.batteryCapacity):
+                self.batteryCharge = chargeAfterChargingMaxPower
+                self.find_station(stations).charge_EV(maxPower)
+            else:
+                effectivePower = (self.batteryCapacity - self.batteryCharge)/duration
+                self.batteryCharge = self.batteryCapacity
+                self.find_station(stations).charge_EV(effectivePower)
             return(True)
         else:
             return(False)

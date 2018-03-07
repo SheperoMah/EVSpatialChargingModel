@@ -66,7 +66,7 @@ class ParkingLot:
         """
         self.currentOccupancy -= 1
 
-    def charge_EV(self):
+    def charge_EV(self, power):
         """Charges the EV and updates the load of the station.
 
         Parameters
@@ -84,4 +84,4 @@ class ParkingLot:
         # then the current load will be in kWmin/min, thus to aggregate to one hour
         # you need to average the values which results in kWh/h.
 
-        self.currentLoad += self.chargingPower
+        self.currentLoad += power
