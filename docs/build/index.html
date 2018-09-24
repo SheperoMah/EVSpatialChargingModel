@@ -1,0 +1,722 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Overview and Examples &#8212; EV Spatial Model 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">EV Spatial Model 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="toctree-wrapper compound">
+</div>
+<div class="section" id="overview-and-examples">
+<h1>Overview and Examples<a class="headerlink" href="#overview-and-examples" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Mahmoud Shepero</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Developers:</th><td class="field-body"><a class="reference external" href="http://katalog.uu.se/empinfo/?id=N16-259">Mahmoud Shepero</a> &amp;
+<a class="reference external" href="http://katalog.uu.se/empinfo/?id=N10-1405">Joakim Munkhammar</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:mahmoud&#46;shepero&#37;&#52;&#48;angstrom&#46;uu&#46;se">mahmoud<span>&#46;</span>shepero<span>&#64;</span>angstrom<span>&#46;</span>uu<span>&#46;</span>se</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Version:</th><td class="field-body">0.0.1 of 24-09-2018</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">License:</th><td class="field-body"><a class="reference external" href="https://www.gnu.org/">GNU General Public License v3.0</a></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This is a spatial model to estimate the charging load of electric vehicles in
+cities. The model is published in <em>Spatial Markov chain model for electric
+vehicle charging in cities using geographical information system (GIS) data,
+Applied Energy, 2018</em>.</p>
+<p>The model uses discrete Markov chain to spatially model the mobility of
+cars in cities. If we assume that cars are moving between parking places. It
+also assumes that parking places in cities can be clustered–based on nearby buildings–into
+three distinct categories: Work, Home, and Other. Work category includes workplaces,
+hospitals, universities and schools. Home describes residential places. Other
+describes shopping, leisure, cultural, and religious locations.</p>
+<a class="reference internal image-reference" href="_images/markovChainModel.pdf"><img alt="_images/markovChainModel.pdf" class="align-center" src="_images/markovChainModel.pdf" style="width: 300px; height: 300px;" /></a>
+</div>
+<div class="section" id="indixes-and-tables">
+<h2>Indixes and tables<a class="headerlink" href="#indixes-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+<p><strong>Summary of model classes and functions:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#ev.EV" title="ev.EV"><code class="xref py py-obj docutils literal"><span class="pre">ev.EV</span></code></a>(currentLocation,&nbsp;currentState[,&nbsp;mpg,&nbsp;…])</td>
+<td>Electric vehicle class.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><code class="xref py py-obj docutils literal"><span class="pre">parkinglot.ParkingLot</span></code></a>(ID,&nbsp;state,&nbsp;…[,&nbsp;…])</td>
+<td>A class representing parking lots.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#markov.Markov" title="markov.Markov"><code class="xref py py-obj docutils literal"><span class="pre">markov.Markov</span></code></a>(chain[,&nbsp;dim])</td>
+<td>Class for the Markov chain.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#simulation.Simulation" title="simulation.Simulation"><code class="xref py py-obj docutils literal"><span class="pre">simulation.Simulation</span></code></a>(stations,&nbsp;cars,&nbsp;chain,&nbsp;…)</td>
+<td>A class representing the simulation model.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#extractDistances.extractDistances" title="extractDistances.extractDistances"><code class="xref py py-obj docutils literal"><span class="pre">extractDistances.extractDistances</span></code></a>(filesLocation)</td>
+<td>Extracts the trip distances files into a dictionary which can be used in the model.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#extractFiles.readMatrixfiles" title="extractFiles.readMatrixfiles"><code class="xref py py-obj docutils literal"><span class="pre">extractFiles.readMatrixfiles</span></code></a>(files[,&nbsp;precision])</td>
+<td>Extracts the tranistion matrix into a 3-d numpy array which can be used in the model.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>Example 1:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="nb">print</span> <span class="n">i</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model-implementation">
+<h1>Model implementation<a class="headerlink" href="#model-implementation" title="Permalink to this headline">¶</a></h1>
+<p>In this Section a detailed description for the model implementation is provided.</p>
+<div class="section" id="module-ev">
+<span id="electric-vehicles"></span><h2>Electric vehicles<a class="headerlink" href="#module-ev" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ev.EV">
+<em class="property">class </em><code class="descclassname">ev.</code><code class="descname">EV</code><span class="sig-paren">(</span><em>currentLocation</em>, <em>currentState</em>, <em>mpg=0.2</em>, <em>batteryCharge=0.0</em>, <em>batteryCapacity=0.0</em>, <em>trips=0</em>, <em>distance=0</em>, <em>rnd=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Electric vehicle class.</p>
+<p>This class represents electric vehicles.</p>
+<dl class="attribute">
+<dt id="ev.EV.currentLocation">
+<code class="descname">currentLocation</code><a class="headerlink" href="#ev.EV.currentLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>-</em> – Location of the electric vehicle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ev.EV.currentState">
+<code class="descname">currentState</code><a class="headerlink" href="#ev.EV.currentState" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>-</em> – The current Markov state of the electric vehicle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ev.EV.mpg">
+<code class="descname">mpg</code><a class="headerlink" href="#ev.EV.mpg" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – The MPG of the vehicle in unit of energy per distance, e.g.,
+kWh/km.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ev.EV.batteryCharge">
+<code class="descname">batteryCharge</code><a class="headerlink" href="#ev.EV.batteryCharge" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – The charge in the battery of the electric vehicle in units of
+energy,  kWh. The battery charge in this model is assumed to
+be 0.0 if the electric vehicle is fully charged, else negative if
+the battery is depleted.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ev.EV.batteryCapacity">
+<code class="descname">batteryCapacity</code><a class="headerlink" href="#ev.EV.batteryCapacity" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – The battery capacity of the electric vehicle (kWh).
+NOT FULLY TESTED. NOW IT IS ALWAYS ZERO WHICH MEANS THAT THE
+ELECTRIC VEHICLE HAS INFINTIE RANGE, AND THAT THE ENERGY DEPLETION WAS
+WAS MEASURED.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ev.EV.trips">
+<code class="descname">trips</code><a class="headerlink" href="#ev.EV.trips" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – The number of trips perfromed by the electric vehilce.
+initaldistance (int): Distance driven by the vehicle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ev.EV.distance">
+<code class="descname">distance</code><a class="headerlink" href="#ev.EV.distance" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – The distance traveled by the vehicle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ev.EV.rnd">
+<code class="descname">rnd</code><a class="headerlink" href="#ev.EV.rnd" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – Random number used to sample for the next Markov state of the vehicle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ev.EV.change_location">
+<code class="descname">change_location</code><span class="sig-paren">(</span><em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.change_location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of the parking lots.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing is returned</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ev.EV.charge_EV">
+<code class="descname">charge_EV</code><span class="sig-paren">(</span><em>duration</em>, <em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.charge_EV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Charges an EV.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>power</strong> (<em>float</em>) – The power in the charging station in  units of power ex. (kW).</li>
+<li><strong>duration</strong> (<em>(</em><em>float</em><em>)</em>) – </li>
+<li><strong>charging duration in units of time for example</strong><strong> (</strong><strong>h</strong><strong>)</strong><strong></strong> (<em>The</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">update to the batteryCharge by the charging energy which equals the
+power * duration.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ev.EV.drive_EV">
+<code class="descname">drive_EV</code><span class="sig-paren">(</span><em>distance</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.drive_EV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Disharges the EV.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>distance</strong> (<em>float</em>) – The distance which was traveled by the electric vehicle.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">update to the batteryCharge to evaluate the depleted energy for
+driving which equals distance * mpg.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ev.EV.find_free_stations">
+<code class="descname">find_free_stations</code><span class="sig-paren">(</span><em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.find_free_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the vacant ParkingLots which the electric vehicle can occupy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of ParkingLot objects.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of vacant ParkingLots matching the current state of the vehicle.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ev.EV.find_state">
+<code class="descname">find_state</code><span class="sig-paren">(</span><em>chain</em>, <em>time_step</em>, <em>stations</em>, <em>distances</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.find_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates the state of the electric vehicle updates the state, changes the location, occupies the new location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>chain</strong> (<a class="reference internal" href="#markov.Markov" title="markov.Markov"><em>Markov</em></a>) – The Markov chain class which contains the transition matrix and
+the remaining methods.</li>
+<li><strong>time_step</strong> (<em>int</em>) – The time in which the tranistion is taking place. The time is needed
+to calculate the tranistion probabiltiy from the non-homogenous Markov
+chain.</li>
+<li><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of the parking lots.</li>
+<li><strong>distances</strong> (<em>dictionary</em>) – A dictionary with keys representing the state transitions and values
+containing  a list of distances.
+ex. distance = {‘01’: [9.3, 20.0, 13.5]} means that the distances
+from state 0 to state 1 are in the list [9.3, 20.0, 13.5]. This
+dictionary is used to sample driving distances from.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if a change in the state occurs.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ev.EV.find_station">
+<code class="descname">find_station</code><span class="sig-paren">(</span><em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.find_station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current location of the electric vehicle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of the parkinglots.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The parking lot in which the electric vehicle is parked.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ev.EV.inital_conditions">
+<code class="descname">inital_conditions</code><span class="sig-paren">(</span><em>stations</em>, <em>initalState</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.inital_conditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the vacant ParkingLots which the electric vehicle can occupy.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of ParkingLot objects.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of vacant ParkingLots matching the current state of the vehicle.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+</div>
+<div class="section" id="module-parkinglot">
+<span id="parking-lots"></span><h2>Parking lots<a class="headerlink" href="#module-parkinglot" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="parkinglot.ParkingLot">
+<em class="property">class </em><code class="descclassname">parkinglot.</code><code class="descname">ParkingLot</code><span class="sig-paren">(</span><em>ID</em>, <em>state</em>, <em>chargingPower</em>, <em>maximumOccupancy</em>, <em>currentOccupancy</em>, <em>chargingStatus=True</em>, <em>currentLoad=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#parkinglot.ParkingLot" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class representing parking lots.</p>
+<dl class="attribute">
+<dt id="parkinglot.ParkingLot.ID">
+<code class="descname">ID</code><a class="headerlink" href="#parkinglot.ParkingLot.ID" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>-</em> – ID of the station, ususally string.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parkinglot.ParkingLot.state">
+<code class="descname">state</code><a class="headerlink" href="#parkinglot.ParkingLot.state" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – The state of the station. What is the station used for.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parkinglot.ParkingLot.chargingPower">
+<code class="descname">chargingPower</code><a class="headerlink" href="#parkinglot.ParkingLot.chargingPower" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – The charging power of the station. Set it to 0.0 if the station does not
+charge the vehicle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parkinglot.ParkingLot.maximumOccupancy">
+<code class="descname">maximumOccupancy</code><a class="headerlink" href="#parkinglot.ParkingLot.maximumOccupancy" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – The number of charging ports available in the parking lot.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parkinglot.ParkingLot.chargingStatus">
+<code class="descname">chargingStatus</code><a class="headerlink" href="#parkinglot.ParkingLot.chargingStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> – Boolean, true if charging is enabled in this parking lot.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="parkinglot.ParkingLot.currentLoad">
+<code class="descname">currentLoad</code><a class="headerlink" href="#parkinglot.ParkingLot.currentLoad" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – The current load of the station in the unit of power.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="parkinglot.ParkingLot.charge_EV">
+<code class="descname">charge_EV</code><span class="sig-paren">(</span><em>power</em><span class="sig-paren">)</span><a class="headerlink" href="#parkinglot.ParkingLot.charge_EV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Charges the EV and updates the load of the station.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="parkinglot.ParkingLot.leave_station">
+<code class="descname">leave_station</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parkinglot.ParkingLot.leave_station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Leaves the parking lot, decreases the occupancy by one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="parkinglot.ParkingLot.occupy_station">
+<code class="descname">occupy_station</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#parkinglot.ParkingLot.occupy_station" title="Permalink to this definition">¶</a></dt>
+<dd><p>Occupies the parking lot, increases the occupancy by one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>None</strong> – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+</div>
+<div class="section" id="module-markov">
+<span id="markov-chain-implementation"></span><h2>Markov chain implementation<a class="headerlink" href="#module-markov" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="markov.Markov">
+<em class="property">class </em><code class="descclassname">markov.</code><code class="descname">Markov</code><span class="sig-paren">(</span><em>chain</em>, <em>dim=1</em><span class="sig-paren">)</span><a class="headerlink" href="#markov.Markov" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for the Markov chain.</p>
+<p>This class represents the transition martices.</p>
+<dl class="attribute">
+<dt id="markov.Markov.chain">
+<code class="descname">chain</code><a class="headerlink" href="#markov.Markov.chain" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>np.array(floats)</em> – The transition matrix as 3-d array. Square matrix in both the first two
+dimensions, where the row represents the current state, and the coulumn
+represents the following state. The z-axis represents the inhomogenous
+factor, which is the dependancy on the transition time.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="markov.Markov.dim">
+<code class="descname">dim</code><a class="headerlink" href="#markov.Markov.dim" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – The dimention at which the sum of the transition matrix add to oneself.
+Default 1.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="markov.Markov.extract_transition_probability">
+<code class="descname">extract_transition_probability</code><span class="sig-paren">(</span><em>currentState</em>, <em>time_step=None</em><span class="sig-paren">)</span><a class="headerlink" href="#markov.Markov.extract_transition_probability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the transition probability from the current state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>currentState</strong> (<em>int</em>) – The current state of the Markov chain.</li>
+<li><strong>time_step</strong> (<em>int</em>) – The time step of the inhomegenous Markov chain.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The row of the tranistion probabilty matrix for the current state
+and time.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.array(float)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="markov.Markov.next_state">
+<code class="descname">next_state</code><span class="sig-paren">(</span><em>currentState</em>, <em>rnd</em>, <em>time_step=None</em><span class="sig-paren">)</span><a class="headerlink" href="#markov.Markov.next_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimates the future state of the Markov chain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>currentState</strong> (<em>int</em>) – The current state of the Markov chain.</li>
+<li><strong>rnd</strong> (<em>float</em>) – A random number.</li>
+<li><strong>time_step</strong> (<em>int</em>) – The time step of the inhomegenous Markov chain.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The future state of the Markov chain.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">int</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+</div>
+<div class="section" id="module-simulation">
+<span id="model-simulation-implementation"></span><h2>Model simulation implementation<a class="headerlink" href="#module-simulation" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="simulation.Simulation">
+<em class="property">class </em><code class="descclassname">simulation.</code><code class="descname">Simulation</code><span class="sig-paren">(</span><em>stations</em>, <em>cars</em>, <em>chain</em>, <em>distancesDictionary</em>, <em>simulationLength</em>, <em>resolution=0.016666666666666666</em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.Simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>A class representing the simulation model.</p>
+<p>In this class, the simulation data is inputed in addition the model is ran
+and the results are returned.</p>
+<dl class="attribute">
+<dt id="simulation.Simulation.stations">
+<code class="descname">stations</code><a class="headerlink" href="#simulation.Simulation.stations" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list(ParkingLot)</em> – A list of the available parking lots in the city. Make sure that there
+are enough parking lots to fit the cars.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="simulation.Simulation.cars">
+<code class="descname">cars</code><a class="headerlink" href="#simulation.Simulation.cars" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>list(EV)</em> – A list of EVs which will be simulated.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="simulation.Simulation.numCars">
+<code class="descname">numCars</code><a class="headerlink" href="#simulation.Simulation.numCars" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – The number of cars simualted</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="simulation.Simulation.chain">
+<code class="descname">chain</code><a class="headerlink" href="#simulation.Simulation.chain" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Markov</em> – A Markov class which contains the markov chain.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="simulation.Simulation.distancesDictionary">
+<code class="descname">distancesDictionary</code><a class="headerlink" href="#simulation.Simulation.distancesDictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>dict</em> – A dictionray containing the distances of trips between states, See help
+of Markov class for more details.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="simulation.Simulation.simulationLength">
+<code class="descname">simulationLength</code><a class="headerlink" href="#simulation.Simulation.simulationLength" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> – The number of time steps with which the simulation is run, i.e. the
+length of the simulation. The time step is determined by the unit of the
+battery charge and battery capacity for the EV class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="simulation.Simulation.resolution">
+<code class="descname">resolution</code><a class="headerlink" href="#simulation.Simulation.resolution" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> – The resolution of the timestep. Used to charge the EV class. Currently
+it is set to 1/60 meaning 1 minute on hourly scale.
+NOT FULLY TESTED YET.</p>
+</dd></dl>
+
+</dd></dl>
+
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+</div>
+<div class="section" id="module-extractDistances">
+<span id="auxiliary-functions"></span><h2>Auxiliary functions<a class="headerlink" href="#module-extractDistances" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="extractDistances.extractDistances">
+<code class="descclassname">extractDistances.</code><code class="descname">extractDistances</code><span class="sig-paren">(</span><em>filesLocation</em>, <em>maxTripDist=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#extractDistances.extractDistances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the trip distances files into a dictionary which can be used
+in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filesLocation</strong> (<em>str</em>) – The location of the files</li>
+<li><strong>maxTripDist</strong> (<em>float</em>) – The maximum trip distance to filter at.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dictionary containting the length of trips between states.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-extractFiles"></span><dl class="function">
+<dt id="extractFiles.readMatrixfiles">
+<code class="descclassname">extractFiles.</code><code class="descname">readMatrixfiles</code><span class="sig-paren">(</span><em>files</em>, <em>precision=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#extractFiles.readMatrixfiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts the tranistion matrix into a 3-d numpy array which can be used
+in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>files</strong> (<em>str</em>) – The location of the files</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Numpy array containing the transition matrix.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview and Examples</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#indixes-and-tables">Indixes and tables</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#model-implementation">Model implementation</a><ul>
+<li><a class="reference internal" href="#module-ev">Electric vehicles</a></li>
+<li><a class="reference internal" href="#module-parkinglot">Parking lots</a></li>
+<li><a class="reference internal" href="#module-markov">Markov chain implementation</a></li>
+<li><a class="reference internal" href="#module-simulation">Model simulation implementation</a></li>
+<li><a class="reference internal" href="#module-extractDistances">Auxiliary functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">EV Spatial Model 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Mahmoud Shepero.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>
