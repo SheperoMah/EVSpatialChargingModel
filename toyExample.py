@@ -18,7 +18,7 @@ def main(numberOfEVs, numberOfparkingloc):
     from pkg.extractFiles import readMatrixfiles
 
 
-    stationTypes = rnd.sample(range(3), k = numberOfparkingloc)
+    stationTypes = rnd.choices(range(3), k = numberOfparkingloc)
     stations = [ParkingLot(ID = i,
                            state = stationTypes[i],
                            chargingPower = 3.7,
@@ -108,7 +108,7 @@ def main(numberOfEVs, numberOfparkingloc):
 
 
 if __name__ == "__main__":
-
+        
         numberOfEVs = 10
         numberOfparkingloc = 3
         main(numberOfEVs, numberOfparkingloc)
