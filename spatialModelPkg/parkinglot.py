@@ -16,8 +16,9 @@ class ParkingLot:
         The number of charging ports available in the parking lot.
     chargingStatus : bool
         Boolean, true if charging is enabled in this parking lot.
-    currentLoad : float
-        The current load of the station in the unit of power.
+    currentLoad : float, optional
+        The current load of the station in the unit of power.( the default
+        initially is 0.0)
 
     """
 

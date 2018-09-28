@@ -6,10 +6,18 @@ from parkinglot import ParkingLot
 from math import ceil
 
 def list_of_layers(mapFile):
-    '''
-    returns the list of layer names in a map file
-    >>> ListOfLayers(file)
-    '''
+    """Lists the layers in a geographical information systems (GIS) file.
+
+    Parameters
+    ----------
+    mapFile : ogr opened file
+        A spatial opened file. Use ogr.open() function.
+
+    Returns
+    -------
+    list(Unique Layers)
+        A list containing the names of the layers in the GIS file.
+    """
     # get layer list
     layerList = []
     for i in mapFile:
@@ -19,9 +27,19 @@ def list_of_layers(mapFile):
     return(layerList)
 
 def get_layer_fields(layer):
-    '''
-    returns the fields of a layer
-    '''
+    """Returns the fields of features in a vector layer.
+    A vector file contains layers and each layer have fields of information.
+
+    Parameters
+    ----------
+    layer :  an ogr layer
+        A layer from a spaital file. Use ogr.open().GetLayer().
+
+    Returns
+    -------
+    list(fields)
+        A list of the fields available for a layer.
+    """
     fields = []
     layerDefn = layer.GetLayerDefn()
 
@@ -30,15 +48,33 @@ def get_layer_fields(layer):
         fields.append(featureDefn.name)
     return(fields)
 
-def get_field_tags(layer, tag, unique = True):
-    '''
-    returns the list of tags in a field of a layer
-    >>> getFieldTags(layer, "building")
-    >>> getFieldTags(layer, "building", False)
+def get_field_tags(layer, field, unique = True):
+    '''Returns the list of tags in a field of a vector layer
+    A vector layer contains fields and each field have tags. For example, in
+    OpenStreetMaps you might find fields like "building". This field might
+    have tags such as "hospital".
+
+    Parameters
+    ----------
+    layer : an ogr layer
+        A layer from a spaital file. Use ogr.open().GetLayer().
+
+    field : string
+        A field in the vector layer. Usually fields are stored as strings.
+
+    unique : bool, optional
+        Returns only unique tags if True, else it returns the tag of
+        every feature in the layer.(the default is True)
+
+    Returns
+    -------
+    list(string)
+        A list of tags for the tags stored for this layer.
+
     '''
     tagsList = []
     for feature in layer:# and feature is not None:
-        tagsList.append( feature.GetField(tag) )
+        tagsList.append( feature.GetField(field) )
     layer.ResetReading()
     return {
         True : set(tagsList),
@@ -46,13 +82,31 @@ def get_field_tags(layer, tag, unique = True):
     }.get(unique)
 
 def plot_features(layer, color):
-    '''
-    plot the features of a layer
-    >>> PlotFeatures(layer, color)
+    """Plot the features of a layer
+    This is an auxiliary function. Users are encouraged to use their own plotting
+    funtions. The reason is that every GIS data provider stores the feature
+    coordinates at differnt depths. This makes this function non-generalizable.
+    Use this function as inspiration instead.
+
     Note: TODO depth of the geometry.
-    '''
-    # plotting listing 13.1 in "Geoprocessing with Python" "Geospatial Development By Example with Python "
-    # thanks to http://geoinformaticstutorial.blogspot.se/2012/10/
+
+    Plotting listing 13.1 in "Geoprocessing with Python" "Geospatial Development By Example with Python "
+    thanks to http://geoinformaticstutorial.blogspot.se/2012/10/
+
+    Parameters
+    ----------
+    layer :  ogr layer
+        A vector layer of spatial file. Use ogr.open().GetLayer().
+    color :  matplotlib.color
+        A valid color in matplotlib module.
+
+    Returns
+    -------
+    None
+        This function returns a plot.
+
+    """
+
 
     for feature in layer:
         ring = feature.GetGeometryRef()
@@ -71,17 +125,31 @@ def create_buffer_and_projectLayer(inLayer,
                                    outputCoordinateSystem,
                                    outputBufferfn,
                                    bufferDist = 0):
-    '''
-    Projects layer from the input coordinate to the output corrdinate system,
+    """Projects layer from the input coordinate to the output corrdinate system,
     and saves the file in outputShapefile. This can be used to buffer a layer
     if the bufferDist > 0.
-    >>> ProjectLayer(InputLayer, 3857, 3006, "output.shp", bufferDist = 0)
+
+    Parameters
+    ----------
+    inLayer :  ogr layer
+        A vector layer of spatial file. Use ogr.open().GetLayer().
+    inputCoordinateSystem : int
+        An EPSG coordinate system (projection) of the vector layer.
+        Check the https://epsg.io.
+    outputCoordinateSystem : int
+        An EPSG coordinate system (projection) of the vector layer.
+        Check the https://epsg.io.
+    outputBufferfn : string
+        Filename used to store the output layer.
+    bufferDist :  int, optional
+        The buffer distance in the same units as the original projection, i.e.,
+        the inputCoordinateSystem. (the default is 0)
 
     Note: this function needs correction since the output shapefile does not have
     a reference system. This should be corrected.
     https://gis.stackexchange.com/questions/61303/python-ogr-transform-coordinates-from-meter-to-decimal-degrees
     https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer
-    '''
+    """
 
     InputLayerGeomType = inLayer.GetGeomType()
 
@@ -139,19 +207,18 @@ def create_buffer_and_projectLayer(inLayer,
     outputBufferds = None
 
 def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
-    '''
-    returns the floor area of the intersecting buildings, if the parking lot was
-    of type None the returned area will be -1.
+    """Returns the floor area of the intersecting buildings.
+    If the parking lot was of type None the returned area will be -1.
     ParkingLayer: a layer with the parking lots as features
     BuildingLayer: a layer with the buildings as features
 
     >>> get_floor_areas_of_intersecting_buildings(ParkingLayer, workPlacesLayer)
-    '''
+    """
     UserArea = [0 for i in range(ParkingLayer.GetFeatureCount())]
     index = 0
     count = 0
     for feature in ParkingLayer:
-        area  = 0.0
+        areas  = [0.0]
         if feature.GetGeometryRef() != None:
             geom = feature.GetGeometryRef()
             BuildingsLayer.SetSpatialFilter(geom)
@@ -159,7 +226,7 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
              BuildingsLayer ]
             BuildingsLayer.ResetReading()
         else:
-            area = 0.0
+            areas = [0.0]
         UserArea[index] = sum(areas)
         index += 1
         count += 1

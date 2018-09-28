@@ -10,6 +10,10 @@ def readMatrixfiles(files, precision = 1000):
     ----------
     files : str
         The location of the files
+    precision : int, optional
+        The precision factor. Is used to correct for mistakes in decimal number
+        approximations in computer systems. The default will work fine.(the
+        default is 1000)
 
     Returns
     -------

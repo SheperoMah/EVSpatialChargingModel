@@ -25,9 +25,8 @@ class Simulation:
         length of the simulation. The time step is determined by the unit of the
         battery charge and battery capacity for the EV class.
     resolution : float
-        The resolution of the timestep. Used to charge the EV class. Currently
-        it is set to 1/60 meaning 1 minute on hourly scale.
-        NOT FULLY TESTED YET.
+        The resolution of the timestep. Used to charge the EV class. (the
+        default is 1/60). OTHER VALUES ARE YET NOT FULLY TESTED YET.
 
 
     """

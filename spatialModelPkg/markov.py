@@ -12,9 +12,9 @@ class Markov:
         dimensions, where the row represents the current state, and the coulumn
         represents the following state. The z-axis represents the inhomogenous
         factor, which is the dependancy on the transition time.
-    dim : int
+    dim : int, optional
         The dimention at which the sum of the transition matrix add to oneself.
-        Default 1.
+        (the default is 1)
     '''
     def __init__(self, chain, dim = 1):
         self.chain = chain
@@ -30,8 +30,9 @@ class Markov:
         ----------
         currentState : int
             The current state of the Markov chain.
-        time_step : int
-            The time step of the inhomegenous Markov chain.
+        time_step : int, optional
+            The time step of the inhomegenous Markov chain. Use only if you use
+            an inhomegenous Markov chain. (the default is None)
 
         Returns
         -------
@@ -55,8 +56,9 @@ class Markov:
             The current state of the Markov chain.
         rnd : float
             A random number.
-        time_step : int
-            The time step of the inhomegenous Markov chain.
+        time_step : int, optional
+            The time step of the inhomegenous Markov chain. Use only if you use
+            an inhomegenous Markov chain. (the default is None)
 
         Returns
         -------

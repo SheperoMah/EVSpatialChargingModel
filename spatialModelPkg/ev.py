@@ -12,26 +12,29 @@ class EV:
         Location of the electric vehicle.
     currentState : -
         The current Markov state of the electric vehicle.
-    mpg : float
+    mpg : float, optional
         The miles per gallon (MPG) of the vehicle in unit of energy per distance, e.g.,
-        kWh/km.
-    batteryCharge : float
+        kWh/km. ( the default initial value is 0.2 kWh/km)
+    batteryCharge : float, optional
         The charge in the battery of the electric vehicle in units of
         energy,  kWh. The battery charge in this model is assumed to
         be 0.0 if the electric vehicle is fully charged, else negative if
-        the battery is depleted.
-    batteryCapacity : float
-        The battery capacity of the electric vehicle (kWh).
+        the battery is depleted. ( the default initial value is 0.0)
+    batteryCapacity : float, optional
+        The battery capacity of the electric vehicle (kWh). ( the default
+        initial value is 0.0)
         NOT FULLY TESTED. NOW IT IS ALWAYS ZERO WHICH MEANS THAT THE
         ELECTRIC VEHICLE HAS INFINTIE RANGE, AND THAT THE ENERGY DEPLETION WAS
         WAS MEASURED.
-    trips : int
-        The number of trips perfromed by the electric vehilce.
-        initaldistance (int): Distance driven by the vehicle.
-    distance : float
-        The distance traveled by the vehicle.
-    rnd : float
+    trips : int, optional
+        The number of trips perfromed by the electric vehilce.( the default
+        initial value is 0.0)
+    distance : float, optional
+        The distance traveled by the vehicle.( the default initial value is 0.0)
+
+    rnd : float, optional
         Random number used to sample for the next Markov state of the vehicle.
+        (the default is 0.0)
 
     '''
     def __init__(self,

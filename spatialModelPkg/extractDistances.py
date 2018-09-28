@@ -13,8 +13,9 @@ def extractDistances(filesLocation, maxTripDist = math.inf):
     ----------
     filesLocation : str
         The location of the files
-    maxTripDist : float
-        The maximum trip distance to filter at.
+    maxTripDist : float, optional
+        The maximum trip distance to filter at.( the default initial value is
+        infintiy)
 
     Returns
     -------
