@@ -147,23 +147,24 @@ describes shopping, leisure, cultural, and religious locations.</p>
 <dl class="attribute">
 <dt id="ev.EV.mpg">
 <code class="descname">mpg</code><a class="headerlink" href="#ev.EV.mpg" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – The MPG of the vehicle in unit of energy per distance, e.g.,
-kWh/km.</p>
+<dd><p><em>float, optional</em> – The miles per gallon (MPG) of the vehicle in unit of energy per distance, e.g.,
+kWh/km. ( the default initial value is 0.2 kWh/km)</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="ev.EV.batteryCharge">
 <code class="descname">batteryCharge</code><a class="headerlink" href="#ev.EV.batteryCharge" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – The charge in the battery of the electric vehicle in units of
+<dd><p><em>float, optional</em> – The charge in the battery of the electric vehicle in units of
 energy,  kWh. The battery charge in this model is assumed to
 be 0.0 if the electric vehicle is fully charged, else negative if
-the battery is depleted.</p>
+the battery is depleted. ( the default initial value is 0.0)</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="ev.EV.batteryCapacity">
 <code class="descname">batteryCapacity</code><a class="headerlink" href="#ev.EV.batteryCapacity" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – The battery capacity of the electric vehicle (kWh).
+<dd><p><em>float, optional</em> – The battery capacity of the electric vehicle (kWh). ( the default
+initial value is 0.0)
 NOT FULLY TESTED. NOW IT IS ALWAYS ZERO WHICH MEANS THAT THE
 ELECTRIC VEHICLE HAS INFINTIE RANGE, AND THAT THE ENERGY DEPLETION WAS
 WAS MEASURED.</p>
@@ -172,20 +173,21 @@ WAS MEASURED.</p>
 <dl class="attribute">
 <dt id="ev.EV.trips">
 <code class="descname">trips</code><a class="headerlink" href="#ev.EV.trips" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – The number of trips perfromed by the electric vehilce.
-initaldistance (int): Distance driven by the vehicle.</p>
+<dd><p><em>int, optional</em> – The number of trips perfromed by the electric vehilce.( the default
+initial value is 0.0)</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="ev.EV.distance">
 <code class="descname">distance</code><a class="headerlink" href="#ev.EV.distance" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – The distance traveled by the vehicle.</p>
+<dd><p><em>float, optional</em> – The distance traveled by the vehicle.( the default initial value is 0.0)</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="ev.EV.rnd">
 <code class="descname">rnd</code><a class="headerlink" href="#ev.EV.rnd" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – Random number used to sample for the next Markov state of the vehicle.</p>
+<dd><p><em>float, optional</em> – Random number used to sample for the next Markov state of the vehicle.
+(the default is 0.0)</p>
 </dd></dl>
 
 <dl class="method">
@@ -389,7 +391,8 @@ charge the vehicle.</p>
 <dl class="attribute">
 <dt id="parkinglot.ParkingLot.currentLoad">
 <code class="descname">currentLoad</code><a class="headerlink" href="#parkinglot.ParkingLot.currentLoad" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – The current load of the station in the unit of power.</p>
+<dd><p><em>float, optional</em> – The current load of the station in the unit of power.( the default
+initially is 0.0)</p>
 </dd></dl>
 
 <dl class="method">
@@ -476,8 +479,8 @@ factor, which is the dependancy on the transition time.</p>
 <dl class="attribute">
 <dt id="markov.Markov.dim">
 <code class="descname">dim</code><a class="headerlink" href="#markov.Markov.dim" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – The dimention at which the sum of the transition matrix add to oneself.
-Default 1.</p>
+<dd><p><em>int, optional</em> – The dimention at which the sum of the transition matrix add to oneself.
+(the default is 1)</p>
 </dd></dl>
 
 <dl class="method">
@@ -490,7 +493,8 @@ Default 1.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>currentState</strong> (<em>int</em>) – The current state of the Markov chain.</li>
-<li><strong>time_step</strong> (<em>int</em>) – The time step of the inhomegenous Markov chain.</li>
+<li><strong>time_step</strong> (<em>int</em><em>, </em><em>optional</em>) – The time step of the inhomegenous Markov chain. Use only if you use
+an inhomegenous Markov chain. (the default is None)</li>
 </ul>
 </td>
 </tr>
@@ -516,7 +520,8 @@ and time.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>currentState</strong> (<em>int</em>) – The current state of the Markov chain.</li>
 <li><strong>rnd</strong> (<em>float</em>) – A random number.</li>
-<li><strong>time_step</strong> (<em>int</em>) – The time step of the inhomegenous Markov chain.</li>
+<li><strong>time_step</strong> (<em>int</em><em>, </em><em>optional</em>) – The time step of the inhomegenous Markov chain. Use only if you use
+an inhomegenous Markov chain. (the default is None)</li>
 </ul>
 </td>
 </tr>
@@ -592,9 +597,8 @@ battery charge and battery capacity for the EV class.</p>
 <dl class="attribute">
 <dt id="simulation.Simulation.resolution">
 <code class="descname">resolution</code><a class="headerlink" href="#simulation.Simulation.resolution" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – The resolution of the timestep. Used to charge the EV class. Currently
-it is set to 1/60 meaning 1 minute on hourly scale.
-NOT FULLY TESTED YET.</p>
+<dd><p><em>float</em> – The resolution of the timestep. Used to charge the EV class. (the
+default is 1/60). OTHER VALUES ARE YET NOT FULLY TESTED YET.</p>
 </dd></dl>
 
 </dd></dl>
@@ -621,7 +625,8 @@ in the model.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>filesLocation</strong> (<em>str</em>) – The location of the files</li>
-<li><strong>maxTripDist</strong> (<em>float</em>) – The maximum trip distance to filter at.</li>
+<li><strong>maxTripDist</strong> (<em>float</em><em>, </em><em>optional</em>) – The maximum trip distance to filter at.( the default initial value is
+infintiy)</li>
 </ul>
 </td>
 </tr>
@@ -644,11 +649,19 @@ in the model.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>files</strong> (<em>str</em>) – The location of the files</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>files</strong> (<em>str</em>) – The location of the files</li>
+<li><strong>precision</strong> (<em>int</em><em>, </em><em>optional</em>) – The precision factor. Is used to correct for mistakes in decimal number
+approximations in computer systems. The default will work fine.(the
+default is 1000)</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Numpy array containing the transition matrix.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Numpy array containing the transition matrix.</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.array</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.array</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -659,27 +672,65 @@ in the model.</p>
 <code class="descclassname">python.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#python.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Projects layer from the input coordinate to the output corrdinate system,
 and saves the file in outputShapefile. This can be used to buffer a layer
-if the bufferDist &gt; 0.
-&gt;&gt;&gt; ProjectLayer(InputLayer, 3857, 3006, “output.shp”, bufferDist = 0)</p>
-<p>Note: this function needs correction since the output shapefile does not have
-a reference system. This should be corrected.
-<a class="reference external" href="https://gis.stackexchange.com/questions/61303/python-ogr-transform-coordinates-from-meter-to-decimal-degrees">https://gis.stackexchange.com/questions/61303/python-ogr-transform-coordinates-from-meter-to-decimal-degrees</a>
-<a class="reference external" href="https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer">https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer</a></p>
+if the bufferDist &gt; 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>inLayer</strong> (<em>ogr layer</em>) – A vector layer of spatial file. Use ogr.open().GetLayer().</li>
+<li><strong>inputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
+Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>.</li>
+<li><strong>outputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
+Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>.</li>
+<li><strong>outputBufferfn</strong> (<em>string</em>) – Filename used to store the output layer.</li>
+<li><strong>bufferDist</strong> (<em>int</em><em>, </em><em>optional</em>) – The buffer distance in the same units as the original projection, i.e.,
+the inputCoordinateSystem. (the default is 0)</li>
+<li><strong>Note</strong> (<em>this function needs correction since the output shapefile does not have</em>) – </li>
+<li><strong>reference system. This should be corrected.</strong> (<em>a</em>) – </li>
+<li><strong>https</strong> (<em>//pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer</em>) – </li>
+<li><strong>https</strong> – </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="python.get_field_tags">
-<code class="descclassname">python.</code><code class="descname">get_field_tags</code><span class="sig-paren">(</span><em>layer</em>, <em>tag</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_field_tags" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the list of tags in a field of a layer
-&gt;&gt;&gt; getFieldTags(layer, “building”)
-&gt;&gt;&gt; getFieldTags(layer, “building”, False)</p>
+<code class="descclassname">python.</code><code class="descname">get_field_tags</code><span class="sig-paren">(</span><em>layer</em>, <em>field</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_field_tags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of tags in a field of a vector layer
+A vector layer contains fields and each field have tags. For example, in
+OpenStreetMaps you might find fields like “building”. This field might
+have tags such as “hospital”.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>layer</strong> (<em>an ogr layer</em>) – A layer from a spaital file. Use ogr.open().GetLayer().</li>
+<li><strong>field</strong> (<em>string</em>) – A field in the vector layer. Usually fields are stored as strings.</li>
+<li><strong>unique</strong> (<em>bool</em><em>, </em><em>optional</em>) – Returns only unique tags if True, else it returns the tag of
+every feature in the layer.(the default is True)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of tags for the tags stored for this layer.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(string)</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="python.get_floor_areas_of_intersecting_buildings">
 <code class="descclassname">python.</code><code class="descname">get_floor_areas_of_intersecting_buildings</code><span class="sig-paren">(</span><em>ParkingLayer</em>, <em>BuildingsLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_floor_areas_of_intersecting_buildings" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the floor area of the intersecting buildings, if the parking lot was
-of type None the returned area will be -1.
+<dd><p>Returns the floor area of the intersecting buildings.
+If the parking lot was of type None the returned area will be -1.
 ParkingLayer: a layer with the parking lots as features
 BuildingLayer: a layer with the buildings as features</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_floor_areas_of_intersecting_buildings</span><span class="p">(</span><span class="n">ParkingLayer</span><span class="p">,</span> <span class="n">workPlacesLayer</span><span class="p">)</span>
@@ -690,22 +741,69 @@ BuildingLayer: a layer with the buildings as features</p>
 <dl class="function">
 <dt id="python.get_layer_fields">
 <code class="descclassname">python.</code><code class="descname">get_layer_fields</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_layer_fields" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the fields of a layer</p>
+<dd><p>Returns the fields of features in a vector layer.
+A vector file contains layers and each layer have fields of information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>layer</strong> (<em>an ogr layer</em>) – A layer from a spaital file. Use ogr.open().GetLayer().</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of the fields available for a layer.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(fields)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="python.list_of_layers">
 <code class="descclassname">python.</code><code class="descname">list_of_layers</code><span class="sig-paren">(</span><em>mapFile</em><span class="sig-paren">)</span><a class="headerlink" href="#python.list_of_layers" title="Permalink to this definition">¶</a></dt>
-<dd><p>returns the list of layer names in a map file
-&gt;&gt;&gt; ListOfLayers(file)</p>
+<dd><p>Lists the layers in a geographical information systems (GIS) file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mapFile</strong> (<em>ogr opened file</em>) – A spatial opened file. Use ogr.open() function.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list containing the names of the layers in the GIS file.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(Unique Layers)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="python.plot_features">
 <code class="descclassname">python.</code><code class="descname">plot_features</code><span class="sig-paren">(</span><em>layer</em>, <em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#python.plot_features" title="Permalink to this definition">¶</a></dt>
-<dd><p>plot the features of a layer
-&gt;&gt;&gt; PlotFeatures(layer, color)
-Note: TODO depth of the geometry.</p>
+<dd><p>Plot the features of a layer
+This is an auxiliary function. Users are encouraged to use their own plotting
+funtions. The reason is that every GIS data provider stores the feature
+coordinates at differnt depths. This makes this function non-generalizable.
+Use this function as inspiration instead.</p>
+<p>Note: TODO depth of the geometry.</p>
+<p>Plotting listing 13.1 in “Geoprocessing with Python” “Geospatial Development By Example with Python ”
+thanks to <a class="reference external" href="http://geoinformaticstutorial.blogspot.se/2012/10/">http://geoinformaticstutorial.blogspot.se/2012/10/</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>layer</strong> (<em>ogr layer</em>) – A vector layer of spatial file. Use ogr.open().GetLayer().</li>
+<li><strong>color</strong> (<em>matplotlib.color</em>) – A valid color in matplotlib module.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">This function returns a plot.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
