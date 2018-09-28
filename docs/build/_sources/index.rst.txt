@@ -7,12 +7,12 @@
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-    
+
 *********************
 Overview and Examples
 *********************
 
-:Authors: 
+:Authors:
     Mahmoud Shepero
 
 :Developers:
@@ -22,10 +22,10 @@ Overview and Examples
 :Email:
     mahmoud.shepero@angstrom.uu.se
 
-:Version: 
+:Version:
     0.0.1 of 24-09-2018
 
-:License: 
+:License:
     `GNU General Public License v3.0 <https://www.gnu.org/>`_
 
 Introduction
@@ -33,7 +33,7 @@ Introduction
 This is a spatial model to estimate the charging load of electric vehicles in
 cities. The model is published in *Spatial Markov chain model for electric
 vehicle charging in cities using geographical information system (GIS) data,
-Applied Energy, 2018*. 
+Applied Energy, 2018*.
 
 The model uses discrete Markov chain to spatially model the mobility of
 cars in cities. If we assume that cars are moving between parking places. It
@@ -46,7 +46,7 @@ describes shopping, leisure, cultural, and religious locations.
    :height: 300 px
    :width: 300 px
    :align: center
-      
+
 
 
 
@@ -61,7 +61,7 @@ Indixes and tables
 
 .. autosummary::
 
-   ev.EV   
+   ev.EV
    parkinglot.ParkingLot
    markov.Markov
    simulation.Simulation
@@ -75,7 +75,7 @@ Examples
 ********
 
 Example 1::
-   
+
     for i in list:
         print i
 
@@ -85,7 +85,7 @@ Example 1::
 Model implementation
 **********************
 
-In this Section a detailed description for the model implementation is provided. 
+In this Section a detailed description for the model implementation is provided.
 
 Electric vehicles
 =================
@@ -122,7 +122,7 @@ Model simulation implementation
 ===============================
 
 .. automodule:: simulation
- 
+
 .. autoclass:: Simulation
    :members:
 
@@ -133,8 +133,9 @@ Auxiliary functions
 
 .. automodule:: extractDistances
    :members:
- 
+
 .. automodule:: extractFiles
    :members:
 
-
+.. automodule:: python
+   :members:
