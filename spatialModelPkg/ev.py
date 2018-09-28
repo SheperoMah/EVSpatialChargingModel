@@ -13,7 +13,7 @@ class EV:
     currentState : -
         The current Markov state of the electric vehicle.
     mpg : float
-        The MPG of the vehicle in unit of energy per distance, e.g.,
+        The miles per gallon (MPG) of the vehicle in unit of energy per distance, e.g.,
         kWh/km.
     batteryCharge : float
         The charge in the battery of the electric vehicle in units of
