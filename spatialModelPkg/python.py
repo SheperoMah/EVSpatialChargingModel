@@ -2,7 +2,7 @@ from osgeo import ogr, osr
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from .parkinglot import ParkingLot
+from parkinglot import ParkingLot
 from math import ceil
 
 def list_of_layers(mapFile):
@@ -235,7 +235,7 @@ def collect_stations_results(ID, results, stations):
     return(final_results)
 
 def extract_stateLoad(load, requiredState, stations, aggregated = False):
-    
+
     columnIndex = [x for x in range(len(stations)) if
                             stations[x].state == requiredState]
 
