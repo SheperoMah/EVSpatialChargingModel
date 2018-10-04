@@ -5,17 +5,17 @@ def main(numberOfEVs, numberOfparkingloc):
     import numpy as np
     np.random.seed(1) # for reproducibility
     import random as rnd
-    rnd.seed(1) # for reproducibility
+    rnd.seed(10) # for reproducibility
     import math
     import matplotlib.pyplot as plt
     import matplotlib.dates as mdates
     import datetime
-    from pkg.ev import EV
-    from pkg.markov import Markov
-    from pkg.simulation import Simulation
-    from pkg.parkinglot import ParkingLot
-    from pkg.extractDistances import extractDistances
-    from pkg.extractFiles import readMatrixfiles
+    from spatialModelPkg.ev import EV
+    from spatialModelPkg.markov import Markov
+    from spatialModelPkg.simulation import Simulation
+    from spatialModelPkg.parkinglot import ParkingLot
+    from spatialModelPkg.extractDistances import extractDistances
+    from spatialModelPkg.extractFiles import readMatrixfiles
 
 
     stationTypes = rnd.choices(range(3), k = numberOfparkingloc)
@@ -30,7 +30,7 @@ def main(numberOfEVs, numberOfparkingloc):
     stations += [ParkingLot(ID = str(i*1000),
                            state = i,
                            chargingPower = 0.0,
-                           maximumOccupancy = 10,
+                           maximumOccupancy = numberOfEVs,
                            currentOccupancy = 0,
                            chargingStatus = False) for i in range(3)]
 
@@ -90,9 +90,10 @@ def main(numberOfEVs, numberOfparkingloc):
         finalIdx = initialIdx +1440
         load[initialIdx:finalIdx, ::] = temp_load
 
-    print("Average number of trips:", np.mean(np.asarray([x.trips for x in EVs])))
-    print("Average distance traveled by car (km):",
-            np.mean(np.asarray([x.distance  for x in EVs])))
+    print("Average number of trips/car/day :",
+          np.mean(np.asarray([x.trips for x in EVs]))/len(daysArray))
+    print("Average distance traveled per car per day (km/day/car):",
+          np.mean(np.asarray([x.distance  for x in EVs]))/len(daysArray))
 
     fig = plt.figure(figsize = (10,10))
     minutes = np.arange('2018-01-01', '2018-01-08', dtype='datetime64[m]').astype(datetime.datetime)
@@ -108,7 +109,7 @@ def main(numberOfEVs, numberOfparkingloc):
 
 
 if __name__ == "__main__":
-        
-        numberOfEVs = 10
-        numberOfparkingloc = 3
+
+        numberOfEVs = 1000
+        numberOfparkingloc = 10
         main(numberOfEVs, numberOfparkingloc)
