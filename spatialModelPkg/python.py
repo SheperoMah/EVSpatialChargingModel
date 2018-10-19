@@ -208,11 +208,15 @@ def create_buffer_and_projectLayer(inLayer,
 
 def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
     """Returns the floor area of the intersecting buildings.
-    If the parking lot was of type None the returned area will be -1.
-    ParkingLayer: a layer with the parking lots as features
-    BuildingLayer: a layer with the buildings as features
+    If the parking lot was of type None the returned area will be 0.
 
-    >>> get_floor_areas_of_intersecting_buildings(ParkingLayer, workPlacesLayer)
+    Parameters
+    ----------
+    ParkingLayer :  ogr layer
+        a layer with the parking lots as features
+    BuildingLayer : ogr layer
+        a layer with the buildings as features
+
     """
     UserArea = [0 for i in range(ParkingLayer.GetFeatureCount())]
     index = 0

@@ -33,7 +33,7 @@ Introduction
 This is a spatial model to estimate the charging load of electric vehicles in
 cities. The model is published in *Spatial Markov chain model for electric
 vehicle charging in cities using geographical information system (GIS) data,
-Applied Energy, 2018*.
+Applied Energy, 231C (2018), pp. 1089-1099*.
 
 The model uses discrete Markov chain to spatially model the mobility of
 cars in cities. If we assume that cars are moving between parking places. It
@@ -74,6 +74,7 @@ Indixes and tables
 Examples
 ********
 
+In this part 
 Example 1::
 
     for i in list:
