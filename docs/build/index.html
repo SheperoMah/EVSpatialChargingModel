@@ -51,16 +51,18 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Authors:</th><td class="field-body">Mahmoud Shepero</td>
+<tr class="field-odd field"><th class="field-name">Author:</th><td class="field-body">Mahmoud Shepero</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Developers:</th><td class="field-body"><a class="reference external" href="http://katalog.uu.se/empinfo/?id=N16-259">Mahmoud Shepero</a> &amp;
-<a class="reference external" href="http://katalog.uu.se/empinfo/?id=N10-1405">Joakim Munkhammar</a></td>
+<tr class="field-even field"><th class="field-name">Developer:</th><td class="field-body"><a class="reference external" href="http://katalog.uu.se/empinfo/?id=N16-259">Mahmoud Shepero</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:mahmoud&#46;shepero&#37;&#52;&#48;angstrom&#46;uu&#46;se">mahmoud<span>&#46;</span>shepero<span>&#64;</span>angstrom<span>&#46;</span>uu<span>&#46;</span>se</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Version:</th><td class="field-body">0.0.1 of 24-09-2018</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">License:</th><td class="field-body"><a class="reference external" href="https://www.gnu.org/">GNU General Public License v3.0</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Acknowledgement:</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Special thanks to <a class="reference external" href="http://katalog.uu.se/empinfo/?id=N10-1405">Joakim Munkhammar</a> for his theoretical contributions.</td>
 </tr>
 </tbody>
 </table>
@@ -69,7 +71,7 @@
 <p>This is a spatial model to estimate the charging load of electric vehicles in
 cities. The model is published in <em>Spatial Markov chain model for electric
 vehicle charging in cities using geographical information system (GIS) data,
-Applied Energy, 2018</em>.</p>
+Applied Energy, 231C (2018), pp. 1089-1099</em>.</p>
 <p>The model uses discrete Markov chain to spatially model the mobility of
 cars in cities. If we assume that cars are moving between parking places. It
 also assumes that parking places in cities can be clustered–based on nearby buildings–into
@@ -116,6 +118,8 @@ describes shopping, leisure, cultural, and religious locations.</p>
 </div>
 <div class="section" id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>In this part few examples are provided. For a simple example to run the model
+for one week is provided in the file <em>toyExample.py</em>.</p>
 <p>Example 1:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
     <span class="nb">print</span> <span class="n">i</span>
@@ -730,12 +734,19 @@ every feature in the layer.(the default is True)</li>
 <dt id="python.get_floor_areas_of_intersecting_buildings">
 <code class="descclassname">python.</code><code class="descname">get_floor_areas_of_intersecting_buildings</code><span class="sig-paren">(</span><em>ParkingLayer</em>, <em>BuildingsLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_floor_areas_of_intersecting_buildings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the floor area of the intersecting buildings.
-If the parking lot was of type None the returned area will be -1.
-ParkingLayer: a layer with the parking lots as features
-BuildingLayer: a layer with the buildings as features</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">get_floor_areas_of_intersecting_buildings</span><span class="p">(</span><span class="n">ParkingLayer</span><span class="p">,</span> <span class="n">workPlacesLayer</span><span class="p">)</span>
-</pre></div>
-</div>
+If the parking lot was of type None the returned area will be 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ParkingLayer</strong> (<em>ogr layer</em>) – a layer with the parking lots as features</li>
+<li><strong>BuildingLayer</strong> (<em>ogr layer</em>) – a layer with the buildings as features</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">

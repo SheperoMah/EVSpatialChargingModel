@@ -12,12 +12,11 @@
 Overview and Examples
 *********************
 
-:Authors:
+:Author:
     Mahmoud Shepero
 
-:Developers:
-    `Mahmoud Shepero <http://katalog.uu.se/empinfo/?id=N16-259>`_ &
-    `Joakim Munkhammar <http://katalog.uu.se/empinfo/?id=N10-1405>`_
+:Developer:
+    `Mahmoud Shepero <http://katalog.uu.se/empinfo/?id=N16-259>`_
 
 :Email:
     mahmoud.shepero@angstrom.uu.se
@@ -27,6 +26,9 @@ Overview and Examples
 
 :License:
     `GNU General Public License v3.0 <https://www.gnu.org/>`_
+
+:Acknowledgement:
+    Special thanks to `Joakim Munkhammar <http://katalog.uu.se/empinfo/?id=N10-1405>`_ for his theoretical contributions.
 
 Introduction
 ============
@@ -74,7 +76,9 @@ Indixes and tables
 Examples
 ********
 
-In this part 
+In this part few examples are provided. For a simple example to run the model
+for one week is provided in the file *toyExample.py*.
+
 Example 1::
 
     for i in list:
