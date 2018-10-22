@@ -149,6 +149,11 @@ def create_buffer_and_projectLayer(inLayer,
     a reference system. This should be corrected.
     https://gis.stackexchange.com/questions/61303/python-ogr-transform-coordinates-from-meter-to-decimal-degrees
     https://pcjericks.github.io/py-gdalogr-cookbook/vector_layers.html#create-a-new-layer-from-the-extent-of-an-existing-layer
+
+    Returns
+    -------
+    None
+        This function saves the buffered layer into a file
     """
 
     InputLayerGeomType = inLayer.GetGeomType()
@@ -213,9 +218,14 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
     Parameters
     ----------
     ParkingLayer :  ogr layer
-        a layer with the parking lots as features
+        A layer with the parking lots (buffered) as features
     BuildingLayer : ogr layer
-        a layer with the buildings as features
+        A layer with the buildings as features
+
+    Returns
+    -------
+    list(float)
+        A list containg the sum of intersecting areas for each feature
 
     """
     UserArea = [0 for i in range(ParkingLayer.GetFeatureCount())]
@@ -239,6 +249,24 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
     return(UserArea)
 
 def get_percentage_of_area_types(parkingLayer, layers):
+    """Returns the percentage of area intersecting each layer in layers
+       If a feature does not intersect any layer it's percentage was equally
+       divided between the layers.
+
+    Parameters
+    ----------
+    parkingLayer : ogr layer
+        A layer with with the parking lots (buffered) as features
+    layers : list(ogr layer)
+        A list of layers that we want to estimate the precentage of intersections
+
+    Returns
+    -------
+    numpy.array(float)
+        An array containg the percentage of areas for each layer. This array is
+        of length equals the number of parking features and of width equals the
+        number of layers.
+    """
 
     area = np.zeros( shape = (parkingLayer.GetFeatureCount(), len(layers)))
     for i in range(len(layers)):
@@ -249,6 +277,19 @@ def get_percentage_of_area_types(parkingLayer, layers):
     return(area)
 
 def get_features_areas(Layer):
+    """Returns a list of feature areas.
+
+    Parameters
+    ----------
+    Layer : ogr layer
+        A layer that we want to find the areas of it's features
+
+    Returns
+    -------
+    list(float)
+        A list containing the area of features inside the layer
+
+    """
     areas = [0 for i in range(Layer.GetFeatureCount())]
     i = 0
     for feature in Layer:
@@ -264,7 +305,39 @@ def create_charging_stations(identitiesArray,
                              areaPerCar,
                              charging_status = True,
                              charging_power = 3.7):
+    """Creates and returns a list of stations
+    This function is used to create a list of stations. The idea is every
+    charging station is divided into several charging stations based on the
+    percentages of areas. Each subset charging station is then considered to have
+    a unique state.
 
+    Parameters
+    ----------
+    identitiesArray : list(-)
+        A list of unique names (IDs) for each station. It is used to name the
+        stations and their subsets.
+    areas : list(float)
+        A list containing the areas of each charging station.
+    percentageOfStates : numpy.array(float)
+        A numpy array containing the percentage of areas of each feature dedicated
+        to each state. In other words, each charging station will be divided into
+        several states, what is the percentage of division.
+    areaPerCar : float
+        A float encoding the ground area needed to fit a car in a parking lot.
+        This area should take into account the manuevering area and landscaping
+        area.
+    charging_status : list(bool), optional
+        Which stations will only be considered parking lots and no charging will
+        be enabled in. Default True.
+    charging_power : float, optional
+        The charging power of the stations. Default 3.7 kW.
+
+    Returns
+    -------
+    list(ParkingLot)
+        A list of parking lots representing charging stations and or parking lots
+        without charging.
+    """
     if type(charging_status) is bool:
         charging_status = [charging_status for i in range(len(identitiesArray))]
     if type(charging_power) is int or type(charging_power) is float:
@@ -293,6 +366,28 @@ def create_charging_stations(identitiesArray,
     return(stations)
 
 def collect_stations_results(ID, results, stations):
+    """Collects the results of subsets of charging stations into one station.
+    Previously charging stations were divided into subset of charging stations
+    each representing a unique state.
+
+    Parameters
+    ----------
+    ID : list(-)
+        list of unique IDs of charging stations. The same list used in the
+        create_charging_stations() function.
+    results : numpy.array(float)
+        A numpy array containg the results of the simulation, where each column
+        represents a charging station in the stations list.
+    stations : list(ParkingLot)
+        list of stations; the one created in the create_charging_stations()
+        function.
+
+    Returns
+    -------
+    numpy.array(float)
+        A numpy array where each column represents a parking lot from the ID list.
+
+    """
     results_temp = np.copy(results)
     lengthOfSimulation = results_temp.shape[0]
     IDs = list(ID)
@@ -306,7 +401,29 @@ def collect_stations_results(ID, results, stations):
     return(final_results)
 
 def extract_stateLoad(load, requiredState, stations, aggregated = False):
+    """Returns the load of all the stations that belong to a certain state.
 
+    Parameters
+    ----------
+    load : numpy.array(float)
+        A numpy array where each column represnts the load of a single station
+        or subset thereof.
+    requiredState : int
+        An integer representing the code of the required state.
+    stations : list(ParkingLot)
+        list of stations; the one created in the create_charging_stations()
+        function.
+    aggregated : bool, optional
+            False (default) if we want to return the load of every station, else
+            the function sums the load of all stations and returns the aggregate
+            load.
+
+    Returns
+    -------
+    numpy.array(float)
+        The load of every/the aggregate load of stations belonging to the
+        specified state.
+    """
     columnIndex = [x for x in range(len(stations)) if
                             stations[x].state == requiredState]
 
