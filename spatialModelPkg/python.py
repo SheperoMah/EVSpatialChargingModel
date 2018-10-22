@@ -154,6 +154,7 @@ def create_buffer_and_projectLayer(inLayer,
     -------
     None
         This function saves the buffered layer into a file
+
     """
 
     InputLayerGeomType = inLayer.GetGeomType()
@@ -337,6 +338,7 @@ def create_charging_stations(identitiesArray,
     list(ParkingLot)
         A list of parking lots representing charging stations and or parking lots
         without charging.
+
     """
     if type(charging_status) is bool:
         charging_status = [charging_status for i in range(len(identitiesArray))]
@@ -423,6 +425,7 @@ def extract_stateLoad(load, requiredState, stations, aggregated = False):
     numpy.array(float)
         The load of every/the aggregate load of stations belonging to the
         specified state.
+
     """
     columnIndex = [x for x in range(len(stations)) if
                             stations[x].state == requiredState]
