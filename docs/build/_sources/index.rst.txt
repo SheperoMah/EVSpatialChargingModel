@@ -12,12 +12,11 @@
 Overview and Examples
 *********************
 
-:Authors:
+:Author:
     Mahmoud Shepero
 
-:Developers:
-    `Mahmoud Shepero <http://katalog.uu.se/empinfo/?id=N16-259>`_ &
-    `Joakim Munkhammar <http://katalog.uu.se/empinfo/?id=N10-1405>`_
+:Developer:
+    `Mahmoud Shepero <http://katalog.uu.se/empinfo/?id=N16-259>`_
 
 :Email:
     mahmoud.shepero@angstrom.uu.se
@@ -28,12 +27,15 @@ Overview and Examples
 :License:
     `GNU General Public License v3.0 <https://www.gnu.org/>`_
 
+:Acknowledgement:
+    Special thanks to `Joakim Munkhammar <http://katalog.uu.se/empinfo/?id=N10-1405>`_ for his theoretical contributions.
+
 Introduction
 ============
 This is a spatial model to estimate the charging load of electric vehicles in
 cities. The model is published in *Spatial Markov chain model for electric
 vehicle charging in cities using geographical information system (GIS) data,
-Applied Energy, 2018*.
+Applied Energy, 231C (2018), pp. 1089-1099*.
 
 The model uses discrete Markov chain to spatially model the mobility of
 cars in cities. If we assume that cars are moving between parking places. It
@@ -73,6 +75,9 @@ Indixes and tables
 ********
 Examples
 ********
+
+In this part few examples are provided. For a simple example to run the model
+for one week is provided in the file *toyExample.py*.
 
 Example 1::
 

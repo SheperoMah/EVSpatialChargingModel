@@ -672,6 +672,36 @@ default is 1000)</li>
 </dd></dl>
 
 <span class="target" id="module-python"></span><dl class="function">
+<dt id="python.collect_stations_results">
+<code class="descclassname">python.</code><code class="descname">collect_stations_results</code><span class="sig-paren">(</span><em>ID</em>, <em>results</em>, <em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#python.collect_stations_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects the results of subsets of charging stations into one station.
+Previously charging stations were divided into subset of charging stations
+each representing a unique state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ID</strong> (<em>list</em><em>(</em><em>-</em><em>)</em>) – list of unique IDs of charging stations. The same list used in the
+create_charging_stations() function.</li>
+<li><strong>results</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array containg the results of the simulation, where each column
+represents a charging station in the stations list.</li>
+<li><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – list of stations; the one created in the create_charging_stations()
+function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A numpy array where each column represents a parking lot from the ID list.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.array(float)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="python.create_buffer_and_projectLayer">
 <code class="descclassname">python.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#python.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Projects layer from the input coordinate to the output corrdinate system,
@@ -681,7 +711,7 @@ if the bufferDist &gt; 0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>inLayer</strong> (<em>ogr layer</em>) – A vector layer of spatial file. Use ogr.open().GetLayer().</li>
 <li><strong>inputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
 Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>.</li>
@@ -696,6 +726,100 @@ the inputCoordinateSystem. (the default is 0)</li>
 <li><strong>https</strong> – </li>
 </ul>
 </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">This function saves the buffered layer into a file</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="python.create_charging_stations">
+<code class="descclassname">python.</code><code class="descname">create_charging_stations</code><span class="sig-paren">(</span><em>identitiesArray</em>, <em>areas</em>, <em>percentageOfStates</em>, <em>areaPerCar</em>, <em>charging_status=True</em>, <em>charging_power=3.7</em><span class="sig-paren">)</span><a class="headerlink" href="#python.create_charging_stations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and returns a list of stations
+This function is used to create a list of stations. The idea is every
+charging station is divided into several charging stations based on the
+percentages of areas. Each subset charging station is then considered to have
+a unique state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>identitiesArray</strong> (<em>list</em><em>(</em><em>-</em><em>)</em>) – A list of unique names (IDs) for each station. It is used to name the
+stations and their subsets.</li>
+<li><strong>areas</strong> (<em>list</em><em>(</em><em>float</em><em>)</em>) – A list containing the areas of each charging station.</li>
+<li><strong>percentageOfStates</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array containing the percentage of areas of each feature dedicated
+to each state. In other words, each charging station will be divided into
+several states, what is the percentage of division.</li>
+<li><strong>areaPerCar</strong> (<em>float</em>) – A float encoding the ground area needed to fit a car in a parking lot.
+This area should take into account the manuevering area and landscaping
+area.</li>
+<li><strong>charging_status</strong> (<em>list</em><em>(</em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Which stations will only be considered parking lots and no charging will
+be enabled in. Default True.</li>
+<li><strong>charging_power</strong> (<em>float</em><em>, </em><em>optional</em>) – The charging power of the stations. Default 3.7 kW.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of parking lots representing charging stations and or parking lots
+without charging.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="python.extract_stateLoad">
+<code class="descclassname">python.</code><code class="descname">extract_stateLoad</code><span class="sig-paren">(</span><em>load</em>, <em>requiredState</em>, <em>stations</em>, <em>aggregated=False</em><span class="sig-paren">)</span><a class="headerlink" href="#python.extract_stateLoad" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the load of all the stations that belong to a certain state.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>load</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array where each column represnts the load of a single station
+or subset thereof.</li>
+<li><strong>requiredState</strong> (<em>int</em>) – An integer representing the code of the required state.</li>
+<li><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – list of stations; the one created in the create_charging_stations()
+function.</li>
+<li><strong>aggregated</strong> (<em>bool</em><em>, </em><em>optional</em>) – False (default) if we want to return the load of every station, else
+the function sums the load of all stations and returns the aggregate
+load.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The load of every/the aggregate load of stations belonging to the
+specified state.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.array(float)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="python.get_features_areas">
+<code class="descclassname">python.</code><code class="descname">get_features_areas</code><span class="sig-paren">(</span><em>Layer</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_features_areas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of feature areas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Layer</strong> (<em>ogr layer</em>) – A layer that we want to find the areas of it’s features</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list containing the area of features inside the layer</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(float)</td>
 </tr>
 </tbody>
 </table>
@@ -739,10 +863,16 @@ If the parking lot was of type None the returned area will be 0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>ParkingLayer</strong> (<em>ogr layer</em>) – a layer with the parking lots as features</li>
-<li><strong>BuildingLayer</strong> (<em>ogr layer</em>) – a layer with the buildings as features</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>ParkingLayer</strong> (<em>ogr layer</em>) – A layer with the parking lots (buffered) as features</li>
+<li><strong>BuildingLayer</strong> (<em>ogr layer</em>) – A layer with the buildings as features</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list containg the sum of intersecting areas for each feature</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(float)</p>
 </td>
 </tr>
 </tbody>
@@ -763,6 +893,36 @@ A vector file contains layers and each layer have fields of information.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of the fields available for a layer.</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(fields)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="python.get_percentage_of_area_types">
+<code class="descclassname">python.</code><code class="descname">get_percentage_of_area_types</code><span class="sig-paren">(</span><em>parkingLayer</em>, <em>layers</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_percentage_of_area_types" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns the percentage of area intersecting each layer in layers</dt>
+<dd>If a feature does not intersect any layer it’s percentage was equally
+divided between the layers.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>parkingLayer</strong> (<em>ogr layer</em>) – A layer with with the parking lots (buffered) as features</li>
+<li><strong>layers</strong> (<em>list</em><em>(</em><em>ogr layer</em><em>)</em>) – A list of layers that we want to estimate the precentage of intersections</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An array containg the percentage of areas for each layer. This array is
+of length equals the number of parking features and of width equals the
+number of layers.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.array(float)</p>
+</td>
 </tr>
 </tbody>
 </table>
