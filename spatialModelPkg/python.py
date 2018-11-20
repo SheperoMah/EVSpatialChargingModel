@@ -437,3 +437,61 @@ def extract_stateLoad(load, requiredState, stations, aggregated = False):
         return(np.sum(requiredLoad, axis = 1))
     else:
         return(requiredLoad)
+
+def create_rectangle(x: float, dx: float, y: float, dy: float) \
+-> list((float,float)):
+    """Returns a list containing the coordinates of a rectangle vertices.
+
+    Parameters
+    ----------
+    x : float, int
+        The x-coordinate of a vertix.
+    dx : float, int
+        The width of the rectangle-along the x-axis.
+    y : float, int
+        The y-coordinate of a vertix.
+    dy : float, int
+        The height of the rectangle-along the y-axis.
+
+    """
+    return([(x,y), (x+dx, y), (x+dx,y+dy), (x, y+dy), (x,y)])
+
+def create_spatial_grid(initialXCoord: float,
+                      initialYCoord: float,
+                      spacingX: float,
+                      spacingY: float,
+                      numberOfXGridCells: float,
+                      numberOfYGridCells: float) -> list(list((float,float))):
+    """Returns a grid of squares.
+
+    Parameters
+    ----------
+    initialXCoord : float, int
+        The starting x coordinate of the grid.
+    initialYCoord : float, int
+        The starting y coordinate of the grid.
+    spacingX : float, int
+        The width of the grid-along the x axis.
+    spacingY : float, int
+        The height of the grid-along the y axis.
+    numberOfXGridCells : float, int
+        The number of horizontal grid cells-along the x axis.
+    numberOfYGridCells : float, int
+        The number of vertical grid cells-along the y axis.
+
+    Returns
+    -------
+    list(list(float,float))
+        A list containing a list of the coordinates of the vertices of each
+        grid cell.
+
+    """
+    endX = initialXCoord + spacingX * numberOfXGridCells
+    xs = range(initialXCoord, endX, spacingX)
+
+    endY = initialYCoord + spacingY * numberOfYGridCells
+    ys = range(initialYCoord, endY, spacingY)
+
+    connPoints = [create_rectangle(x, spacingX, y, spacingY) for x in xs for y in ys]
+
+    return(connPoints)

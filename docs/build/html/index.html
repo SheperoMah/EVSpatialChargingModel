@@ -702,6 +702,55 @@ function.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="python.createRectangle">
+<code class="descclassname">python.</code><code class="descname">createRectangle</code><span class="sig-paren">(</span><em>x: float</em>, <em>dx: float</em>, <em>y: float</em>, <em>dy: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#python.createRectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list containing the coordinates of a rectangle vertices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>float</em><em>, </em><em>int</em>) – The x-coordinate of a vertix.</li>
+<li><strong>dx</strong> (<em>float</em><em>, </em><em>int</em>) – The width of the rectangle-along the x-axis.</li>
+<li><strong>y</strong> (<em>float</em><em>, </em><em>int</em>) – The y-coordinate of a vertix.</li>
+<li><strong>dy</strong> (<em>float</em><em>, </em><em>int</em>) – The height of the rectangle-along the y-axis.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="python.createSpatialGrid">
+<code class="descclassname">python.</code><code class="descname">createSpatialGrid</code><span class="sig-paren">(</span><em>initialXCoord: float</em>, <em>initialYCoord: float</em>, <em>spacingX: float</em>, <em>spacingY: float</em>, <em>numberOfXGridCells: float</em>, <em>numberOfYGridCells: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#python.createSpatialGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a grid of squares.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>initialXCoord</strong> (<em>float</em><em>, </em><em>int</em>) – The starting x coordinate of the grid.</li>
+<li><strong>initialYCoord</strong> (<em>float</em><em>, </em><em>int</em>) – The starting y coordinate of the grid.</li>
+<li><strong>spacingX</strong> (<em>float</em><em>, </em><em>int</em>) – The width of the grid-along the x axis.</li>
+<li><strong>spacingY</strong> (<em>float</em><em>, </em><em>int</em>) – The height of the grid-along the y axis.</li>
+<li><strong>numberOfXGridCells</strong> (<em>float</em><em>, </em><em>int</em>) – The number of horizontal grid cells-along the x axis.</li>
+<li><strong>numberOfYGridCells</strong> (<em>float</em><em>, </em><em>int</em>) – The number of vertical grid cells-along the y axis.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list containing a list of the coordinates of the vertices of each
+grid cell.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(list(float,float))</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="python.create_buffer_and_projectLayer">
 <code class="descclassname">python.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#python.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Projects layer from the input coordinate to the output corrdinate system,
@@ -770,55 +819,6 @@ without charging.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="python.create_rectangle">
-<code class="descclassname">python.</code><code class="descname">create_rectangle</code><span class="sig-paren">(</span><em>x: float</em>, <em>dx: float</em>, <em>y: float</em>, <em>dy: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#python.create_rectangle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list containing the coordinates of a rectangle vertices.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>float</em><em>, </em><em>int</em>) – The x-coordinate of a vertix.</li>
-<li><strong>dx</strong> (<em>float</em><em>, </em><em>int</em>) – The width of the rectangle-along the x-axis.</li>
-<li><strong>y</strong> (<em>float</em><em>, </em><em>int</em>) – The y-coordinate of a vertix.</li>
-<li><strong>dy</strong> (<em>float</em><em>, </em><em>int</em>) – The height of the rectangle-along the y-axis.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="python.create_spatial_grid">
-<code class="descclassname">python.</code><code class="descname">create_spatial_grid</code><span class="sig-paren">(</span><em>initialXCoord: float</em>, <em>initialYCoord: float</em>, <em>spacingX: float</em>, <em>spacingY: float</em>, <em>numberOfXGridCells: float</em>, <em>numberOfYGridCells: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#python.create_spatial_grid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a grid of squares.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>initialXCoord</strong> (<em>float</em><em>, </em><em>int</em>) – The starting x coordinate of the grid.</li>
-<li><strong>initialYCoord</strong> (<em>float</em><em>, </em><em>int</em>) – The starting y coordinate of the grid.</li>
-<li><strong>spacingX</strong> (<em>float</em><em>, </em><em>int</em>) – The width of the grid-along the x axis.</li>
-<li><strong>spacingY</strong> (<em>float</em><em>, </em><em>int</em>) – The height of the grid-along the y axis.</li>
-<li><strong>numberOfXGridCells</strong> (<em>float</em><em>, </em><em>int</em>) – The number of horizontal grid cells-along the x axis.</li>
-<li><strong>numberOfYGridCells</strong> (<em>float</em><em>, </em><em>int</em>) – The number of vertical grid cells-along the y axis.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list containing a list of the coordinates of the vertices of each
-grid cell.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(list(float,float))</p>
 </td>
 </tr>
 </tbody>
