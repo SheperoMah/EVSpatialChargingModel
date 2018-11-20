@@ -671,9 +671,9 @@ default is 1000)</li>
 </table>
 </dd></dl>
 
-<span class="target" id="module-python"></span><dl class="function">
-<dt id="python.collect_stations_results">
-<code class="descclassname">python.</code><code class="descname">collect_stations_results</code><span class="sig-paren">(</span><em>ID</em>, <em>results</em>, <em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#python.collect_stations_results" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-auxiliary"></span><dl class="function">
+<dt id="auxiliary.collect_stations_results">
+<code class="descclassname">auxiliary.</code><code class="descname">collect_stations_results</code><span class="sig-paren">(</span><em>ID</em>, <em>results</em>, <em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.collect_stations_results" title="Permalink to this definition">¶</a></dt>
 <dd><p>Collects the results of subsets of charging stations into one station.
 Previously charging stations were divided into subset of charging stations
 each representing a unique state.</p>
@@ -702,8 +702,8 @@ function.</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.create_buffer_and_projectLayer">
-<code class="descclassname">python.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#python.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.create_buffer_and_projectLayer">
+<code class="descclassname">auxiliary.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Projects layer from the input coordinate to the output corrdinate system,
 and saves the file in outputShapefile. This can be used to buffer a layer
 if the bufferDist &gt; 0.</p>
@@ -738,8 +738,8 @@ the inputCoordinateSystem. (the default is 0)</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.create_charging_stations">
-<code class="descclassname">python.</code><code class="descname">create_charging_stations</code><span class="sig-paren">(</span><em>identitiesArray</em>, <em>areas</em>, <em>percentageOfStates</em>, <em>areaPerCar</em>, <em>charging_status=True</em>, <em>charging_power=3.7</em><span class="sig-paren">)</span><a class="headerlink" href="#python.create_charging_stations" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.create_charging_stations">
+<code class="descclassname">auxiliary.</code><code class="descname">create_charging_stations</code><span class="sig-paren">(</span><em>identitiesArray</em>, <em>areas</em>, <em>percentageOfStates</em>, <em>areaPerCar</em>, <em>charging_status=True</em>, <em>charging_power=3.7</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_charging_stations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates and returns a list of stations
 This function is used to create a list of stations. The idea is every
 charging station is divided into several charging stations based on the
@@ -777,8 +777,8 @@ without charging.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.create_rectangle">
-<code class="descclassname">python.</code><code class="descname">create_rectangle</code><span class="sig-paren">(</span><em>x: float</em>, <em>dx: float</em>, <em>y: float</em>, <em>dy: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#python.create_rectangle" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.create_rectangle">
+<code class="descclassname">auxiliary.</code><code class="descname">create_rectangle</code><span class="sig-paren">(</span><em>x: float</em>, <em>dx: float</em>, <em>y: float</em>, <em>dy: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#auxiliary.create_rectangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list containing the coordinates of a rectangle vertices.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -797,8 +797,8 @@ without charging.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.create_spatial_grid">
-<code class="descclassname">python.</code><code class="descname">create_spatial_grid</code><span class="sig-paren">(</span><em>initialXCoord: float</em>, <em>initialYCoord: float</em>, <em>spacingX: float</em>, <em>spacingY: float</em>, <em>numberOfXGridCells: float</em>, <em>numberOfYGridCells: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#python.create_spatial_grid" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.create_spatial_grid">
+<code class="descclassname">auxiliary.</code><code class="descname">create_spatial_grid</code><span class="sig-paren">(</span><em>initialXCoord: float</em>, <em>initialYCoord: float</em>, <em>spacingX: float</em>, <em>spacingY: float</em>, <em>numberOfXGridCells: float</em>, <em>numberOfYGridCells: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#auxiliary.create_spatial_grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a grid of squares.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -826,8 +826,8 @@ grid cell.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.extract_stateLoad">
-<code class="descclassname">python.</code><code class="descname">extract_stateLoad</code><span class="sig-paren">(</span><em>load</em>, <em>requiredState</em>, <em>stations</em>, <em>aggregated=False</em><span class="sig-paren">)</span><a class="headerlink" href="#python.extract_stateLoad" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.extract_stateLoad">
+<code class="descclassname">auxiliary.</code><code class="descname">extract_stateLoad</code><span class="sig-paren">(</span><em>load</em>, <em>requiredState</em>, <em>stations</em>, <em>aggregated=False</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.extract_stateLoad" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the load of all the stations that belong to a certain state.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -857,8 +857,8 @@ specified state.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.get_features_areas">
-<code class="descclassname">python.</code><code class="descname">get_features_areas</code><span class="sig-paren">(</span><em>Layer</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_features_areas" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.get_features_areas">
+<code class="descclassname">auxiliary.</code><code class="descname">get_features_areas</code><span class="sig-paren">(</span><em>Layer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_features_areas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of feature areas.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -875,8 +875,8 @@ specified state.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.get_field_tags">
-<code class="descclassname">python.</code><code class="descname">get_field_tags</code><span class="sig-paren">(</span><em>layer</em>, <em>field</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_field_tags" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.get_field_tags">
+<code class="descclassname">auxiliary.</code><code class="descname">get_field_tags</code><span class="sig-paren">(</span><em>layer</em>, <em>field</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_field_tags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the list of tags in a field of a vector layer
 A vector layer contains fields and each field have tags. For example, in
 OpenStreetMaps you might find fields like “building”. This field might
@@ -904,8 +904,8 @@ every feature in the layer.(the default is True)</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.get_floor_areas_of_intersecting_buildings">
-<code class="descclassname">python.</code><code class="descname">get_floor_areas_of_intersecting_buildings</code><span class="sig-paren">(</span><em>ParkingLayer</em>, <em>BuildingsLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_floor_areas_of_intersecting_buildings" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.get_floor_areas_of_intersecting_buildings">
+<code class="descclassname">auxiliary.</code><code class="descname">get_floor_areas_of_intersecting_buildings</code><span class="sig-paren">(</span><em>ParkingLayer</em>, <em>BuildingsLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_floor_areas_of_intersecting_buildings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the floor area of the intersecting buildings.
 If the parking lot was of type None the returned area will be 0.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -929,8 +929,8 @@ If the parking lot was of type None the returned area will be 0.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.get_layer_fields">
-<code class="descclassname">python.</code><code class="descname">get_layer_fields</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_layer_fields" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.get_layer_fields">
+<code class="descclassname">auxiliary.</code><code class="descname">get_layer_fields</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_layer_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the fields of features in a vector layer.
 A vector file contains layers and each layer have fields of information.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -948,8 +948,8 @@ A vector file contains layers and each layer have fields of information.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.get_percentage_of_area_types">
-<code class="descclassname">python.</code><code class="descname">get_percentage_of_area_types</code><span class="sig-paren">(</span><em>parkingLayer</em>, <em>layers</em><span class="sig-paren">)</span><a class="headerlink" href="#python.get_percentage_of_area_types" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.get_percentage_of_area_types">
+<code class="descclassname">auxiliary.</code><code class="descname">get_percentage_of_area_types</code><span class="sig-paren">(</span><em>parkingLayer</em>, <em>layers</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_percentage_of_area_types" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Returns the percentage of area intersecting each layer in layers</dt>
 <dd>If a feature does not intersect any layer it’s percentage was equally
@@ -978,8 +978,8 @@ number of layers.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.list_of_layers">
-<code class="descclassname">python.</code><code class="descname">list_of_layers</code><span class="sig-paren">(</span><em>mapFile</em><span class="sig-paren">)</span><a class="headerlink" href="#python.list_of_layers" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.list_of_layers">
+<code class="descclassname">auxiliary.</code><code class="descname">list_of_layers</code><span class="sig-paren">(</span><em>mapFile</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.list_of_layers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lists the layers in a geographical information systems (GIS) file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -996,8 +996,8 @@ number of layers.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="python.plot_features">
-<code class="descclassname">python.</code><code class="descname">plot_features</code><span class="sig-paren">(</span><em>layer</em>, <em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#python.plot_features" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.plot_features">
+<code class="descclassname">auxiliary.</code><code class="descname">plot_features</code><span class="sig-paren">(</span><em>layer</em>, <em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.plot_features" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the features of a layer
 This is an auxiliary function. Users are encouraged to use their own plotting
 funtions. The reason is that every GIS data provider stores the feature

@@ -142,5 +142,5 @@ Auxiliary functions
 .. automodule:: extractFiles
    :members:
 
-.. automodule:: python
+.. automodule:: auxiliary
    :members:
