@@ -516,3 +516,47 @@ def createPolygon(coordinates: list((float, float))):
     poly = ogr.Geometry(ogr.wkbPolygon)
     poly.AddGeometry(ring)
     return(poly)
+
+def saveGridIntoLayer(fileName,
+                      polygons,
+                      outputCoordinateSystem = None):
+    """Saves a set of polygons into a shapefile.
+
+    Parameters
+    ----------
+    fileName : str
+        The name of the output file.
+    polygons : list(ogr.polygon)
+        A list of ogr polygons.
+    outputCoordinateSystem : int
+        An EPSG coordinate system (projection) of the vector layer.
+        Check the https://epsg.io. Default is None, where no projection is saved.
+
+    Returns
+    -------
+    None
+        Saves a file.
+
+    """
+    outDriver = ogr.GetDriverByName("ESRI Shapefile")
+    if os.path.exists(fileName):
+        outDriver.DeleteDataSource(fileName)
+    outSource = outDriver.CreateDataSource(fileName)
+    outLayer = outSource.CreateLayer("grid", geom_type=ogr.wkbPolygon)
+    featureDef = outLayer.GetLayerDefn()
+
+    for i in polygons:
+        outFeature = ogr.Feature(featureDef)
+        outFeature.SetGeometry(i)
+        outLayer.CreateFeature(outFeature)
+        outFeature = None
+
+    outSource = None
+
+    if outputCoordinateSystem:
+        target = osr.SpatialReference()
+        target.ImportFromEPSG(outputCoordinateSystem)
+        target.MorphToESRI()
+        file = open((fileName+'.prj'), 'w')
+        file.write(target.ExportToWkt())
+        file.close()
