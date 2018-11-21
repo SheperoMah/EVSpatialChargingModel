@@ -495,3 +495,24 @@ def create_spatial_grid(initialXCoord: float,
     connPoints = [create_rectangle(x, spacingX, y, spacingY) for x in xs for y in ys]
 
     return(connPoints)
+
+def createPolygon(coordinates: list((float, float))):
+    """Creates a ogr polygon from a set of coordinates.
+
+    Parameters
+    ----------
+    coordinates : list((float, float))
+        A list of points representing the coordinates of the vertices of the polygon.
+        Note, ensure to close the polygon by repeating the first point in the end.
+
+    Returns
+    -------
+    ogr.polygon
+        A polygon
+
+    """
+    ring = ogr.Geometry(ogr.wkbLinearRing)
+    [ring.AddPoint(i[0], i[1]) for i in coordinates]
+    poly = ogr.Geometry(ogr.wkbPolygon)
+    poly.AddGeometry(ring)
+    return(poly)
