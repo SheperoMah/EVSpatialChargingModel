@@ -533,11 +533,11 @@ def saveGridIntoLayer(fileName,
 
     """
     outDriver = ogr.GetDriverByName("ESRI Shapefile")
-    fileNameWithExt = fileName + '.shp'
+    fileNameWithExt = fileName
     if os.path.exists(fileNameWithExt):
         outDriver.DeleteDataSource(fileNameWithExt)
     outSource = outDriver.CreateDataSource(fileNameWithExt)
-    outLayer = outSource.CreateLayer("grid", geom_type=ogr.wkbPolygon)
+    outLayer = outSource.CreateLayer(fileName, geom_type=ogr.wkbPolygon)
     featureDef = outLayer.GetLayerDefn()
 
     for i in polygons:
@@ -549,7 +549,7 @@ def saveGridIntoLayer(fileName,
     outSource = None
 
     if outputCoordinateSystem:
-        createProjectionFile(fileName, outputCoordinateSystem)
+        createProjectionFile(fileName+"/"+fileName, outputCoordinateSystem)
 
 
 def createProjectionFile(fileName,
