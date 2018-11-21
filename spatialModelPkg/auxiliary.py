@@ -164,9 +164,6 @@ def create_buffer_and_projectLayer(inLayer,
     source = osr.SpatialReference()
     source.ImportFromEPSG(inputCoordinateSystem)
 
-    target = osr.SpatialReference()
-    target.ImportFromEPSG(outputCoordinateSystem)
-
     coordTrans = osr.CoordinateTransformation(source, target)
 
     fileName = (outputBufferfn+'.shp')
@@ -203,10 +200,7 @@ def create_buffer_and_projectLayer(inLayer,
         bufferlyr.CreateFeature(outFeature)
         outFeature = None
 
-    target.MorphToESRI()
-    file = open((outputBufferfn+'.prj'), 'w')
-    file.write(target.ExportToWkt())
-    file.close()
+    createProjectionFile(outputBufferfn, outputCoordinateSystem)
 
     inLayer.ResetReading()
     bufferlyr.ResetReading()
@@ -525,7 +519,7 @@ def saveGridIntoLayer(fileName,
     Parameters
     ----------
     fileName : str
-        The name of the output file.
+        The name of the output file without .shp.
     polygons : list(ogr.polygon)
         A list of ogr polygons.
     outputCoordinateSystem : int
@@ -539,9 +533,10 @@ def saveGridIntoLayer(fileName,
 
     """
     outDriver = ogr.GetDriverByName("ESRI Shapefile")
-    if os.path.exists(fileName):
-        outDriver.DeleteDataSource(fileName)
-    outSource = outDriver.CreateDataSource(fileName)
+    fileNameWithExt = fileName + '.shp'
+    if os.path.exists(fileNameWithExt):
+        outDriver.DeleteDataSource(fileNameWithExt)
+    outSource = outDriver.CreateDataSource(fileNameWithExt)
     outLayer = outSource.CreateLayer("grid", geom_type=ogr.wkbPolygon)
     featureDef = outLayer.GetLayerDefn()
 
@@ -554,9 +549,30 @@ def saveGridIntoLayer(fileName,
     outSource = None
 
     if outputCoordinateSystem:
-        target = osr.SpatialReference()
-        target.ImportFromEPSG(outputCoordinateSystem)
-        target.MorphToESRI()
-        file = open((fileName+'.prj'), 'w')
-        file.write(target.ExportToWkt())
-        file.close()
+        createProjectionFile(fileName, outputCoordinateSystem)
+
+
+def createProjectionFile(fileName,
+                         outputCoordinateSystem):
+    """Saves a the projectionfile of a specific reference system.
+
+    Parameters
+    ----------
+    fileName : str
+        The name of the output file without .shp.
+    outputCoordinateSystem : int
+        An EPSG coordinate system (projection) of the vector layer.
+        Check the https://epsg.io.
+
+    Returns
+    -------
+    None
+        Saves a file.
+
+    """
+    coordSys = osr.SpatialReference()
+    coordSys.ImportFromEPSG(outputCoordinateSystem)
+    coordSys.MorphToESRI()
+    file = open((fileName+'.prj'), 'w')
+    file.write(coordSys.ExportToWkt())
+    file.close()
