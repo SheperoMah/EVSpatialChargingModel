@@ -702,6 +702,50 @@ function.</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="auxiliary.createPolygon">
+<code class="descclassname">auxiliary.</code><code class="descname">createPolygon</code><span class="sig-paren">(</span><em>coordinates: [&lt;class 'float'&gt;, &lt;class 'float'&gt;]</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.createPolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a ogr polygon from a set of coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coordinates</strong> (<em>list</em><em>(</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em><em>)</em>) – A list of points representing the coordinates of the vertices of the polygon.
+Note, ensure to close the polygon by repeating the first point in the end.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A polygon</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ogr.polygon</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="auxiliary.createProjectionFile">
+<code class="descclassname">auxiliary.</code><code class="descname">createProjectionFile</code><span class="sig-paren">(</span><em>fileName</em>, <em>outputCoordinateSystem</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.createProjectionFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a the projectionfile of a specific reference system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fileName</strong> (<em>str</em>) – The name of the output file without .shp.</li>
+<li><strong>outputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
+Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Saves a file.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="auxiliary.create_buffer_and_projectLayer">
 <code class="descclassname">auxiliary.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Projects layer from the input coordinate to the output corrdinate system,
@@ -1017,6 +1061,32 @@ thanks to <a class="reference external" href="http://geoinformaticstutorial.blog
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">This function returns a plot.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="auxiliary.saveGridIntoLayer">
+<code class="descclassname">auxiliary.</code><code class="descname">saveGridIntoLayer</code><span class="sig-paren">(</span><em>fileName</em>, <em>polygons</em>, <em>outputCoordinateSystem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.saveGridIntoLayer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a set of polygons into a shapefile.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fileName</strong> (<em>str</em>) – The name of the output file without .shp.</li>
+<li><strong>polygons</strong> (<em>list</em><em>(</em><em>ogr.polygon</em><em>)</em>) – A list of ogr polygons.</li>
+<li><strong>outputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
+Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>. Default is None, where no projection is saved.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Saves a file.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
