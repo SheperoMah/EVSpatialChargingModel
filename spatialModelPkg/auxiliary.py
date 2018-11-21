@@ -460,22 +460,22 @@ def create_spatial_grid(initialXCoord: float,
 
     Parameters
     ----------
-    initialXCoord : float, int
+    initialXCoord : int
         The starting x coordinate of the grid.
-    initialYCoord : float, int
+    initialYCoord : int
         The starting y coordinate of the grid.
-    spacingX : float, int
+    spacingX : int
         The width of the grid-along the x axis.
-    spacingY : float, int
+    spacingY : int
         The height of the grid-along the y axis.
-    numberOfXGridCells : float, int
+    numberOfXGridCells : int
         The number of horizontal grid cells-along the x axis.
-    numberOfYGridCells : float, int
+    numberOfYGridCells : int
         The number of vertical grid cells-along the y axis.
 
     Returns
     -------
-    list(list(float,float))
+    list(list(int, int))
         A list containing a list of the coordinates of the vertices of each
         grid cell.
 
