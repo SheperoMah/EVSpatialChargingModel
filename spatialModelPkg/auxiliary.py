@@ -81,7 +81,7 @@ def get_field_tags(layer, field, unique = True):
         False: tagsList,
     }.get(unique)
 
-def plot_features(layer, color):
+def plot_features(layer, color, scale = 1/1000):
     """Plot the features of a layer
     This is an auxiliary function. Users are encouraged to use their own plotting
     funtions. The reason is that every GIS data provider stores the feature
@@ -99,6 +99,9 @@ def plot_features(layer, color):
         A vector layer of spatial file. Use ogr.open().GetLayer().
     color :  matplotlib.color
         A valid color in matplotlib module.
+    scale : float
+        A scale to use for the plot. Default 1:1000, i.e., converts meters to
+        kms in the x and y axes.
 
     Returns
     -------
@@ -114,8 +117,8 @@ def plot_features(layer, color):
         #coord1 = coord.GetGeometryRef(0)
         points = coord.GetPoints()
         x, y = zip(*points)
-        x = [i/1000 for i in x]
-        y = [i/1000 for i in y]
+        x = [i * scale for i in x]
+        y = [i * scale for i in y]
         plt.fill(x, y, color)
 
     layer.ResetReading()
