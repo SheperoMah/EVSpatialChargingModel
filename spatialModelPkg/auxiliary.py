@@ -114,8 +114,8 @@ def plot_features(layer, color):
         #coord1 = coord.GetGeometryRef(0)
         points = coord.GetPoints()
         x, y = zip(*points)
-        x = list(map(lambda xx: xx/1000, x))
-        y = list(map(lambda xx: xx/1000, y))
+        x = [i/1000 for i in x]
+        y = [i/1000 for i in y]
         plt.fill(x, y, color)
 
     layer.ResetReading()
