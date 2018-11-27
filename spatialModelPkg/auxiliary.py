@@ -203,7 +203,7 @@ def create_buffer_and_projectLayer(inLayer,
         bufferlyr.CreateFeature(outFeature)
         outFeature = None
 
-    createProjectionFile(outputBufferfn, outputCoordinateSystem)
+    create_projection_file(outputBufferfn, outputCoordinateSystem)
 
     inLayer.ResetReading()
     bufferlyr.ResetReading()
@@ -399,7 +399,7 @@ def collect_stations_results(ID, results, stations):
         final_results[:, i] = temp
     return(final_results)
 
-def extract_stateLoad(load, requiredState, stations, aggregated = False):
+def extract_state_load(load, requiredState, stations, aggregated = False):
     """Returns the load of all the stations that belong to a certain state.
 
     Parameters
@@ -435,8 +435,7 @@ def extract_stateLoad(load, requiredState, stations, aggregated = False):
     else:
         return(requiredLoad)
 
-def create_rectangle(x: float, dx: float, y: float, dy: float) \
--> list((float,float)):
+def create_rectangle(x, dx, y, dy):
     """Returns a list containing the coordinates of a rectangle vertices.
 
     Parameters
@@ -453,12 +452,12 @@ def create_rectangle(x: float, dx: float, y: float, dy: float) \
     """
     return([(x,y), (x+dx, y), (x+dx,y+dy), (x, y+dy), (x,y)])
 
-def create_spatial_grid(initialXCoord: float,
-                      initialYCoord: float,
-                      spacingX: float,
-                      spacingY: float,
-                      numberOfXGridCells: float,
-                      numberOfYGridCells: float) -> list(list((float,float))):
+def create_spatial_grid(initialXCoord,
+                      initialYCoord,
+                      spacingX,
+                      spacingY,
+                      numberOfXGridCells,
+                      numberOfYGridCells):
     """Returns a grid of squares.
 
     Parameters
@@ -493,7 +492,7 @@ def create_spatial_grid(initialXCoord: float,
 
     return(connPoints)
 
-def createPolygon(coordinates: list((float, float))):
+def create_polygon(coordinates):
     """Creates a ogr polygon from a set of coordinates.
 
     Parameters
@@ -514,7 +513,7 @@ def createPolygon(coordinates: list((float, float))):
     poly.AddGeometry(ring)
     return(poly)
 
-def saveGridIntoLayer(fileName,
+def save_grid_into_layer(fileName,
                       polygons,
                       outputCoordinateSystem = None):
     """Saves a set of polygons into a shapefile.
@@ -525,7 +524,7 @@ def saveGridIntoLayer(fileName,
         The name of the output file without .shp.
     polygons : list(ogr.polygon)
         A list of ogr polygons.
-    outputCoordinateSystem : int
+    outputCoordinateSystem : int, optional
         An EPSG coordinate system (projection) of the vector layer.
         Check the https://epsg.io. Default is None, where no projection is saved.
 
@@ -552,10 +551,10 @@ def saveGridIntoLayer(fileName,
     outSource = None
 
     if outputCoordinateSystem:
-        createProjectionFile(fileName+"/"+fileName, outputCoordinateSystem)
+        create_projection_file(fileName+"/"+fileName, outputCoordinateSystem)
 
 
-def createProjectionFile(fileName,
+def create_projection_file(fileName,
                          outputCoordinateSystem):
     """Saves a the projectionfile of a specific reference system.
 
