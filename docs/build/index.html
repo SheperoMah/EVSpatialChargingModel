@@ -702,50 +702,6 @@ function.</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.createPolygon">
-<code class="descclassname">auxiliary.</code><code class="descname">createPolygon</code><span class="sig-paren">(</span><em>coordinates: [&lt;class 'float'&gt;, &lt;class 'float'&gt;]</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.createPolygon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a ogr polygon from a set of coordinates.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coordinates</strong> (<em>list</em><em>(</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em><em>)</em>) – A list of points representing the coordinates of the vertices of the polygon.
-Note, ensure to close the polygon by repeating the first point in the end.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A polygon</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ogr.polygon</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="auxiliary.createProjectionFile">
-<code class="descclassname">auxiliary.</code><code class="descname">createProjectionFile</code><span class="sig-paren">(</span><em>fileName</em>, <em>outputCoordinateSystem</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.createProjectionFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Saves a the projectionfile of a specific reference system.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>fileName</strong> (<em>str</em>) – The name of the output file without .shp.</li>
-<li><strong>outputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
-Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Saves a file.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
 <dt id="auxiliary.create_buffer_and_projectLayer">
 <code class="descclassname">auxiliary.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Projects layer from the input coordinate to the output corrdinate system,
@@ -821,8 +777,52 @@ without charging.</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="auxiliary.create_polygon">
+<code class="descclassname">auxiliary.</code><code class="descname">create_polygon</code><span class="sig-paren">(</span><em>coordinates</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_polygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a ogr polygon from a set of coordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coordinates</strong> (<em>list</em><em>(</em><em>(</em><em>float</em><em>, </em><em>float</em><em>)</em><em>)</em>) – A list of points representing the coordinates of the vertices of the polygon.
+Note, ensure to close the polygon by repeating the first point in the end.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A polygon</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ogr.polygon</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="auxiliary.create_projection_file">
+<code class="descclassname">auxiliary.</code><code class="descname">create_projection_file</code><span class="sig-paren">(</span><em>fileName</em>, <em>outputCoordinateSystem</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_projection_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a the projectionfile of a specific reference system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fileName</strong> (<em>str</em>) – The name of the output file without .shp.</li>
+<li><strong>outputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
+Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Saves a file.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="auxiliary.create_rectangle">
-<code class="descclassname">auxiliary.</code><code class="descname">create_rectangle</code><span class="sig-paren">(</span><em>x: float</em>, <em>dx: float</em>, <em>y: float</em>, <em>dy: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#auxiliary.create_rectangle" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">auxiliary.</code><code class="descname">create_rectangle</code><span class="sig-paren">(</span><em>x</em>, <em>dx</em>, <em>y</em>, <em>dy</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_rectangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list containing the coordinates of a rectangle vertices.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -842,19 +842,19 @@ without charging.</p>
 
 <dl class="function">
 <dt id="auxiliary.create_spatial_grid">
-<code class="descclassname">auxiliary.</code><code class="descname">create_spatial_grid</code><span class="sig-paren">(</span><em>initialXCoord: float</em>, <em>initialYCoord: float</em>, <em>spacingX: float</em>, <em>spacingY: float</em>, <em>numberOfXGridCells: float</em>, <em>numberOfYGridCells: float</em><span class="sig-paren">)</span> &#x2192; [&lt;class 'float'&gt;, &lt;class 'float'&gt;]<a class="headerlink" href="#auxiliary.create_spatial_grid" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">auxiliary.</code><code class="descname">create_spatial_grid</code><span class="sig-paren">(</span><em>initialXCoord</em>, <em>initialYCoord</em>, <em>spacingX</em>, <em>spacingY</em>, <em>numberOfXGridCells</em>, <em>numberOfYGridCells</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_spatial_grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a grid of squares.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>initialXCoord</strong> (<em>float</em><em>, </em><em>int</em>) – The starting x coordinate of the grid.</li>
-<li><strong>initialYCoord</strong> (<em>float</em><em>, </em><em>int</em>) – The starting y coordinate of the grid.</li>
-<li><strong>spacingX</strong> (<em>float</em><em>, </em><em>int</em>) – The width of the grid-along the x axis.</li>
-<li><strong>spacingY</strong> (<em>float</em><em>, </em><em>int</em>) – The height of the grid-along the y axis.</li>
-<li><strong>numberOfXGridCells</strong> (<em>float</em><em>, </em><em>int</em>) – The number of horizontal grid cells-along the x axis.</li>
-<li><strong>numberOfYGridCells</strong> (<em>float</em><em>, </em><em>int</em>) – The number of vertical grid cells-along the y axis.</li>
+<li><strong>initialXCoord</strong> (<em>int</em>) – The starting x coordinate of the grid.</li>
+<li><strong>initialYCoord</strong> (<em>int</em>) – The starting y coordinate of the grid.</li>
+<li><strong>spacingX</strong> (<em>int</em>) – The width of the grid-along the x axis.</li>
+<li><strong>spacingY</strong> (<em>int</em>) – The height of the grid-along the y axis.</li>
+<li><strong>numberOfXGridCells</strong> (<em>int</em>) – The number of horizontal grid cells-along the x axis.</li>
+<li><strong>numberOfYGridCells</strong> (<em>int</em>) – The number of vertical grid cells-along the y axis.</li>
 </ul>
 </td>
 </tr>
@@ -862,7 +862,7 @@ without charging.</p>
 grid cell.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(list(float,float))</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(list(int, int))</p>
 </td>
 </tr>
 </tbody>
@@ -870,8 +870,8 @@ grid cell.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.extract_stateLoad">
-<code class="descclassname">auxiliary.</code><code class="descname">extract_stateLoad</code><span class="sig-paren">(</span><em>load</em>, <em>requiredState</em>, <em>stations</em>, <em>aggregated=False</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.extract_stateLoad" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.extract_state_load">
+<code class="descclassname">auxiliary.</code><code class="descname">extract_state_load</code><span class="sig-paren">(</span><em>load</em>, <em>requiredState</em>, <em>stations</em>, <em>aggregated=False</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.extract_state_load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the load of all the stations that belong to a certain state.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1041,7 +1041,7 @@ number of layers.</p>
 
 <dl class="function">
 <dt id="auxiliary.plot_features">
-<code class="descclassname">auxiliary.</code><code class="descname">plot_features</code><span class="sig-paren">(</span><em>layer</em>, <em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.plot_features" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">auxiliary.</code><code class="descname">plot_features</code><span class="sig-paren">(</span><em>layer</em>, <em>color</em>, <em>scale=0.001</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.plot_features" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the features of a layer
 This is an auxiliary function. Users are encouraged to use their own plotting
 funtions. The reason is that every GIS data provider stores the feature
@@ -1057,6 +1057,8 @@ thanks to <a class="reference external" href="http://geoinformaticstutorial.blog
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>layer</strong> (<em>ogr layer</em>) – A vector layer of spatial file. Use ogr.open().GetLayer().</li>
 <li><strong>color</strong> (<em>matplotlib.color</em>) – A valid color in matplotlib module.</li>
+<li><strong>scale</strong> (<em>float</em>) – A scale to use for the plot. Default 1:1000, i.e., converts meters to
+kms in the x and y axes.</li>
 </ul>
 </td>
 </tr>
@@ -1071,8 +1073,8 @@ thanks to <a class="reference external" href="http://geoinformaticstutorial.blog
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.saveGridIntoLayer">
-<code class="descclassname">auxiliary.</code><code class="descname">saveGridIntoLayer</code><span class="sig-paren">(</span><em>fileName</em>, <em>polygons</em>, <em>outputCoordinateSystem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.saveGridIntoLayer" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.save_grid_into_layer">
+<code class="descclassname">auxiliary.</code><code class="descname">save_grid_into_layer</code><span class="sig-paren">(</span><em>fileName</em>, <em>polygons</em>, <em>outputCoordinateSystem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.save_grid_into_layer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves a set of polygons into a shapefile.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1081,7 +1083,7 @@ thanks to <a class="reference external" href="http://geoinformaticstutorial.blog
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>fileName</strong> (<em>str</em>) – The name of the output file without .shp.</li>
 <li><strong>polygons</strong> (<em>list</em><em>(</em><em>ogr.polygon</em><em>)</em>) – A list of ogr polygons.</li>
-<li><strong>outputCoordinateSystem</strong> (<em>int</em>) – An EPSG coordinate system (projection) of the vector layer.
+<li><strong>outputCoordinateSystem</strong> (<em>int</em><em>, </em><em>optional</em>) – An EPSG coordinate system (projection) of the vector layer.
 Check the <a class="reference external" href="https://epsg.io">https://epsg.io</a>. Default is None, where no projection is saved.</li>
 </ul>
 </td>
