@@ -8,8 +8,8 @@ class Simulation:
 
     Attributes
     ----------
-    stations : list(ParkingLot)
-        A list of the available parking lots in the city. Make sure that there
+    stations : OrderedDict(ParkingLot)
+        An OrderedDict of the available parking lots in the city. Make sure that there
         are enough parking lots to fit the cars.
     cars : list(EV)
         A list of EVs which will be simulated.
@@ -51,7 +51,7 @@ class Simulation:
             x.currentLoad = 0.0
             return(x)
 
-        [reset_load_new_timestep(x) for x in self.stations]
+        [reset_load_new_timestep(v) for (k,v) in self.stations]
 
         def do_on_car(self, x, timestep):
             x.find_state(self.chain,
@@ -67,14 +67,14 @@ class Simulation:
         for i in range(self.numCars):
             self.cars[i].rnd = rndmNums[i]
 
-        chargingStationsFiltered = [x for x in self.stations if
-                                    x.chargingStatus == True]
+        chargingStationsFiltered = [v for (k,v) in self.stations if
+                                    v.chargingStatus == True]
         return([x.currentLoad for x in chargingStationsFiltered])
 
     def simulate_model(self):
 
         resultsMatrix = np.zeros((self.simulationLength,
-        len([x for x in self.stations if x.chargingStatus == True])))
+        len([k for (k,v) in self.stations if v.chargingStatus == True])))
 
         for time in range(self.simulationLength):
             resultsMatrix[time,::] = self.model_function(time % 1440)

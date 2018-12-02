@@ -61,19 +61,20 @@ class EV:
 
         Parameters
         ----------
-        stations : list(ParkingLot)
-            A list of ParkingLot objects.
+        stations : OrderedDict(ParkingLot)
+            An OrderedDict of ParkingLot objects.
 
         Returns
         -------
-        list(ParkingLot)
-            A list of vacant ParkingLots matching the current state of the vehicle.
+        list(keys)
+            A list of keys for the vacant ParkingLots matching
+            the current state of the vehicle.
 
         """
-        freeStations = [x for x in stations
-                        if x.state == self.currentState and
-                        x.currentOccupancy < x.maximumOccupancy]
-        return(freeStations)
+        freeStationsKeys = [k for (k,v) in stations.items()
+            if v.state == self.currentState and
+            v.currentOccupancy < v.maximumOccupancy]
+        return(freeStationsKeys)
 
     def inital_conditions(self, stations, initalState):
         """Finds the vacant ParkingLots which the electric vehicle can occupy.
@@ -85,16 +86,17 @@ class EV:
 
         Returns
         -------
-        list(ParkingLot)
-            A list of vacant ParkingLots matching the current state of the vehicle.
+        None
+            Mutates the current state.
 
         """
         self.currentState = initalState
         freeStations = self.find_free_stations(stations)
-        initialStation = rnd.choice(freeStations)
+        initialStationKey = rnd.choice(freeStations)
+        initialStation = stations[initialStationKey]
         self.currentLocation = initialStation.ID
         initialStation.occupy_station()
-        return(True)
+
 
     def charge_EV(self, duration, stations):
         '''Charges an EV.
@@ -104,7 +106,9 @@ class EV:
         power : float
             The power in the charging station in  units of power ex. (kW).
         duration : (float)
-        The charging duration in units of time for example (h).
+            The charging duration in units of time for example (h).
+        stations : OrderedDict(ParkingLot)
+            Stations
 
         Returns
         -------
@@ -113,18 +117,19 @@ class EV:
             power * duration.
 
         '''
+        currentStation = stations[self.currentLocation]
         if (self.batteryCharge < self.batteryCapacity and
-            self.find_station(stations).chargingStatus == True):
-            maxPower = self.find_station(stations).chargingPower
+            currentStation.chargingStatus == True):
+            maxPower = currentStation.chargingPower
             chargeAfterChargingMaxPower = self.batteryCharge + \
                                             maxPower * duration
             if (chargeAfterChargingMaxPower <= self.batteryCapacity):
                 self.batteryCharge = chargeAfterChargingMaxPower
-                self.find_station(stations).charge_EV(maxPower)
+                currentStation.charge_EV(maxPower)
             else:
                 effectivePower = (self.batteryCapacity - self.batteryCharge)/duration
                 self.batteryCharge = self.batteryCapacity
-                self.find_station(stations).charge_EV(effectivePower)
+                currentStation.charge_EV(effectivePower)
             return(True)
         else:
             return(False)
@@ -160,8 +165,8 @@ class EV:
             The time in which the tranistion is taking place. The time is needed
             to calculate the tranistion probabiltiy from the non-homogenous Markov
             chain.
-        stations : list(ParkingLot)
-            A list of the parking lots.
+        stations : OrderedDict(ParkingLot)
+            An OrderedDict of the parking lots.
         distances : dictionary
             A dictionary with keys representing the state transitions and values
             containing  a list of distances.
@@ -192,34 +197,35 @@ class EV:
 
         Parameters
         ----------
-        stations : list(ParkingLot)
-            A list of the parking lots.
+        stations : OrderedDict(ParkingLot)
+            An OrderedDict of the parking lots.
 
         Returns
         -------
         None
             nothing is returned
         '''
-        previousStation = self.find_station(stations)
+        previousStation = stations[self.currentLocation]
         previousStation.leave_station()
         freeStations = self.find_free_stations(stations)
-        newStation= rnd.choice(freeStations)
+        newStationKey = rnd.choice(freeStations)
+        newStation = stations[newStationKey]
         self.currentLocation  = newStation.ID
         newStation.occupy_station()
 
-    def find_station(self, stations):
-        '''Returns the current location of the electric vehicle.
-
-        Parameters
-        ----------
-        stations : list(ParkingLot)
-            A list of the parkinglots.
-
-        Returns
-        -------
-        ParkingLot
-            The parking lot in which the electric vehicle is parked.
-
-        '''
-        station = [x for x in stations if x.ID == self.currentLocation]
-        return(station[0])
+    # def find_station(self, stations):
+    #     '''Returns the current location of the electric vehicle.
+    #
+    #     Parameters
+    #     ----------
+    #     stations : orderedDictionary(ParkingLot)
+    #         An orderedDictionary of the parkinglots.
+    #
+    #     Returns
+    #     -------
+    #     ParkingLot
+    #         The parking lot in which the electric vehicle is parked.
+    #
+    #     '''
+    #     station = stations[self.currentLocation]
+    #     return(station)
