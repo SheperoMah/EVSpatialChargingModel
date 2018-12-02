@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import os
 from parkinglot import ParkingLot
 from math import ceil
+from collections import OrderedDict
 
 def list_of_layers(mapFile):
     """Lists the layers in a geographical information systems (GIS) file.
@@ -332,7 +333,7 @@ def create_charging_stations(identitiesArray,
 
     Returns
     -------
-    list(ParkingLot)
+    OrderedDict(ParkingLot)
         A list of parking lots representing charging stations and or parking lots
         without charging.
 
@@ -348,7 +349,8 @@ def create_charging_stations(identitiesArray,
     stations = []
     for st in range(percentageOfStates.shape[1]):
 
-        stations_temp = [ParkingLot(ID = str(ids[i]) + "-" + str(st),
+        stations_temp = [(str(ids[i]) + "-" + str(st), ParkingLot(
+                               ID = str(ids[i]) + "-" + str(st),
                                state = st,
                                chargingPower = charging_power[i],
                                maximumOccupancy = ceil(
@@ -356,13 +358,14 @@ def create_charging_stations(identitiesArray,
                                    * areas[i]),
                                currentOccupancy = 0,
                                chargingStatus = True,
-                               currentLoad = 0.0)
+                               currentLoad = 0.0))
                     for i in range(len(identitiesArray)) if
                     percentageOfStates[i,st] != 0
                     ]
 
         stations.extend(stations_temp)
-    return(stations)
+        stationsDict = OrderedDict(stations)
+    return(stationsDict)
 
 def collect_stations_results(ID, results, stations):
     """Collects the results of subsets of charging stations into one station.
