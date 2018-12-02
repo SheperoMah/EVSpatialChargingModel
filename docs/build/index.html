@@ -202,7 +202,7 @@ initial value is 0.0)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of the parking lots.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – An OrderedDict of the parking lots.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing is returned</td>
 </tr>
@@ -222,8 +222,8 @@ initial value is 0.0)</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>power</strong> (<em>float</em>) – The power in the charging station in  units of power ex. (kW).</li>
-<li><strong>duration</strong> (<em>(</em><em>float</em><em>)</em>) – </li>
-<li><strong>charging duration in units of time for example</strong><strong> (</strong><strong>h</strong><strong>)</strong><strong></strong> (<em>The</em>) – </li>
+<li><strong>duration</strong> (<em>(</em><em>float</em><em>)</em>) – The charging duration in units of time for example (h).</li>
+<li><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – Stations</li>
 </ul>
 </td>
 </tr>
@@ -265,11 +265,12 @@ driving which equals distance * mpg.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of ParkingLot objects.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – An OrderedDict of ParkingLot objects.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of vacant ParkingLots matching the current state of the vehicle.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of keys for the vacant ParkingLots matching
+the current state of the vehicle.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(keys)</td>
 </tr>
 </tbody>
 </table>
@@ -289,7 +290,7 @@ the remaining methods.</li>
 <li><strong>time_step</strong> (<em>int</em>) – The time in which the tranistion is taking place. The time is needed
 to calculate the tranistion probabiltiy from the non-homogenous Markov
 chain.</li>
-<li><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of the parking lots.</li>
+<li><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – An OrderedDict of the parking lots.</li>
 <li><strong>distances</strong> (<em>dictionary</em>) – A dictionary with keys representing the state transitions and values
 containing  a list of distances.
 ex. distance = {‘01’: [9.3, 20.0, 13.5]} means that the distances
@@ -309,24 +310,6 @@ dictionary is used to sample driving distances from.</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="ev.EV.find_station">
-<code class="descname">find_station</code><span class="sig-paren">(</span><em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.find_station" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the current location of the electric vehicle.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of the parkinglots.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The parking lot in which the electric vehicle is parked.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="ev.EV.inital_conditions">
 <code class="descname">inital_conditions</code><span class="sig-paren">(</span><em>stations</em>, <em>initalState</em><span class="sig-paren">)</span><a class="headerlink" href="#ev.EV.inital_conditions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds the vacant ParkingLots which the electric vehicle can occupy.</p>
@@ -336,9 +319,9 @@ dictionary is used to sample driving distances from.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – A list of ParkingLot objects.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of vacant ParkingLots matching the current state of the vehicle.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Mutates the current state.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">None</td>
 </tr>
 </tbody>
 </table>
@@ -561,7 +544,7 @@ and the results are returned.</p>
 <dl class="attribute">
 <dt id="simulation.Simulation.stations">
 <code class="descname">stations</code><a class="headerlink" href="#simulation.Simulation.stations" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list(ParkingLot)</em> – A list of the available parking lots in the city. Make sure that there
+<dd><p><em>OrderedDict(ParkingLot)</em> – An OrderedDict of the available parking lots in the city. Make sure that there
 are enough parking lots to fit the cars.</p>
 </dd></dl>
 
@@ -769,7 +752,7 @@ be enabled in. Default True.</li>
 without charging.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">OrderedDict(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</p>
 </td>
 </tr>
 </tbody>
