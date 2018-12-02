@@ -3,6 +3,7 @@
 
 def main(numberOfEVs, numberOfparkingloc):
     import numpy as np
+    from collections import OrderedDict
     np.random.seed(1) # for reproducibility
     import random as rnd
     rnd.seed(10) # for reproducibility
@@ -19,20 +20,21 @@ def main(numberOfEVs, numberOfparkingloc):
 
 
     stationTypes = rnd.choices(range(3), k = numberOfparkingloc)
-    stations = [ParkingLot(ID = i,
+    stationsList = [(i, ParkingLot(ID = i,
                            state = stationTypes[i],
                            chargingPower = 3.7,
                            maximumOccupancy = numberOfEVs,
                            currentOccupancy = 0)
-                for i in range(numberOfparkingloc)]
+                for i in range(numberOfparkingloc))]
 
     # add stations with no charging
-    stations += [ParkingLot(ID = str(i*1000),
+    stationsList += [(str(i*1000), ParkingLot(ID = str(i*1000),
                            state = i,
                            chargingPower = 0.0,
                            maximumOccupancy = numberOfEVs,
                            currentOccupancy = 0,
-                           chargingStatus = False) for i in range(3)]
+                           chargingStatus = False) for i in range(3))]
+    stations = OrderedDict(stationsList)
 
 
     # create cars
