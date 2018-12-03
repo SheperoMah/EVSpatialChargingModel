@@ -79,10 +79,60 @@ Examples
 In this part few examples are provided. For a simple example to run the model
 for one week is provided in the file *toyExample.py*.
 
-Example 1::
+Example 1, download all the OSM tags within a region:
 
-    for i in list:
-        print i
+.. code-block:: none
+
+    /*
+    Get all the tags of the amenity in this bounding box, save them into csv.
+    The bounding box is given lat, long, lat, long. 
+    This example gets the values for Gotland, Sweden
+    */
+    [out:csv(amenity)]
+    [bbox:56.905303,18.091240,58.001904,19.347141];
+    (	
+        way
+        ;
+        >;
+    );
+    out;
+        
+Save the previous text into a file say *query.txt*, and to download the OSM tags you need to send this query to OSM Overpass API by doing the following
+
+.. code-block:: bash
+
+   $ wget -O Output.csv --post-file=query.txt "https://overpass-api.de/api/interpreter"
+
+This code will save a csv file with all the tags in the amenity field in Gotland, Sweden. Note that there might be many empty rows.
+
+Example 2, download OSM map with certain tags, e.g., parking locations in Gotland:
+
+.. code-block:: none
+
+    /* 
+    Download the parking locations in Gotland, Sweden.
+    */
+    [bbox:56.905303,18.091240,58.001904,19.347141];
+    (
+      way
+        ["building"~"garage|garages",i];
+      
+      way
+        ["amenity"~"parking|parking_space",i];
+    );
+    (
+        ._;
+        >;
+    );
+    out; 
+
+Similar to Example 1, we can download the data:
+
+.. code-block:: bash
+
+    $ wget -O output.osm --post-file=query.txt "https://overpass-api.de/api/interpreter"
+
+Remeber to change the output file extension to *osm* instead of *csv*.
 
 
 
