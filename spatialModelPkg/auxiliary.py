@@ -333,7 +333,7 @@ def create_charging_stations(identitiesArray,
 
     Returns
     -------
-    OrderedDict(ParkingLot)
+    list(ParkingLot)
         A list of parking lots representing charging stations and or parking lots
         without charging.
 
@@ -364,8 +364,7 @@ def create_charging_stations(identitiesArray,
                     ]
 
         stations.extend(stations_temp)
-        stationsDict = OrderedDict(stations)
-    return(stationsDict)
+    return(stations)
 
 def collect_stations_results(ID, results, stations):
     """Collects the results of subsets of charging stations into one station.
