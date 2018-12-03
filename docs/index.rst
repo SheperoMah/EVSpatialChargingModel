@@ -22,7 +22,7 @@ Overview and Examples
     mahmoud.shepero@angstrom.uu.se
 
 :Version:
-    0.0.1 of 24-09-2018
+    1.0.0 of 3-12-2018
 
 :License:
     `GNU General Public License v3.0 <https://www.gnu.org/>`_
