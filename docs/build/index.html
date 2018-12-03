@@ -120,11 +120,50 @@ describes shopping, leisure, cultural, and religious locations.</p>
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
 <p>In this part few examples are provided. For a simple example to run the model
 for one week is provided in the file <em>toyExample.py</em>.</p>
-<p>Example 1:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
-    <span class="nb">print</span> <span class="n">i</span>
+<p>Example 1, download all the OSM tags within a region:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>/*
+Get all the tags of the amenity in this bounding box, save them into csv.
+The bounding box is given lat, long, lat, long. This example gets the values for Gotland, Sweden
+*/
+[out:csv(amenity)]
+[bbox:56.905303,18.091240,58.001904,19.347141];
+(
+    way
+    ;
+    &gt;;
+);
+out;
 </pre></div>
 </div>
+<p>Save the previous text into a file say <em>query.txt</em>, and to download the OSM tags you need to send this query to OSM Overpass API by doing the following</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ wget -O Output.csv --post-file<span class="o">=</span>query.txt <span class="s2">&quot;https://overpass-api.de/api/interpreter&quot;</span>
+</pre></div>
+</div>
+<p>This code will save a csv file with all the tags in the amenity field in Gotland, Sweden. Note that there might be many empty rows.</p>
+<p>Example 2, download OSM map with certain tags, e.g., parking locations in Gotland:</p>
+<div class="highlight-none"><div class="highlight"><pre><span></span>/*
+Gotland, Sweden
+*/
+[bbox:56.905303,18.091240,58.001904,19.347141];
+(
+  way
+    [&quot;building&quot;~&quot;garage|garages&quot;,i];
+
+  way
+    [&quot;amenity&quot;~&quot;parking|parking_space&quot;,i];
+);
+(
+    ._;
+    &gt;;
+);
+out;
+</pre></div>
+</div>
+<p>Similar to Example 1, we can download the data:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ wget -O output.osm --post-file<span class="o">=</span>query.txt <span class="s2">&quot;https://overpass-api.de/api/interpreter&quot;</span>
+</pre></div>
+</div>
+<p>Remeber to change the output file extension to <em>osm</em> instead of <em>csv</em>.</p>
 </div>
 <div class="section" id="model-implementation">
 <h1>Model implementation<a class="headerlink" href="#model-implementation" title="Permalink to this headline">¶</a></h1>
