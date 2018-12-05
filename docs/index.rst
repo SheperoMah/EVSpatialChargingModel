@@ -115,10 +115,10 @@ Example 2, download OSM map with certain tags, e.g., parking locations in Gotlan
     [bbox:56.905303,18.091240,58.001904,19.347141];
     (
       way
-        ["building"~"garage|garages",i];
+        ["building"~"^garage"];
       
       way
-        ["amenity"~"parking|parking_space",i];
+        ["amenity"~"^parking"];
     );
     (
         ._;
