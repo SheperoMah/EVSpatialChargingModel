@@ -88,7 +88,7 @@ Example 1, download all the OSM tags within a region:
     The bounding box is given lat, long, lat, long. 
     This example gets the values for Gotland, Sweden
     */
-    [out:csv(amenity)]
+    [out:csv(amenity; false)]
     [bbox:56.905303,18.091240,58.001904,19.347141];
     (	
         way

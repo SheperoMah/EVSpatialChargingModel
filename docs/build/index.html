@@ -126,7 +126,7 @@ Get all the tags of the amenity in this bounding box, save them into csv.
 The bounding box is given lat, long, lat, long.
 This example gets the values for Gotland, Sweden
 */
-[out:csv(amenity)]
+[out:csv(amenity; false)]
 [bbox:56.905303,18.091240,58.001904,19.347141];
 (
     way
@@ -709,7 +709,7 @@ each representing a unique state.</p>
 create_charging_stations() function.</li>
 <li><strong>results</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array containg the results of the simulation, where each column
 represents a charging station in the stations list.</li>
-<li><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – list of stations; the one created in the create_charging_stations()
+<li><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – An OrderedDict of stations; the one created in the create_charging_stations()
 function.</li>
 </ul>
 </td>
@@ -788,11 +788,11 @@ be enabled in. Default True.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of parking lots representing charging stations and or parking lots
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An orderedDict of parking lots representing charging stations and or parking lots
 without charging.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">OrderedDict(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</p>
 </td>
 </tr>
 </tbody>
@@ -904,7 +904,7 @@ grid cell.</p>
 <li><strong>load</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array where each column represnts the load of a single station
 or subset thereof.</li>
 <li><strong>requiredState</strong> (<em>int</em>) – An integer representing the code of the required state.</li>
-<li><strong>stations</strong> (<em>list</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – list of stations; the one created in the create_charging_stations()
+<li><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – An OrderedDict of stations; the one created in the create_charging_stations()
 function.</li>
 <li><strong>aggregated</strong> (<em>bool</em><em>, </em><em>optional</em>) – False (default) if we want to return the load of every station, else
 the function sums the load of all stations and returns the aggregate
