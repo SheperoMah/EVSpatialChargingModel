@@ -333,8 +333,8 @@ def create_charging_stations(identitiesArray,
 
     Returns
     -------
-    list(ParkingLot)
-        A list of parking lots representing charging stations and or parking lots
+    OrderedDict(ParkingLot)
+        An orderedDict of parking lots representing charging stations and or parking lots
         without charging.
 
     """
@@ -364,7 +364,8 @@ def create_charging_stations(identitiesArray,
                     ]
 
         stations.extend(stations_temp)
-    return(stations)
+        stationsDict = OrderedDict(stations)
+    return(stationsDict)
 
 def collect_stations_results(ID, results, stations):
     """Collects the results of subsets of charging stations into one station.
@@ -379,8 +380,8 @@ def collect_stations_results(ID, results, stations):
     results : numpy.array(float)
         A numpy array containg the results of the simulation, where each column
         represents a charging station in the stations list.
-    stations : list(ParkingLot)
-        list of stations; the one created in the create_charging_stations()
+    stations : OrderedDict(ParkingLot)
+        An OrderedDict of stations; the one created in the create_charging_stations()
         function.
 
     Returns
@@ -392,7 +393,7 @@ def collect_stations_results(ID, results, stations):
     results_temp = np.copy(results)
     lengthOfSimulation = results_temp.shape[0]
     IDs = list(ID)
-    stationsIDs = [x.ID for x in stations]
+    stationsIDs = [v.ID for (k,v) in stations.items()]
     final_results = np.zeros((lengthOfSimulation,len(IDs)))
 
     for i in range(len(IDs)):
@@ -411,8 +412,8 @@ def extract_state_load(load, requiredState, stations, aggregated = False):
         or subset thereof.
     requiredState : int
         An integer representing the code of the required state.
-    stations : list(ParkingLot)
-        list of stations; the one created in the create_charging_stations()
+    stations : OrderedDict(ParkingLot)
+        An OrderedDict of stations; the one created in the create_charging_stations()
         function.
     aggregated : bool, optional
             False (default) if we want to return the load of every station, else
@@ -427,7 +428,7 @@ def extract_state_load(load, requiredState, stations, aggregated = False):
 
     """
     columnIndex = [x for x in range(len(stations)) if
-                            stations[x].state == requiredState]
+                            stations.get(x).state == requiredState]
 
     copyLoad = np.copy(load)
     requiredLoad = np.copy(copyLoad[:,columnIndex])
