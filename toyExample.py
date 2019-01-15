@@ -46,10 +46,10 @@ def main(numberOfEVs, numberOfparkingloc):
     # distribute the cars on the stations with state zero
     [x.inital_conditions(stations,0) for x in EVs]
 
-    # load the weekday distances filter >100km
+    # load the weekday distances filter >200km
     weekdayDistances = extractDistances("./distanceData/*day*.txt", 200)
 
-    # load the weekend distances filter >100km
+    # load the weekend distances filter >200km
     weekendDistances = extractDistances("./distanceData/*end*.txt", 200)
 
 
