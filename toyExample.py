@@ -24,8 +24,8 @@ def main(numberOfEVs, numberOfparkingloc):
                            state = stationTypes[i],
                            chargingPower = 3.7,
                            maximumOccupancy = numberOfEVs,
-                           currentOccupancy = 0)
-                for i in range(numberOfparkingloc))]
+                           currentOccupancy = 0))
+                for i in range(numberOfparkingloc)]
 
     # add stations with no charging
     stationsList += [(str(i*1000), ParkingLot(ID = str(i*1000),
@@ -33,7 +33,7 @@ def main(numberOfEVs, numberOfparkingloc):
                            chargingPower = 0.0,
                            maximumOccupancy = numberOfEVs,
                            currentOccupancy = 0,
-                           chargingStatus = False) for i in range(3))]
+                           chargingStatus = False)) for i in range(3)]
     stations = OrderedDict(stationsList)
 
 
@@ -67,7 +67,7 @@ def main(numberOfEVs, numberOfparkingloc):
     lengthOfDaySimulation = 1440 # 1440 timestep a day
 
     load = np.zeros(shape = (len(daysArray)*lengthOfDaySimulation,
-    len([x for x in stations if x.chargingStatus == True])))
+    len([v for (k,v) in stations.items() if v.chargingStatus == True])))
 
     for day in range(len(daysArray)):
 
