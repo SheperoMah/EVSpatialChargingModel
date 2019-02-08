@@ -271,8 +271,9 @@ def get_percentage_of_area_types(parkingLayer, layers):
     for i in range(len(layers)):
         area[:,i] = get_floor_areas_of_intersecting_buildings(
                                         parkingLayer, layers[i])
-    area[np.sum(area, axis = 1) == 0,:] = 1.0/len(layers)
-    area = area/(np.sum(area, axis = 1).reshape(parkingLayer.GetFeatureCount(),1))
+    sumRows = area.sum(axis=1)
+    sumRows[sumRows == 0] = 1.0 # do not divide by zero
+    area /= sumRows.reshape(-1,1)
     return(area)
 
 def get_features_areas(Layer):
