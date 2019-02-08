@@ -320,7 +320,7 @@ def main():
     simulationTimeResoultion = 1 # 1 minute
     lengthOfDay = 1440 # 1440 minutes
     folder = "../transitionMatrixPython/" # where to store results
-    dataFrame = pd.read_csv("Data_travel data.csv", sep = ';') # which file to read
+    dataFrame = pd.read_csv("../Data/Data_travel data.csv", sep = ';') # which file to read
 
     ##### Code #####
 
