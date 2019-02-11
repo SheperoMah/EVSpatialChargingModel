@@ -365,7 +365,7 @@ def create_charging_stations(identitiesArray,
                     ]
 
         stations.extend(stations_temp)
-        stationsDict = OrderedDict(stations)
+    stationsDict = OrderedDict(stations)
     return(stationsDict)
 
 def collect_stations_results(ID, results, stations):
