@@ -12,7 +12,9 @@ def extractDistances(filesLocation, maxTripDist = math.inf):
     Parameters
     ----------
     filesLocation : str
-        The location of the files
+        The location of the files. The file names have to include the origin state
+        and the destination state in the end of the file name, just before the
+        extension. Example ABC01.txt, ABC10.csv.
     maxTripDist : float, optional
         The maximum trip distance to filter at.( the default initial value is
         infintiy)
@@ -32,7 +34,7 @@ def extractDistances(filesLocation, maxTripDist = math.inf):
     dict = {}
     for file in glob.glob(filesLocation):
          data = openFile(file)
-         dictStateCode = re.search(r'\d{2}',file)[0]
+         dictStateCode = re.search(r'\d{2}(?=\.*)',file)[0]
          dict.update({dictStateCode: data})
 
     return(dict)
