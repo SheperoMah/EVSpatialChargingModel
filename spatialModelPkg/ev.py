@@ -81,8 +81,8 @@ class EV:
 
         Parameters
         ----------
-        stations : list(ParkingLot)
-            A list of ParkingLot objects.
+        stations : OrderedDict(ParkingLot)
+            An orderedDict of ParkingLot objects.
 
         Returns
         -------
