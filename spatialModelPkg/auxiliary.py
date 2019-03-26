@@ -235,8 +235,8 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
         if feature.GetGeometryRef() != None:
             geom = feature.GetGeometryRef()
             BuildingsLayer.SetSpatialFilter(geom)
-            areas = [building.GetGeometryRef().GetArea() for building in \
-             BuildingsLayer ]
+            for building in BuildingsLayer:
+                areas.append(building.GetGeometryRef().GetArea())# for building in \BuildingsLayer ]
             BuildingsLayer.ResetReading()
         else:
             areas = [0.0]
@@ -244,12 +244,12 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
         index += 1
         count += 1
     ParkingLayer.ResetReading()
+    BuildingsLayer.SetSpatialFilter(None)
     BuildingsLayer.ResetReading()
     return(UserArea)
 
 def get_percentage_of_area_types(parkingLayer, layers):
     """Returns the percentage of area intersecting each layer in layers.
-       
 
     Parameters
     ----------
