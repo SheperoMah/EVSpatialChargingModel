@@ -248,9 +248,8 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
     return(UserArea)
 
 def get_percentage_of_area_types(parkingLayer, layers):
-    """Returns the percentage of area intersecting each layer in layers
-       If a feature does not intersect any layer it's percentage was equally
-       divided between the layers.
+    """Returns the percentage of area intersecting each layer in layers.
+       
 
     Parameters
     ----------
@@ -427,6 +426,7 @@ def extract_state_load(load, requiredState, stations, aggregated = False):
         The load of every/the aggregate load of stations belonging to the
         specified state.
 
+    TODO correct to make it suitable with orderedDict. The code will not work.
     """
     columnIndex = [x for x in range(len(stations)) if
                             stations.get(x).state == requiredState]
@@ -536,7 +536,7 @@ def save_grid_into_layer(fileName,
     -------
     None
         Saves a file.
-
+    TODO test this I think there is a problem with fileName with and without extenstions.
     """
     outDriver = ogr.GetDriverByName("ESRI Shapefile")
     fileNameWithExt = fileName
@@ -565,7 +565,7 @@ def create_projection_file(fileName,
     Parameters
     ----------
     fileName : str
-        The name of the output file without .shp.
+        The name of the output file without .prj.
     outputCoordinateSystem : int
         An EPSG coordinate system (projection) of the vector layer.
         Check the https://epsg.io.
@@ -582,3 +582,36 @@ def create_projection_file(fileName,
     file = open((fileName+'.prj'), 'w')
     file.write(coordSys.ExportToWkt())
     file.close()
+
+def aggregate_time_series(ts, timeStep, aggrFunc):
+	""" Aggregates a time series by applying a function to the values within timeSteps.
+
+	Paramters
+	---------
+	ts : numpy 1D array
+		time series that needs to be aggregated. This time series has high
+        resolution and length has to be mutliple of timeStep.
+	timeStep : int
+		The time step used to apply the function to.
+	aggrFunc : function
+		The aggregation function to apply to a numpy row. For example,
+        lambda x: np.sum(x, axis=1) to sum over the values.
+        Alternatively, np.mean can be used.
+
+	Returns
+	-------
+	numpy 1D array
+		A new time series with the function applied to every timeStep elements.
+
+	Examples
+	--------
+	>>> x = np.arange(10)
+	>>> aggregate_time_series(x, 2, lambda x: np.sum(x, axis=1))
+	array([ 1,  5,  9, 13, 17])
+
+	"""
+	assert ts.shape[0] % timeStep == 0, "The length of the time series must" + \
+    "be divisable by the timeStep."
+
+	reshapedTs = ts.reshape(-1, timeStep)
+	return(aggrFunc(reshapedTs))
