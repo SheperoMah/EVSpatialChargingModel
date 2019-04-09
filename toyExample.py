@@ -15,8 +15,8 @@ def main(numberOfEVs, numberOfparkingloc):
     from spatialModelPkg.markov import Markov
     from spatialModelPkg.simulation import Simulation
     from spatialModelPkg.parkinglot import ParkingLot
-    from spatialModelPkg.extractDistances import extractDistances
-    from spatialModelPkg.extractFiles import readMatrixfiles
+    from spatialModelPkg.extractdistances import extract_distances
+    from spatialModelPkg.extractfiles import read_matrix_files
 
 
     stationTypes = rnd.choices(range(3), k = numberOfparkingloc)
@@ -47,18 +47,18 @@ def main(numberOfEVs, numberOfparkingloc):
     [x.inital_conditions(stations,0) for x in EVs]
 
     # load the weekday distances filter >200km
-    weekdayDistances = extractDistances("./distanceData/*day*.txt", 200)
+    weekdayDistances = extract_distances("./distanceData/*day*.txt", 200)
 
     # load the weekend distances filter >200km
-    weekendDistances = extractDistances("./distanceData/*end*.txt", 200)
+    weekendDistances = extract_distances("./distanceData/*end*.txt", 200)
 
 
     # WEEKDAY
-    weekdayChain = readMatrixfiles("./TransitionMatrix/*weekday*.txt")
+    weekdayChain = read_matrix_files("./TransitionMatrix/*weekday*.txt")
     # define the tranistion Matrix
     weekday = Markov(weekdayChain)
     # WEEKEND
-    weekdendChain = readMatrixfiles("./TransitionMatrix/*weekend*.txt")
+    weekdendChain = read_matrix_files("./TransitionMatrix/*weekend*.txt")
     # define the tranistion Matrix
     weekend = Markov(weekdendChain)
 
