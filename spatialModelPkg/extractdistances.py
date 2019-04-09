@@ -5,7 +5,7 @@ import numpy as np
 import re
 import math
 
-def extractDistances(filesLocation, maxTripDist = math.inf):
+def extract_distances(filesLocation, maxTripDist = math.inf):
     """Extracts the trip distances files into a dictionary which can be used
     in the model.
 
@@ -23,7 +23,7 @@ def extractDistances(filesLocation, maxTripDist = math.inf):
         dictionary containting the length of trips between states.
 
     """
-    def openFile(name):
+    def open_file(name):
         with open(name, 'r') as ff:
             array = np.loadtxt(ff)
             array = array[~np.isnan(array)]
@@ -31,7 +31,7 @@ def extractDistances(filesLocation, maxTripDist = math.inf):
             return( filteredArray )
     dict = {}
     for file in glob.glob(filesLocation):
-         data = openFile(file)
+         data = open_file(file)
          dictStateCode = re.search(r'\d{2}',file)[0]
          dict.update({dictStateCode: data})
 
@@ -43,9 +43,9 @@ if __name__ == "__main__":
 
     Example
     -------
-        $ python3 extractDistances.py ./*.txt 0.0
+        $ python3 extractdistances.py ./*.txt 0.0
     """
     import sys
     filesLocation = sys.argv[1]
     maxTripDist = float(sys.argv[2])
-    print(extractDistances(filesLocation, maxTripDist))
+    print(extract_distances(filesLocation, maxTripDist))
