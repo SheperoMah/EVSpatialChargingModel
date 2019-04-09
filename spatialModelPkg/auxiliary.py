@@ -82,7 +82,7 @@ def get_field_tags(layer, field, unique = True):
         False: tagsList,
     }.get(unique)
 
-def plot_features(layer, color, scale = 1/1000):
+def plot_features(layer, color, scale=1/1000):
     """Plot the features of a layer
     This is an auxiliary function. Users are encouraged to use their own plotting
     funtions. The reason is that every GIS data provider stores the feature
@@ -596,7 +596,8 @@ def aggregate_time_series(ts, timeStep, aggrFunc):
 	aggrFunc : function
 		The aggregation function to apply to a numpy row. For example,
         lambda x: np.sum(x, axis=1) to sum over the values.
-        Alternatively, np.mean can be used.
+        Alternatively, np.mean can be used. If NaNs are expected use
+        np.nansum and np.nanmean instead.
 
 	Returns
 	-------
@@ -615,3 +616,36 @@ def aggregate_time_series(ts, timeStep, aggrFunc):
 
 	reshapedTs = ts.reshape(-1, timeStep)
 	return(aggrFunc(reshapedTs))
+
+def cross_correlation(ts1, ts2, lag):
+    """ Computes the cross-correlation between two time-series.
+
+    Paramters
+    ---------
+    ts1 : np 1-D array
+        First time-series.
+    ts2 : np 1-D array
+        Second time-series.
+    lag : int
+        Lag at which to calculate the cross correlation.
+
+    Returns
+    -------
+    float
+        Cross-correlation value.
+    """
+    assert ts1.shape == ts2.shape, "Both time-series should have the " \
+        + "same length."
+    assert type(lag) is int, "lag must be an int."
+
+    timeSeriesLength = ts1.shape[0]
+    assert lag >=0 and lag < timeSeriesLength, "Lag cannot exceed "\
+        "time-series' length."
+
+    timeSeries1 = ts1[0:timeSeriesLength-lag]
+    timeSeries2 = ts2[lag:]
+    mean1,std1 = np.nanmean(timeSeries1), np.nanstd(timeSeries1)
+    mean2,std2 = np.nanmean(timeSeries2), np.nanstd(timeSeries2)
+    crossCorr = np.nanmean((timeSeries1-mean1) *
+                         (timeSeries2-mean2)) / (std1*std2)
+    return(crossCorr)
