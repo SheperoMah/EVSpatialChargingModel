@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Overview and Examples &#8212; EV Spatial Model 0.0.1 documentation</title>
+    <title>Overview and Examples &#8212; EV Spatial Model 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.0.1',
+        VERSION:     '2.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">EV Spatial Model 0.0.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">EV Spatial Model 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -57,7 +57,7 @@
 </tr>
 <tr class="field-odd field"><th class="field-name">Email:</th><td class="field-body"><a class="reference external" href="mailto:mahmoud&#46;shepero&#37;&#52;&#48;angstrom&#46;uu&#46;se">mahmoud<span>&#46;</span>shepero<span>&#64;</span>angstrom<span>&#46;</span>uu<span>&#46;</span>se</a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Version:</th><td class="field-body">1.0.0 of 3-12-2018</td>
+<tr class="field-even field"><th class="field-name">Version:</th><td class="field-body">2.0.0 of 10 April 2019</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">License:</th><td class="field-body"><a class="reference external" href="https://www.gnu.org/">GNU General Public License v3.0</a></td>
 </tr>
@@ -106,10 +106,10 @@ describes shopping, leisure, cultural, and religious locations.</p>
 <tr class="row-even"><td><a class="reference internal" href="#simulation.Simulation" title="simulation.Simulation"><code class="xref py py-obj docutils literal"><span class="pre">simulation.Simulation</span></code></a>(stations,&nbsp;cars,&nbsp;chain,&nbsp;…)</td>
 <td>A class representing the simulation model.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#extractDistances.extractDistances" title="extractDistances.extractDistances"><code class="xref py py-obj docutils literal"><span class="pre">extractDistances.extractDistances</span></code></a>(filesLocation)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#auxiliary.extractdistances.extract_distances" title="auxiliary.extractdistances.extract_distances"><code class="xref py py-obj docutils literal"><span class="pre">auxiliary.extractdistances.extract_distances</span></code></a>(…)</td>
 <td>Extracts the trip distances files into a dictionary which can be used in the model.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#extractFiles.readMatrixfiles" title="extractFiles.readMatrixfiles"><code class="xref py py-obj docutils literal"><span class="pre">extractFiles.readMatrixfiles</span></code></a>(files[,&nbsp;precision])</td>
+<tr class="row-even"><td><a class="reference internal" href="#auxiliary.extractfiles.read_matrix_files" title="auxiliary.extractfiles.read_matrix_files"><code class="xref py py-obj docutils literal"><span class="pre">auxiliary.extractfiles.read_matrix_files</span></code></a>(files)</td>
 <td>Extracts the tranistion matrix into a 3-d numpy array which can be used in the model.</td>
 </tr>
 </tbody>
@@ -148,10 +148,10 @@ Download the parking locations in Gotland, Sweden.
 [bbox:56.905303,18.091240,58.001904,19.347141];
 (
   way
-    [&quot;building&quot;~&quot;garage|garages&quot;,i];
+    [&quot;building&quot;~&quot;^garage&quot;];
 
   way
-    [&quot;amenity&quot;~&quot;parking|parking_space&quot;,i];
+    [&quot;amenity&quot;~&quot;^parking&quot;];
 );
 (
     ._;
@@ -573,9 +573,12 @@ an inhomegenous Markov chain. (the default is None)</li>
 </tbody>
 </table>
 </div>
-<div class="section" id="module-simulation">
-<span id="model-simulation-implementation"></span><h2>Model simulation implementation<a class="headerlink" href="#module-simulation" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<div class="section" id="model-simulation-implementation">
+<h2>Model simulation implementation<a class="headerlink" href="#model-simulation-implementation" title="Permalink to this headline">¶</a></h2>
+<p>This class describes what is done when the model is running. You can copy this
+class and create your own class, that charges the electric vehicles if
+certain conditions are met, i.e., smart charging.</p>
+<span class="target" id="module-simulation"></span><dl class="class">
 <dt id="simulation.Simulation">
 <em class="property">class </em><code class="descclassname">simulation.</code><code class="descname">Simulation</code><span class="sig-paren">(</span><em>stations</em>, <em>cars</em>, <em>chain</em>, <em>distancesDictionary</em>, <em>simulationLength</em>, <em>resolution=0.016666666666666666</em><span class="sig-paren">)</span><a class="headerlink" href="#simulation.Simulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class representing the simulation model.</p>
@@ -624,8 +627,8 @@ battery charge and battery capacity for the EV class.</p>
 <dl class="attribute">
 <dt id="simulation.Simulation.resolution">
 <code class="descname">resolution</code><a class="headerlink" href="#simulation.Simulation.resolution" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>float</em> – The resolution of the timestep. Used to charge the EV class. (the
-default is 1/60). OTHER VALUES ARE YET NOT FULLY TESTED YET.</p>
+<dd><p><em>float</em> – The resolution of the timestep. Used to charge the EV class. The
+default is 1/60. OTHER VALUES ARE YET NOT FULLY TESTED YET.</p>
 </dd></dl>
 
 </dd></dl>
@@ -639,11 +642,11 @@ default is 1/60). OTHER VALUES ARE YET NOT FULLY TESTED YET.</p>
 </tbody>
 </table>
 </div>
-<div class="section" id="module-extractDistances">
-<span id="auxiliary-functions"></span><h2>Auxiliary functions<a class="headerlink" href="#module-extractDistances" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-auxiliary.extractdistances">
+<span id="auxiliary-functions"></span><h2>Auxiliary functions<a class="headerlink" href="#module-auxiliary.extractdistances" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="extractDistances.extractDistances">
-<code class="descclassname">extractDistances.</code><code class="descname">extractDistances</code><span class="sig-paren">(</span><em>filesLocation</em>, <em>maxTripDist=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#extractDistances.extractDistances" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.extractdistances.extract_distances">
+<code class="descclassname">auxiliary.extractdistances.</code><code class="descname">extract_distances</code><span class="sig-paren">(</span><em>filesLocation</em>, <em>maxTripDist=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.extractdistances.extract_distances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts the trip distances files into a dictionary which can be used
 in the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -667,9 +670,9 @@ infintiy)</li>
 </table>
 </dd></dl>
 
-<span class="target" id="module-extractFiles"></span><dl class="function">
-<dt id="extractFiles.readMatrixfiles">
-<code class="descclassname">extractFiles.</code><code class="descname">readMatrixfiles</code><span class="sig-paren">(</span><em>files</em>, <em>precision=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#extractFiles.readMatrixfiles" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-auxiliary.extractfiles"></span><dl class="function">
+<dt id="auxiliary.extractfiles.read_matrix_files">
+<code class="descclassname">auxiliary.extractfiles.</code><code class="descname">read_matrix_files</code><span class="sig-paren">(</span><em>files</em>, <em>precision=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.extractfiles.read_matrix_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts the tranistion matrix into a 3-d numpy array which can be used
 in the model.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -694,39 +697,9 @@ default is 1000)</li>
 </table>
 </dd></dl>
 
-<span class="target" id="module-auxiliary"></span><dl class="function">
-<dt id="auxiliary.collect_stations_results">
-<code class="descclassname">auxiliary.</code><code class="descname">collect_stations_results</code><span class="sig-paren">(</span><em>ID</em>, <em>results</em>, <em>stations</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.collect_stations_results" title="Permalink to this definition">¶</a></dt>
-<dd><p>Collects the results of subsets of charging stations into one station.
-Previously charging stations were divided into subset of charging stations
-each representing a unique state.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>ID</strong> (<em>list</em><em>(</em><em>-</em><em>)</em>) – list of unique IDs of charging stations. The same list used in the
-create_charging_stations() function.</li>
-<li><strong>results</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array containg the results of the simulation, where each column
-represents a charging station in the stations list.</li>
-<li><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – An OrderedDict of stations; the one created in the create_charging_stations()
-function.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A numpy array where each column represents a parking lot from the ID list.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.array(float)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="auxiliary.create_buffer_and_projectLayer">
-<code class="descclassname">auxiliary.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-auxiliary.spatialaux"></span><dl class="function">
+<dt id="auxiliary.spatialaux.create_buffer_and_projectLayer">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">create_buffer_and_projectLayer</code><span class="sig-paren">(</span><em>inLayer</em>, <em>inputCoordinateSystem</em>, <em>outputCoordinateSystem</em>, <em>outputBufferfn</em>, <em>bufferDist=0</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.create_buffer_and_projectLayer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Projects layer from the input coordinate to the output corrdinate system,
 and saves the file in outputShapefile. This can be used to buffer a layer
 if the bufferDist &gt; 0.</p>
@@ -761,47 +734,8 @@ the inputCoordinateSystem. (the default is 0)</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.create_charging_stations">
-<code class="descclassname">auxiliary.</code><code class="descname">create_charging_stations</code><span class="sig-paren">(</span><em>identitiesArray</em>, <em>areas</em>, <em>percentageOfStates</em>, <em>areaPerCar</em>, <em>charging_status=True</em>, <em>charging_power=3.7</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_charging_stations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates and returns a list of stations
-This function is used to create a list of stations. The idea is every
-charging station is divided into several charging stations based on the
-percentages of areas. Each subset charging station is then considered to have
-a unique state.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>identitiesArray</strong> (<em>list</em><em>(</em><em>-</em><em>)</em>) – A list of unique names (IDs) for each station. It is used to name the
-stations and their subsets.</li>
-<li><strong>areas</strong> (<em>list</em><em>(</em><em>float</em><em>)</em>) – A list containing the areas of each charging station.</li>
-<li><strong>percentageOfStates</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array containing the percentage of areas of each feature dedicated
-to each state. In other words, each charging station will be divided into
-several states, what is the percentage of division.</li>
-<li><strong>areaPerCar</strong> (<em>float</em>) – A float encoding the ground area needed to fit a car in a parking lot.
-This area should take into account the manuevering area and landscaping
-area.</li>
-<li><strong>charging_status</strong> (<em>list</em><em>(</em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Which stations will only be considered parking lots and no charging will
-be enabled in. Default True.</li>
-<li><strong>charging_power</strong> (<em>float</em><em>, </em><em>optional</em>) – The charging power of the stations. Default 3.7 kW.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">An orderedDict of parking lots representing charging stations and or parking lots
-without charging.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">OrderedDict(<a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot">ParkingLot</a>)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="auxiliary.create_polygon">
-<code class="descclassname">auxiliary.</code><code class="descname">create_polygon</code><span class="sig-paren">(</span><em>coordinates</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_polygon" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.create_polygon">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">create_polygon</code><span class="sig-paren">(</span><em>coordinates</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.create_polygon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a ogr polygon from a set of coordinates.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -819,8 +753,8 @@ Note, ensure to close the polygon by repeating the first point in the end.</td>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.create_projection_file">
-<code class="descclassname">auxiliary.</code><code class="descname">create_projection_file</code><span class="sig-paren">(</span><em>fileName</em>, <em>outputCoordinateSystem</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_projection_file" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.create_projection_file">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">create_projection_file</code><span class="sig-paren">(</span><em>fileName</em>, <em>outputCoordinateSystem</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.create_projection_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves a the projectionfile of a specific reference system.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -844,8 +778,8 @@ Check the <a class="reference external" href="https://epsg.io">https://epsg.io</
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.create_rectangle">
-<code class="descclassname">auxiliary.</code><code class="descname">create_rectangle</code><span class="sig-paren">(</span><em>x</em>, <em>dx</em>, <em>y</em>, <em>dy</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_rectangle" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.create_rectangle">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">create_rectangle</code><span class="sig-paren">(</span><em>x</em>, <em>dx</em>, <em>y</em>, <em>dy</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.create_rectangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list containing the coordinates of a rectangle vertices.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -864,8 +798,8 @@ Check the <a class="reference external" href="https://epsg.io">https://epsg.io</
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.create_spatial_grid">
-<code class="descclassname">auxiliary.</code><code class="descname">create_spatial_grid</code><span class="sig-paren">(</span><em>initialXCoord</em>, <em>initialYCoord</em>, <em>spacingX</em>, <em>spacingY</em>, <em>numberOfXGridCells</em>, <em>numberOfYGridCells</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.create_spatial_grid" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.create_spatial_grid">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">create_spatial_grid</code><span class="sig-paren">(</span><em>initialXCoord</em>, <em>initialYCoord</em>, <em>spacingX</em>, <em>spacingY</em>, <em>numberOfXGridCells</em>, <em>numberOfYGridCells</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.create_spatial_grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a grid of squares.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -893,39 +827,8 @@ grid cell.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.extract_state_load">
-<code class="descclassname">auxiliary.</code><code class="descname">extract_state_load</code><span class="sig-paren">(</span><em>load</em>, <em>requiredState</em>, <em>stations</em>, <em>aggregated=False</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.extract_state_load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the load of all the stations that belong to a certain state.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>load</strong> (<em>numpy.array</em><em>(</em><em>float</em><em>)</em>) – A numpy array where each column represnts the load of a single station
-or subset thereof.</li>
-<li><strong>requiredState</strong> (<em>int</em>) – An integer representing the code of the required state.</li>
-<li><strong>stations</strong> (<em>OrderedDict</em><em>(</em><a class="reference internal" href="#parkinglot.ParkingLot" title="parkinglot.ParkingLot"><em>ParkingLot</em></a><em>)</em>) – An OrderedDict of stations; the one created in the create_charging_stations()
-function.</li>
-<li><strong>aggregated</strong> (<em>bool</em><em>, </em><em>optional</em>) – False (default) if we want to return the load of every station, else
-the function sums the load of all stations and returns the aggregate
-load.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The load of every/the aggregate load of stations belonging to the
-specified state.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.array(float)</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="auxiliary.get_features_areas">
-<code class="descclassname">auxiliary.</code><code class="descname">get_features_areas</code><span class="sig-paren">(</span><em>Layer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_features_areas" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.get_features_areas">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">get_features_areas</code><span class="sig-paren">(</span><em>Layer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.get_features_areas" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of feature areas.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -942,8 +845,8 @@ specified state.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.get_field_tags">
-<code class="descclassname">auxiliary.</code><code class="descname">get_field_tags</code><span class="sig-paren">(</span><em>layer</em>, <em>field</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_field_tags" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.get_field_tags">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">get_field_tags</code><span class="sig-paren">(</span><em>layer</em>, <em>field</em>, <em>unique=True</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.get_field_tags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the list of tags in a field of a vector layer
 A vector layer contains fields and each field have tags. For example, in
 OpenStreetMaps you might find fields like “building”. This field might
@@ -971,8 +874,8 @@ every feature in the layer.(the default is True)</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.get_floor_areas_of_intersecting_buildings">
-<code class="descclassname">auxiliary.</code><code class="descname">get_floor_areas_of_intersecting_buildings</code><span class="sig-paren">(</span><em>ParkingLayer</em>, <em>BuildingsLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_floor_areas_of_intersecting_buildings" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.get_floor_areas_of_intersecting_buildings">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">get_floor_areas_of_intersecting_buildings</code><span class="sig-paren">(</span><em>ParkingLayer</em>, <em>BuildingsLayer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.get_floor_areas_of_intersecting_buildings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the floor area of the intersecting buildings.
 If the parking lot was of type None the returned area will be 0.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -996,8 +899,8 @@ If the parking lot was of type None the returned area will be 0.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.get_layer_fields">
-<code class="descclassname">auxiliary.</code><code class="descname">get_layer_fields</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_layer_fields" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.get_layer_fields">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">get_layer_fields</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.get_layer_fields" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the fields of features in a vector layer.
 A vector file contains layers and each layer have fields of information.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1015,8 +918,8 @@ A vector file contains layers and each layer have fields of information.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.get_percentage_of_area_types">
-<code class="descclassname">auxiliary.</code><code class="descname">get_percentage_of_area_types</code><span class="sig-paren">(</span><em>parkingLayer</em>, <em>layers</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.get_percentage_of_area_types" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.get_percentage_of_area_types">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">get_percentage_of_area_types</code><span class="sig-paren">(</span><em>parkingLayer</em>, <em>layers</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.get_percentage_of_area_types" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Returns the percentage of area intersecting each layer in layers</dt>
 <dd>If a feature does not intersect any layer it’s percentage was equally
@@ -1045,8 +948,8 @@ number of layers.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.list_of_layers">
-<code class="descclassname">auxiliary.</code><code class="descname">list_of_layers</code><span class="sig-paren">(</span><em>mapFile</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.list_of_layers" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.list_of_layers">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">list_of_layers</code><span class="sig-paren">(</span><em>mapFile</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.list_of_layers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lists the layers in a geographical information systems (GIS) file.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1063,8 +966,8 @@ number of layers.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.plot_features">
-<code class="descclassname">auxiliary.</code><code class="descname">plot_features</code><span class="sig-paren">(</span><em>layer</em>, <em>color</em>, <em>scale=0.001</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.plot_features" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.plot_features">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">plot_features</code><span class="sig-paren">(</span><em>layer</em>, <em>color</em>, <em>scale=0.001</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.plot_features" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the features of a layer
 This is an auxiliary function. Users are encouraged to use their own plotting
 funtions. The reason is that every GIS data provider stores the feature
@@ -1096,8 +999,8 @@ kms in the x and y axes.</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="auxiliary.save_grid_into_layer">
-<code class="descclassname">auxiliary.</code><code class="descname">save_grid_into_layer</code><span class="sig-paren">(</span><em>fileName</em>, <em>polygons</em>, <em>outputCoordinateSystem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.save_grid_into_layer" title="Permalink to this definition">¶</a></dt>
+<dt id="auxiliary.spatialaux.save_grid_into_layer">
+<code class="descclassname">auxiliary.spatialaux.</code><code class="descname">save_grid_into_layer</code><span class="sig-paren">(</span><em>fileName</em>, <em>polygons</em>, <em>outputCoordinateSystem=None</em><span class="sig-paren">)</span><a class="headerlink" href="#auxiliary.spatialaux.save_grid_into_layer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves a set of polygons into a shapefile.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1142,8 +1045,8 @@ Check the <a class="reference external" href="https://epsg.io">https://epsg.io</
 <li><a class="reference internal" href="#module-ev">Electric vehicles</a></li>
 <li><a class="reference internal" href="#module-parkinglot">Parking lots</a></li>
 <li><a class="reference internal" href="#module-markov">Markov chain implementation</a></li>
-<li><a class="reference internal" href="#module-simulation">Model simulation implementation</a></li>
-<li><a class="reference internal" href="#module-extractDistances">Auxiliary functions</a></li>
+<li><a class="reference internal" href="#model-simulation-implementation">Model simulation implementation</a></li>
+<li><a class="reference internal" href="#module-auxiliary.extractdistances">Auxiliary functions</a></li>
 </ul>
 </li>
 </ul>
@@ -1178,7 +1081,7 @@ Check the <a class="reference external" href="https://epsg.io">https://epsg.io</
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">EV Spatial Model 0.0.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="#">EV Spatial Model 2.0.0 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

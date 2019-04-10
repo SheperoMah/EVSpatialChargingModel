@@ -22,7 +22,7 @@ Overview and Examples
     mahmoud.shepero@angstrom.uu.se
 
 :Version:
-    1.0.0 of 3-12-2018
+    2.0.0 of 10 April 2019
 
 :License:
     `GNU General Public License v3.0 <https://www.gnu.org/>`_
@@ -67,8 +67,8 @@ Indixes and tables
    parkinglot.ParkingLot
    markov.Markov
    simulation.Simulation
-   extractDistances.extractDistances
-   extractFiles.readMatrixfiles
+   auxiliary.extractdistances.extract_distances
+   auxiliary.extractfiles.read_matrix_files
 
 
 
@@ -85,18 +85,18 @@ Example 1, download all the OSM tags within a region:
 
     /*
     Get all the tags of the amenity in this bounding box, save them into csv.
-    The bounding box is given lat, long, lat, long. 
+    The bounding box is given lat, long, lat, long.
     This example gets the values for Gotland, Sweden
     */
     [out:csv(amenity; false)]
     [bbox:56.905303,18.091240,58.001904,19.347141];
-    (	
+    (
         way
         ;
         >;
     );
     out;
-        
+
 Save the previous text into a file say *query.txt*, and to download the OSM tags you need to send this query to OSM Overpass API by doing the following
 
 .. code-block:: bash
@@ -109,22 +109,22 @@ Example 2, download OSM map with certain tags, e.g., parking locations in Gotlan
 
 .. code-block:: none
 
-    /* 
+    /*
     Download the parking locations in Gotland, Sweden.
     */
     [bbox:56.905303,18.091240,58.001904,19.347141];
     (
       way
-        ["building"~"garage|garages",i];
-      
+        ["building"~"^garage"];
+
       way
-        ["amenity"~"parking|parking_space",i];
+        ["amenity"~"^parking"];
     );
     (
         ._;
         >;
     );
-    out; 
+    out;
 
 Similar to Example 1, we can download the data:
 
@@ -176,6 +176,10 @@ Markov chain implementation
 Model simulation implementation
 ===============================
 
+This class describes what is done when the model is running. You can copy this
+class and create your own class, that charges the electric vehicles if
+certain conditions are met, i.e., smart charging.
+
 .. automodule:: simulation
 
 .. autoclass:: Simulation
@@ -186,11 +190,11 @@ Model simulation implementation
 Auxiliary functions
 ===================
 
-.. automodule:: extractDistances
+.. automodule:: auxiliary.extractdistances
    :members:
 
-.. automodule:: extractFiles
+.. automodule:: auxiliary.extractfiles
    :members:
 
-.. automodule:: auxiliary
+.. automodule:: auxiliary.spatialaux
    :members:
