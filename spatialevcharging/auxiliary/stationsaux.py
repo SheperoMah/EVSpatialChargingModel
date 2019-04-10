@@ -1,4 +1,4 @@
-from ..parkinglot import ParkingLot
+from spatialevcharging.parkinglot import ParkingLot
 from math import ceil
 from collections import OrderedDict
 import numpy as np
