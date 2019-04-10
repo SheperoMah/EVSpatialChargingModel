@@ -3,7 +3,6 @@ import math
 import pandas as pd
 import itertools as iter
 
-
 def correct_time(time, resolution):
     """ Corrects time from HHMM format to 0:end scale, where end is dependent
     on the resolution.
