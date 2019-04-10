@@ -1,5 +1,6 @@
 from osgeo import ogr, osr
 import numpy as np
+from matplotlib.pyplot import plt
 
 def list_of_layers(mapFile):
     """Lists the layers in a geographical information systems (GIS) file.
