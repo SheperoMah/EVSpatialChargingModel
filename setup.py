@@ -8,6 +8,6 @@ setup(name='EVSpatialChargingModel',
       author='Mahmoud Shepero',
       author_email='mahmoud.shepero@angstrom.uu.se',
       url='https://github.com/SheperoMah/EVSpatialChargingModel',
-      packages=['spatialModelPkg'],
+      packages=['spatialevcharging'],
       license='GNU General Public License v3.0'
      )

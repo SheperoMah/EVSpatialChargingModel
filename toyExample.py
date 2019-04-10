@@ -11,12 +11,12 @@ def main(numberOfEVs, numberOfparkingloc):
     import matplotlib.pyplot as plt
     import matplotlib.dates as mdates
     import datetime
-    from spatialModelPkg.ev import EV
-    from spatialModelPkg.markov import Markov
-    from spatialModelPkg.simulation import Simulation
-    from spatialModelPkg.parkinglot import ParkingLot
-    from spatialModelPkg.extractdistances import extract_distances
-    from spatialModelPkg.extractfiles import read_matrix_files
+    from spatialevcharging.ev import EV
+    from spatialevcharging.markov import Markov
+    from spatialevcharging.simulation import Simulation
+    from spatialevcharging.parkinglot import ParkingLot
+    from spatialevcharging.extractdistances import extract_distances
+    from spatialevcharging.extractfiles import read_matrix_files
 
 
     stationTypes = rnd.choices(range(3), k = numberOfparkingloc)
