@@ -232,7 +232,8 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
             geom = feature.GetGeometryRef()
             BuildingsLayer.SetSpatialFilter(geom)
             areas = [building.GetGeometryRef().GetArea() for building in \
-             BuildingsLayer ]
+             BuildingsLayer]
+            BuildingsLayer.SetSpatialFilter(None)
             BuildingsLayer.ResetReading()
         else:
             areas = [0.0]
