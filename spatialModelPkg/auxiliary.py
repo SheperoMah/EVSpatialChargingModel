@@ -238,13 +238,13 @@ def get_floor_areas_of_intersecting_buildings(ParkingLayer, BuildingsLayer):
             for building in BuildingsLayer:
                 areas.append(building.GetGeometryRef().GetArea())# for building in \BuildingsLayer ]
             BuildingsLayer.ResetReading()
+            BuildingsLayer.SetSpatialFilter(None)
         else:
             areas = [0.0]
         UserArea[index] = sum(areas)
         index += 1
         count += 1
     ParkingLayer.ResetReading()
-    BuildingsLayer.SetSpatialFilter(None)
     BuildingsLayer.ResetReading()
     return(UserArea)
 
