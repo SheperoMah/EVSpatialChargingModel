@@ -1,12 +1,15 @@
-import numpy as np
-from collections import OrderedDict
-np.random.seed(1) # for reproducibility
+
+import math
+import datetime
 import random as rnd
 rnd.seed(10) # for reproducibility
-import math
+from collections import OrderedDict
+
+import numpy as np
+np.random.seed(1) # for reproducibility
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-import datetime
+
 from spatialevcharging.ev import EV
 from spatialevcharging.markov import Markov
 from spatialevcharging.simulation import Simulation
