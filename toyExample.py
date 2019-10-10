@@ -1,22 +1,24 @@
 
+import math
+import datetime
+import random as rnd
+rnd.seed(10) # for reproducibility
+from collections import OrderedDict
+
+import numpy as np
+np.random.seed(1) # for reproducibility
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
+from spatialModelPkg.ev import EV
+from spatialModelPkg.markov import Markov
+from spatialModelPkg.simulation import Simulation
+from spatialModelPkg.parkinglot import ParkingLot
+from spatialModelPkg.extractDistances import extractDistances
+from spatialModelPkg.extractFiles import readMatrixfiles
 
 
 def main(numberOfEVs, numberOfparkingloc):
-    import numpy as np
-    from collections import OrderedDict
-    np.random.seed(1) # for reproducibility
-    import random as rnd
-    rnd.seed(10) # for reproducibility
-    import math
-    import matplotlib.pyplot as plt
-    import matplotlib.dates as mdates
-    import datetime
-    from spatialModelPkg.ev import EV
-    from spatialModelPkg.markov import Markov
-    from spatialModelPkg.simulation import Simulation
-    from spatialModelPkg.parkinglot import ParkingLot
-    from spatialModelPkg.extractDistances import extractDistances
-    from spatialModelPkg.extractFiles import readMatrixfiles
 
 
     stationTypes = rnd.choices(range(3), k = numberOfparkingloc)
