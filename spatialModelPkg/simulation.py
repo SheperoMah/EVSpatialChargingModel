@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 class Simulation:
     """A class representing the simulation model.
@@ -36,7 +37,7 @@ class Simulation:
                  cars,
                  chain,
                  distancesDictionary,
-                 simulationLength,
+                 timeSteps,
                  resolution = 1/60):
         self.stations = stations
         self.cars = cars
@@ -44,24 +45,24 @@ class Simulation:
         self.chain = chain
         self.resolution = resolution
         self.distancesDictionary = distancesDictionary
-        self.simulationLength = simulationLength
+        self.timeSteps = timeSteps
 
-    def model_function(self, timestep):
+    def model_function(self, timestep, isWeekday):
         def reset_load_new_timestep(x):
             x.currentLoad = 0.0
             return(x)
 
         [reset_load_new_timestep(v) for (k,v) in self.stations.items()]
 
-        def do_on_car(self, x, timestep):
-            x.find_state(self.chain,
+        def do_on_car(self, x, timestep, isWeekday):
+            x.find_state(self.chain[isWeekday],
                          timestep,
                          self.stations,
-                         self.distancesDictionary)
+                         self.distancesDictionary[isWeekday])
 
             x.charge_EV(self.resolution, self.stations)
 
-        [do_on_car(self, x, timestep) for x in self.cars]
+        [do_on_car(self, x, timestep, isWeekday) for x in self.cars]
 
         rndmNums = np.random.random(self.numCars)
         for i in range(self.numCars):
@@ -73,10 +74,12 @@ class Simulation:
 
     def simulate_model(self):
 
-        resultsMatrix = np.zeros((self.simulationLength,
+        resultsMatrix = np.zeros((self.timeSteps.shape[0],
         len([k for (k,v) in self.stations.items() if v.chargingStatus == True])))
 
-        for time in range(self.simulationLength):
-            resultsMatrix[time,::] = self.model_function(time % 1440)
+        for i, time in enumerate(self.timeSteps):
+            weekday = True if time.weekday() < 5 else False
+            minute = time.minute + 60 * time.hour
+            resultsMatrix[i,::] = self.model_function(minute, weekday)
 
         return(resultsMatrix)

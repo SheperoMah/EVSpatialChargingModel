@@ -17,11 +17,10 @@ RUN apk --no-cache --update-cache add gcc gfortran libgfortran python3 python3-d
     apk update python3 && \
     apk add --update libressl2.7-libcrypto && \
     apk add --no-cache gdal gdal-dev --repository http://dl-8.alpinelinux.org/alpine/edge/testing && \
-    apk upgrade musl 
+    apk upgrade musl
 
-# Update pip and install libraries 
+# Update pip and install libraries
 RUN pip3 install --upgrade pip && \
     pip3 install --upgrade setuptools && \
     ln -s /usr/include/locale.h /usr/include/xlocale.h && \
-    pip3 install --no-cache-dir numpy scipy pandas matplotlib jupyter GDAL ipdb scikit-learn twine 
-
+    pip3 install --no-cache-dir numpy scipy pandas matplotlib jupyter GDAL ipdb scikit-learn twine pandas

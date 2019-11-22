@@ -23,7 +23,7 @@ class Markov:
         self.cumulativeSum = np.cumsum(self.chain, axis = dim)
 
 
-    def extract_transition_probability(self, currentState, time_step = None):
+    def extract_transition_probability(self, currentState, time_step=None):
         '''Extracts the transition probability from the current state.
 
         Parameters

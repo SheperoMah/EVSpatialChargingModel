@@ -1,10 +1,12 @@
 
 import math
-import datetime
 import random as rnd
 rnd.seed(10) # for reproducibility
 from collections import OrderedDict
 
+import pandas as pd
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 import numpy as np
 np.random.seed(1) # for reproducibility
 import matplotlib.pyplot as plt
@@ -54,6 +56,10 @@ def main(numberOfEVs, numberOfparkingloc):
     # load the weekend distances filter >200km
     weekendDistances = extractDistances("./distanceData/*end*.txt", 200)
 
+    # Create a distance Dictionary, if the key is true, use weekday distances,
+    # else use weekend distances.
+    dist = {True: weekdayDistances,
+            False: weekendDistances}
 
     # WEEKDAY
     weekdayChain = readMatrixfiles("./TransitionMatrix/*weekday*.txt")
@@ -64,43 +70,36 @@ def main(numberOfEVs, numberOfparkingloc):
     # define the tranistion Matrix
     weekend = Markov(weekdendChain)
 
-    # simulate one weekday
-    daysArray = np.arange('2018-01-01', '2018-01-08', dtype='datetime64[D]')
-    lengthOfDaySimulation = 1440 # 1440 timestep a day
+    # Create a Markov chain Dictionary, if the key is true, use weekday Markov chain,
+    # else use weekend Markov chain.
+    chain = {True: weekday,
+             False: weekend}
 
-    load = np.zeros(shape = (len(daysArray)*lengthOfDaySimulation,
+    # simulate one week
+    minutes = pd.date_range('2020-03-28', '2020-04-05', freq="min", tz="CET")[:-1]
+    numberOfDays = (minutes[-1] - minutes[0]).days
+
+
+    load = np.zeros(shape = (minutes.shape[0],
     len([v for (k,v) in stations.items() if v.chargingStatus == True])))
 
-    for day in range(len(daysArray)):
-
-        if np.is_busday(daysArray[day]):
-            chain = weekday
-            dist = weekdayDistances
-        else:
-            chain = weekend
-            dist = weekendDistances
-
-        # Setup the simulation Model
-        simulationCase = Simulation(stations,
+    # Setup the simulation Model
+    simulationCase = Simulation(stations,
                                 EVs,
                                 chain,
                                 dist,
-                                lengthOfDaySimulation)
+                                minutes)
 
-        # Estimate the electric load
-        temp_load = simulationCase.simulate_model()
+    # Estimate the electric load
+    load = simulationCase.simulate_model()
 
-        initialIdx = day*1440
-        finalIdx = initialIdx +1440
-        load[initialIdx:finalIdx, ::] = temp_load
 
     print("Average number of trips/car/day :",
-          np.mean(np.asarray([x.trips for x in EVs]))/len(daysArray))
+          np.mean(np.asarray([x.trips for x in EVs]))/numberOfDays)
     print("Average distance traveled per car per day (km/day/car):",
-          np.mean(np.asarray([x.distance  for x in EVs]))/len(daysArray))
+          np.mean(np.asarray([x.distance  for x in EVs]))/numberOfDays)
 
     fig = plt.figure(figsize = (10,10))
-    minutes = np.arange('2018-01-01', '2018-01-08', dtype='datetime64[m]').astype(datetime.datetime)
     plt.plot(minutes, np.sum(load,1))
     plt.xticks(rotation = 'vertical')
     # xfrmt = mdates.DateFormatter('%d %H:%M')
