@@ -5,7 +5,7 @@ import numpy as np
 import re
 import math
 
-def extractDistances(filesLocation, maxTripDist = math.inf):
+def extractDistances(filesLocation, maxTripDist=math.inf, scale=1.0):
     """Extracts the trip distances files into a dictionary which can be used
     in the model.
 
@@ -18,6 +18,9 @@ def extractDistances(filesLocation, maxTripDist = math.inf):
     maxTripDist : float, optional
         The maximum trip distance to filter at.( the default initial value is
         infintiy)
+    scale : float, optional
+        A scale to multiply the distances with. Used to simulate various scenarios
+        of daily driving distances.
 
     Returns
     -------
@@ -25,15 +28,15 @@ def extractDistances(filesLocation, maxTripDist = math.inf):
         dictionary containting the length of trips between states.
 
     """
-    def openFile(name):
+    def openFile(name, scale):
         with open(name, 'r') as ff:
             array = np.loadtxt(ff)
             array = array[~np.isnan(array)]
             filteredArray = array[np.where( array <= maxTripDist )]
-            return( filteredArray )
+            return(filteredArray*scale)
     dict = {}
     for file in glob.glob(filesLocation):
-         data = openFile(file)
+         data = openFile(file, scale)
          dictStateCode = re.search(r'\d{2}(?=\.*)',file)[0]
          dict.update({dictStateCode: data})
 
