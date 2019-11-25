@@ -14,22 +14,19 @@ class Simulation:
         are enough parking lots to fit the cars.
     cars : list(EV)
         A list of EVs which will be simulated.
-    numCars : int
-        The number of cars simualted
-    chain : Markov
-        A Markov class which contains the markov chain.
+    chain : dict[Markov]
+        A dictionary of Markov class which contains the markov chain for weekday
+        and weekend respectively. The dictionary should have the keys: True, False
+        , respectively.
     distancesDictionary : dict
         A dictionray containing the distances of trips between states, See help
         of Markov class for more details.
-    simulationLength : int
-        The number of time steps with which the simulation is run, i.e. the
-        length of the simulation. The time step is determined by the unit of the
-        battery charge and battery capacity for the EV class.
+    timeSteps : pd.DatetimeIndex
+        A pandas.date_range containing the timesteps through which the simulation
+        is to be run.
     resolution : float
         The resolution of the timestep. Used to charge the EV class. (the
         default is 1/60). OTHER VALUES ARE YET NOT FULLY TESTED YET.
-
-
     """
 
     def __init__(self,
