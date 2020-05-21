@@ -357,7 +357,7 @@ def create_charging_stations(identitiesArray,
                                    1.0/areaPerCar[i] * percentageOfStates[i,st]
                                    * areas[i]),
                                currentOccupancy = 0,
-                               chargingStatus = True,
+                               chargingStatus = charging_status,
                                currentLoad = 0.0))
                     for i in range(len(identitiesArray)) if
                     percentageOfStates[i,st] != 0
@@ -428,8 +428,8 @@ def extract_state_load(load, requiredState, stations, aggregated = False):
 
     TODO correct to make it suitable with orderedDict. The code will not work.
     """
-    columnIndex = [x for x in range(len(stations)) if
-                            stations.get(x).state == requiredState]
+    columnIndex = [i for i, k in enumerate(stations)
+                            if stations[k].state ==  requiredState]
 
     copyLoad = np.copy(load)
     requiredLoad = np.copy(copyLoad[:,columnIndex])
