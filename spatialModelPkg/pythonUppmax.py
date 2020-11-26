@@ -43,10 +43,10 @@ def collect_stations_results(ID, results, stations):
     stationsIDs = [x.ID for x in stations]
     final_results = np.zeros((lengthOfSimulation,len(IDs)))
 
-    for i in enumerate(IDs):
-        columns = [idx for idx in range(len(stationsIDs)) if IDs[i[0]] in stationsIDs[idx]]
+    for i, id in enumerate(IDs):
+        columns = [idx for idx in range(len(stationsIDs)) if id in stationsIDs[idx]]
         temp =  results_temp[:,columns].sum(1).reshape(lengthOfSimulation,1)
-        final_results[:,list([i[0]])] = temp
+        final_results[:,[i]] = temp
     return(final_results)
 
 def extract_stateLoad(load, requiredState, stations):
